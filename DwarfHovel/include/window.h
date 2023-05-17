@@ -4,7 +4,7 @@
 #include <SDL.h>
 
 #include "gl_program.h"
-#include "texture.h"
+#include "Texture.h"
 
 class Window {
 public:

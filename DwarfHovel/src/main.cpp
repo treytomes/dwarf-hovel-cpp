@@ -73,7 +73,7 @@ void render(Window* window) {
 		window->texture->set_pixel(255, y, 0, 1.0f, 0);
 	}
 	window->texture->set_pixel(50, 50, 0, 1.0f, 1.0f);
-	window->texture->refresh(true);
+	window->texture->refresh();
 
 	window->present();
 }

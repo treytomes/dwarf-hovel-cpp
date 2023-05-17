@@ -1,7 +1,5 @@
-#include "texture.h"
+#include "Texture.h"
 #include "gl_error.h"
-
-#define NUM_CHANNELS 4
 
 Texture::Texture(GLuint _width, GLuint _height)
     : width(_width), height(_height), is_dirty(true), is_bound(false) {
@@ -32,19 +30,6 @@ void Texture::reload() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 }
 
-void Texture::set_pixel(GLuint x, GLuint y, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
-    GLuint offset = y * stride + x * NUM_CHANNELS;
-
-    if (pixels[offset + 0] != r || pixels[offset + 1] != g || pixels[offset + 2] != b || pixels[offset + 3] != a) {
-        is_dirty = true;
-    }
-
-    pixels[offset + 0] = r;
-    pixels[offset + 1] = g;
-    pixels[offset + 2] = b;
-    pixels[offset + 3] = a;
-}
-
 void Texture::bind() {
     if (!is_bound) {
         glBindTexture(GL_TEXTURE_2D, id);
@@ -53,11 +38,8 @@ void Texture::bind() {
     }
 }
 
-void Texture::refresh(bool always) {
-    if (is_dirty || always) {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_FLOAT, pixels);
-        is_dirty = false;
-    }
+void Texture::refresh() {
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_FLOAT, pixels);
 }
 
 void Texture::unbind() {
