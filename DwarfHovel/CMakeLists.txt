@@ -35,7 +35,7 @@ file(COPY "render.frag" "render.vert" DESTINATION ${CMAKE_BINARY_DIR}/${CMAKE_PR
 #set_source_files_properties(main.cpp PROPERTIES OBJECT_DEPENDS "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}/render.vert")
 
 # Add your project executable here
-add_executable(DwarfHovel "src/main.cpp" "include/logger.h" "src/logger.cpp" "include/config.h" "include/system.h" "src/system.cpp" "include/sdl_error.h" "src/sdl_error.cpp" "include/window.h" "src/window.cpp" "include/glew_error.h" "src/glew_error.cpp" "src/gl_shader.cpp" "include/gl_shader.h" "include/gl_program.h" "src/gl_program.cpp" "include/Texture.h" "src/Texture.cpp" "include/gl_error.h" "src/gl_error.cpp" "include/Color.h" "src/Color.cpp" "include/Tuple.h"  "include/Vector2UI.h")
+add_executable(DwarfHovel "src/main.cpp" "include/logger.h" "src/logger.cpp" "include/config.h" "include/system.h" "src/system.cpp" "include/sdl_error.h" "src/sdl_error.cpp" "include/Window.h" "src/Window.cpp" "src/OEM437.cpp" "include/glew_error.h" "src/glew_error.cpp" "src/gl_shader.cpp" "include/gl_shader.h" "include/gl_program.h" "src/gl_program.cpp" "include/Texture.h" "src/Texture.cpp" "include/gl_error.h" "src/gl_error.cpp" "include/Color.h" "src/Color.cpp" "include/Tuple.h"  "include/Vector2UI.h" "include/IRenderContext.h" "include/OEM437.h" "include/moremath.h")
 
 add_custom_target(assets
 	COMMAND "${CMAKE_COMMAND}" -E copy_if_different "render.frag" "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}/render.frag"

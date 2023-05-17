@@ -166,6 +166,8 @@ void Window::load_contents() {
 }
 
 void Window::present() {
+	texture->refresh();
+
 	gl_program->bind();
 	gl_program->set_uniform_1i("time", SDL_GetTicks());
 

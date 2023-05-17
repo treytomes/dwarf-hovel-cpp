@@ -10,4 +10,4 @@
 #include "logger.h"
 #include "sdl_error.h"
 #include "system.h"
-#include "window.h"
+#include "Window.h"

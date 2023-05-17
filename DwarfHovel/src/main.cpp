@@ -4,7 +4,30 @@
 #include <SDL_opengl.h>
 #include <gl\glu.h>
 
-void render(Window* window);
+void render(IRenderContext* ctx) {
+	const unsigned int max_x = ctx->get_width() - 1;
+	const unsigned int max_y = ctx->get_height() - 1;
+	const unsigned int center_x = max_x / 2;
+	const unsigned int center_y = max_y / 2;
+
+	ctx->clear(Color(0.1f, 0.1f, 0.1f));
+
+	ctx->draw_h_line(0, max_x, 0u, Color(1.0f, 0.0f, 0.0f));
+	ctx->draw_h_line(0, max_x, max_y, Color(1.0f, 1.0f, 0.0f));
+	ctx->draw_v_line(0, 0, max_y, Color(0.0f, 1.0f, 0.0f));
+	ctx->draw_v_line(max_x, 0, max_y, Color(0.0f, 1.0f, 1.0f));
+
+	ctx->set_pixel(Vector2UI(50u, 50u), Color(0.0f, 0.0f, 1.0f));
+
+	ctx->draw_filled_rect(Vector2UI(55u, 65u), Vector2UI(105u, 90u), Color(1.0f, 0.5f, 0.25f));
+
+	ctx->draw_line(Vector2UI(0, 0), Vector2UI(max_x, max_y), Color(1.0f, 0.0f, 1.0f));
+	ctx->draw_line(Vector2UI(0, max_y), Vector2UI(max_x, 0), Color(1.0f, 0.0f, 1.0f));
+	ctx->draw_circle(Vector2UI(center_x, center_y), 25, Color(1.0f, 0.0f, 0.0f));
+
+	ctx->draw_string(Vector2UI(50, 190), Color(1.0f, 1.0f, 0.1f), Color(0.0f, 0.0f, 0.9f), "Hello, world!");
+	ctx->draw_char(Vector2UI(50, 200), Color(1.0f, 1.0f, 0.9f), Color(0.0f, 0.0f, 0.1f), '*');
+}
 
 int main(int argc, char* argv[]) {
 	Window* window = nullptr;
@@ -41,7 +64,8 @@ int main(int argc, char* argv[]) {
 				}
 			}
 
-			render(window);
+			render(window->texture);
+			window->present();
 		}
 	}
 	catch (const std::exception& e) {
@@ -55,25 +79,4 @@ int main(int argc, char* argv[]) {
 	}
 
 	return error_code;
-}
-
-
-void render(Window* window) {
-	for (int x = 0; x < 256; x++) {
-		for (int y = 0; y < 224; y++) {
-			window->texture->set_pixel(x, y, 0.1f, 0.1f, 0.1f);
-		}
-	}
-	for (int x = 0; x < 256; x++) {
-		window->texture->set_pixel(x, 0, 1.0f, 0, 0);
-		window->texture->set_pixel(x, 223, 1.0f, 0, 0);
-	}
-	for (int y = 0; y < 224; y++) {
-		window->texture->set_pixel(0, y, 0, 1.0f, 0);
-		window->texture->set_pixel(255, y, 0, 1.0f, 0);
-	}
-	window->texture->set_pixel(50, 50, 0, 1.0f, 1.0f);
-	window->texture->refresh();
-
-	window->present();
 }
