@@ -6,12 +6,18 @@
 #include <SDL_opengl.h>
 
 enum class LogLevel : int {
-	LOG_DEBUG = 0,
-	LOG_INFO = 1,
-	LOG_WARNING = 2,
-	LOG_ERROR = 3,
-	LOG_FATAL = 4,
+	LOG_LEVEL_DEBUG = 0,
+	LOG_LEVEL_INFO = 1,
+	LOG_LEVEL_WARNING = 2,
+	LOG_LEVEL_ERROR = 3,
+	LOG_LEVEL_FATAL = 4,
 };
+
+#define LOG_DEBUG(format, ...) Logger::get_instance()->write(LogLevel::LOG_LEVEL_DEBUG, format, __VA_ARGS__)
+#define LOG_INFO(format, ...) Logger::get_instance()->write(LogLevel::LOG_LEVEL_INFO, format, __VA_ARGS__)
+#define LOG_WARNING(format, ...) Logger::get_instance()->write(LogLevel::LOG_LEVEL_WARNING, format, __VA_ARGS__)
+#define LOG_ERROR(format, ...) Logger::get_instance()->write(LogLevel::LOG_LEVEL_ERROR, format, __VA_ARGS__)
+#define LOG_FATAL(format, ...) Logger::get_instance()->write(LogLevel::LOG_LEVEL_FATAL, format, __VA_ARGS__)
 
 class Logger {
 public:

@@ -4,7 +4,7 @@
 
 SDLError::SDLError() {
 	message = SDL_GetError();
-	Logger::get_instance()->write(LogLevel::LOG_ERROR, message.c_str());
+	LOG_ERROR(message.c_str());
 }
 
 char const* SDLError::what() const {

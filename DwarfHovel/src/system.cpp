@@ -24,7 +24,7 @@ System::System() {
 System::~System() {
 	SDL_Quit();
 
-	Logger::get_instance()->write(LogLevel::LOG_INFO, "And that is all.");
+	LOG_INFO("And that is all.");
 	Logger::shutdown();
 }
 

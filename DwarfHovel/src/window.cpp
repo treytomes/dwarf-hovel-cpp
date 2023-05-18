@@ -48,13 +48,14 @@ void Window::handle_event(SDL_WindowEvent* evt) {
 		return;
 	}
 
-	Logger::get_instance()->write(LogLevel::LOG_INFO, evt);
+	LOG_INFO(evt);
 
 	switch (evt->event) {
 	case SDL_WINDOWEVENT_RESIZED:
 	case SDL_WINDOWEVENT_SIZE_CHANGED:
 	case SDL_WINDOWEVENT_MAXIMIZED:
 		init_gl();
+		break;
 	}
 }
 

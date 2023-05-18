@@ -55,7 +55,7 @@ void GLProgram::set_uniform_2f(const char* name, float v0, float v1) {
 GLuint GLProgram::get_uniform_location(const char* name) {
 	const GLuint location = glGetUniformLocation(id, name);
 	if (location == -1) {
-		Logger::get_instance()->write(LogLevel::LOG_ERROR, "%s is not a valid GLSL program variable.", name);
+		LOG_ERROR("%s is not a valid GLSL program variable.", name);
 	}
 	return location;
 }
@@ -63,7 +63,7 @@ GLuint GLProgram::get_uniform_location(const char* name) {
 GLuint GLProgram::get_attribute_location(const char* name) {
 	const GLuint location = glGetAttribLocation(id, name);
 	if (location == -1) {
-		Logger::get_instance()->write(LogLevel::LOG_ERROR, "%s is not a valid GLSL program variable.", name);
+		LOG_ERROR("%s is not a valid GLSL program variable.", name);
 	}
 	return location;
 }
@@ -86,8 +86,8 @@ GLuint GLProgram::compile(GLuint vertexShader, GLuint fragmentShader) {
 	glGetProgramiv(program, GL_LINK_STATUS, &programSuccess);
 	if (programSuccess != GL_TRUE)
 	{
-		Logger::get_instance()->write(LogLevel::LOG_ERROR, "Error linking program %d.", program);
-		Logger::get_instance()->write(LogLevel::LOG_ERROR, program);
+		LOG_ERROR("Error linking program %d.", program);
+		LOG_ERROR(program);
 		return 0;
 	}
 

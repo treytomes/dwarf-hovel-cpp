@@ -6,7 +6,7 @@ GLError::GLError(GLenum _code) {
 	code = _code;
 	const char* errorString = (const char*)gluErrorString(_code);
 	message = errorString;
-	Logger::get_instance()->write(LogLevel::LOG_ERROR, message.c_str());
+	LOG_ERROR(message.c_str());
 }
 
 char const* GLError::what() const {

@@ -150,7 +150,7 @@ void Logger::write(LogLevel level, SDL_WindowEvent* evt) {
 }
 
 void Logger::write(LogLevel level, SDL_QuitEvent* evt) {
-    write(LogLevel::LOG_INFO, "Program quit after %i ticks.", evt->timestamp);
+    write(LogLevel::LOG_LEVEL_INFO, "Program quit after %i ticks.", evt->timestamp);
 }
 
 void Logger::write(LogLevel level, GLuint gl_id) {

@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
 
 	try {
 		System::initialize();
-		Logger::get_instance()->write(LogLevel::LOG_INFO, "Starting %s.", WINDOW_TITLE);
+		LOG_INFO("Starting %s.", WINDOW_TITLE);
 
         window = new Window(WINDOW_TITLE, ACTUAL_WINDOW_WIDTH, ACTUAL_WINDOW_HEIGHT);
 
@@ -58,7 +58,7 @@ int main(int argc, char* argv[]) {
 			while (SDL_PollEvent(&evt)) {
 				switch (evt.type) {
 				case SDL_QUIT:
-					Logger::get_instance()->write(LogLevel::LOG_INFO, &evt);
+					LOG_INFO(&evt);
 					is_running = false;
 					break;
 				case SDL_WINDOWEVENT:
@@ -80,7 +80,7 @@ int main(int argc, char* argv[]) {
 		}
 	}
 	catch (const std::exception& e) {
-		Logger::get_instance()->write(LogLevel::LOG_FATAL, "Unable to recover: %s", e.what());
+		LOG_FATAL("Unable to recover: %s", e.what());
 		error_code = 1;
 	}
 

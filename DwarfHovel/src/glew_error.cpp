@@ -6,7 +6,7 @@ GLEWError::GLEWError(GLenum _code) {
 	code = _code;
 	const char* errorString = (const char*)glewGetErrorString(code);
 	message = errorString;
-	Logger::get_instance()->write(LogLevel::LOG_ERROR, message.c_str());
+	LOG_ERROR(message.c_str());
 }
 
 char const* GLEWError::what() const {

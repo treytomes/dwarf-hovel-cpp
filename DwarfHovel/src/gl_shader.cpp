@@ -41,8 +41,8 @@ GLuint GLShader::compile(GLenum type, const char* source) {
 	GLint status = GL_FALSE;
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
 	if (status != GL_TRUE) {
-		Logger::get_instance()->write(LogLevel::LOG_ERROR, "Unable to compile vertex shader %d.", shader);
-		Logger::get_instance()->write(LogLevel::LOG_ERROR, shader);
+		LOG_ERROR("Unable to compile vertex shader %d.", shader);
+		LOG_ERROR(shader);
 		return 0;
 	}
 
@@ -53,7 +53,7 @@ GLShader GLShader::from_file(GLuint type, const char* path) {
 	std::string source;
 	std::ifstream f(path);
 	if (!f.is_open()) {
-		Logger::get_instance()->write(LogLevel::LOG_ERROR, "Unable to open file path: %s", path);
+		LOG_ERROR("Unable to open file path: %s", path);
 	} else {
 		std::stringstream buffer;
 		buffer << f.rdbuf();

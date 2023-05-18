@@ -1,6 +1,6 @@
 #pragma once
 
-#define LOG_LEVEL LogLevel::LOG_DEBUG
+#define LOG_LEVEL LogLevel::LOG_LEVEL_DEBUG
 #define WINDOW_TITLE "Dwarf Hovel"
 #define VIRTUAL_WINDOW_WIDTH 256
 #define VIRTUAL_WINDOW_HEIGHT 224
