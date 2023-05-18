@@ -1,5 +1,6 @@
 #include "logger.h"
 
+#include <algorithm>
 #include <chrono>
 #include <cstdarg>
 #include <iomanip>
@@ -7,7 +8,41 @@
 #include <sstream>
 #include <SDL.h>
 
-#include "config.h"
+#include "Settings.h"
+
+LogLevel from_string(std::string value) {
+	std::transform(value.begin(), value.end(), value.begin(), ::toupper);
+	
+	if (value == "DEBUG") {
+		return LogLevel::LOG_LEVEL_DEBUG;
+	} else if (value == "INFO") {
+		return LogLevel::LOG_LEVEL_INFO;
+	} else if (value == "WARNING") {
+		return LogLevel::LOG_LEVEL_WARNING;
+	} else if (value == "ERROR") {
+		return LogLevel::LOG_LEVEL_ERROR;
+	} else if (value == "FATAL") {
+		return LogLevel::LOG_LEVEL_FATAL;
+	} else {
+		return LogLevel::LOG_LEVEL_DEBUG;
+	}
+}
+
+std::string to_string(LogLevel value) {
+	switch (value) {
+	default:
+	case LogLevel::LOG_LEVEL_DEBUG:
+		return "DEBUG";
+	case LogLevel::LOG_LEVEL_INFO:
+		return "INFO";
+	case LogLevel::LOG_LEVEL_WARNING:
+		return "WARNING";
+	case LogLevel::LOG_LEVEL_ERROR:
+		return "ERROR";
+	case LogLevel::LOG_LEVEL_FATAL:
+		return "FATAL";
+	}
+}
 
 template<typename TStream>
 TStream& operator<<(TStream& stream, const LogLevel& level)
@@ -58,7 +93,7 @@ Logger::~Logger() {
 }
 
 void Logger::write(LogLevel level, const char* format, ...) {
-	if (level < LOG_LEVEL) {
+	if (level < Settings::get_instance()->log_level) {
 		return;
 	}
 

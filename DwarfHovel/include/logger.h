@@ -5,6 +5,12 @@
 #include <gl\glew.h>
 #include <SDL_opengl.h>
 
+#define LOG_DEBUG(format, ...) Logger::get_instance()->write(LogLevel::LOG_LEVEL_DEBUG, format, __VA_ARGS__)
+#define LOG_INFO(format, ...) Logger::get_instance()->write(LogLevel::LOG_LEVEL_INFO, format, __VA_ARGS__)
+#define LOG_WARNING(format, ...) Logger::get_instance()->write(LogLevel::LOG_LEVEL_WARNING, format, __VA_ARGS__)
+#define LOG_ERROR(format, ...) Logger::get_instance()->write(LogLevel::LOG_LEVEL_ERROR, format, __VA_ARGS__)
+#define LOG_FATAL(format, ...) Logger::get_instance()->write(LogLevel::LOG_LEVEL_FATAL, format, __VA_ARGS__)
+
 enum class LogLevel : int {
 	LOG_LEVEL_DEBUG = 0,
 	LOG_LEVEL_INFO = 1,
@@ -13,11 +19,8 @@ enum class LogLevel : int {
 	LOG_LEVEL_FATAL = 4,
 };
 
-#define LOG_DEBUG(format, ...) Logger::get_instance()->write(LogLevel::LOG_LEVEL_DEBUG, format, __VA_ARGS__)
-#define LOG_INFO(format, ...) Logger::get_instance()->write(LogLevel::LOG_LEVEL_INFO, format, __VA_ARGS__)
-#define LOG_WARNING(format, ...) Logger::get_instance()->write(LogLevel::LOG_LEVEL_WARNING, format, __VA_ARGS__)
-#define LOG_ERROR(format, ...) Logger::get_instance()->write(LogLevel::LOG_LEVEL_ERROR, format, __VA_ARGS__)
-#define LOG_FATAL(format, ...) Logger::get_instance()->write(LogLevel::LOG_LEVEL_FATAL, format, __VA_ARGS__)
+LogLevel from_string(std::string value);
+std::string to_string(LogLevel value);
 
 class Logger {
 public:

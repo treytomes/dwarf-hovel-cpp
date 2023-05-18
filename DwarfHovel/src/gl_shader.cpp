@@ -1,5 +1,5 @@
 #include "gl_shader.h"
-#include "logger.h"
+#include "Logger.h"
 
 #include <gl\glew.h>
 #include <SDL_opengl.h>

@@ -22,25 +22,27 @@ link_directories(${SDL2_LIBRARY_DIRS})
 link_libraries(${SDL2_LIBRARIES} ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES})
 
 # Add your project executable here
-add_executable(DwarfHovel "src/main.cpp" "include/logger.h" "src/logger.cpp" "include/config.h" "include/system.h" "src/system.cpp" "include/sdl_error.h" "src/sdl_error.cpp" "include/Window.h" "src/Window.cpp" "src/OEM437.cpp" "include/glew_error.h" "src/glew_error.cpp" "src/gl_shader.cpp" "include/gl_shader.h" "include/gl_program.h" "src/gl_program.cpp" "include/Texture.h" "src/Texture.cpp" "include/gl_error.h" "src/gl_error.cpp" "include/Color.h" "src/Color.cpp" "include/Tuple.h"  "include/Vector2UI.h" "include/IRenderContext.h" "include/OEM437.h" "include/moremath.h" "include/json.h")
+add_executable(DwarfHovel "src/main.cpp" "include/Logger.h" "src/Logger.cpp"  "include/system.h" "src/system.cpp" "include/sdl_error.h" "src/sdl_error.cpp" "include/Window.h" "src/Window.cpp" "src/OEM437.cpp" "include/glew_error.h" "src/glew_error.cpp" "src/gl_shader.cpp" "include/gl_shader.h" "include/gl_program.h" "src/gl_program.cpp" "include/Texture.h" "src/Texture.cpp" "include/gl_error.h" "src/gl_error.cpp" "include/Color.h" "src/Color.cpp" "include/Tuple.h"  "include/Vector2UI.h" "include/IRenderContext.h" "include/OEM437.h" "include/moremath.h" "include/json.h" "include/Settings.h" "src/Settings.cpp")
 
-add_custom_command(
-        TARGET DwarfHovel POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy
-                "${CMAKE_SOURCE_DIR}/${CMAKE_PROJECT_NAME}/settings.json"
-                "${CMAKE_CURRENT_BINARY_DIR}/settings.json")
+#add_custom_command( TARGET DwarfHovel POST_BUILD
+#    COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/${CMAKE_PROJECT_NAME}/settings.json" "${CMAKE_CURRENT_BINARY_DIR}/settings.json"
+#)
                 
-add_custom_command(
-        TARGET DwarfHovel POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy
-                "${CMAKE_SOURCE_DIR}/${CMAKE_PROJECT_NAME}/render.frag"
-                "${CMAKE_CURRENT_BINARY_DIR}/render.frag")
+#add_custom_command(TARGET DwarfHovel POST_BUILD
+#    COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/${CMAKE_PROJECT_NAME}/render.frag" "${CMAKE_CURRENT_BINARY_DIR}/render.frag"
+#)
 
-add_custom_command(
-        TARGET DwarfHovel POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy
-                "${CMAKE_SOURCE_DIR}/${CMAKE_PROJECT_NAME}/render.vert"
-                "${CMAKE_CURRENT_BINARY_DIR}/render.vert")
+#add_custom_command(TARGET DwarfHovel POST_BUILD
+#    COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/${CMAKE_PROJECT_NAME}/render.vert" "${CMAKE_CURRENT_BINARY_DIR}/render.vert"
+#)
+
+add_custom_target(copy_assets
+    #COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_LIST_DIR}/assets ${CMAKE_CURRENT_BINARY_DIR}/assets
+    COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/${CMAKE_PROJECT_NAME}/settings.json" "${CMAKE_CURRENT_BINARY_DIR}/settings.json"
+    COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/${CMAKE_PROJECT_NAME}/render.frag" "${CMAKE_CURRENT_BINARY_DIR}/render.frag"
+    COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/${CMAKE_PROJECT_NAME}/render.vert" "${CMAKE_CURRENT_BINARY_DIR}/render.vert"
+)
+add_dependencies(DwarfHovel copy_assets)
 
 if (WIN32)
     add_custom_command(

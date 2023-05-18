@@ -1,6 +1,6 @@
 #include "sdl_error.h"
 #include <SDL.h>
-#include "logger.h"
+#include "Logger.h"
 
 SDLError::SDLError() {
 	message = SDL_GetError();

@@ -4,10 +4,12 @@
 #include <stdexcept>
 #include <cstdlib>
 
-#include "logger.h"
+#include "Logger.h"
+#include "Settings.h"
 #include "sdl_error.h"
 
 System::System() {
+	Settings::initialize();
 	Logger::initialize();
 
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -23,6 +25,7 @@ System::System() {
 
 System::~System() {
 	SDL_Quit();
+	Settings::shutdown();
 
 	LOG_INFO("And that is all.");
 	Logger::shutdown();

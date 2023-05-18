@@ -9,6 +9,8 @@
 class Window {
 public:
     Window(std::string title, int width, int height);
+    inline Window(std::string title, Vector2UI size) : Window(title, size.x, size.y) {}
+
     ~Window();
 
     SDL_Renderer* create_renderer();

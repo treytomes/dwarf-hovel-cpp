@@ -3,11 +3,11 @@
 #include <SDL.h>
 #include <stdexcept>
 
-#include "config.h"
 #include "gl_program.h"
 #include "gl_shader.h"
 #include "glew_error.h"
-#include "logger.h"
+#include "Logger.h"
 #include "sdl_error.h"
+#include "Settings.h"
 #include "system.h"
 #include "Window.h"

@@ -1,12 +1,11 @@
 #include "window.h"
 
 #include <gl\glew.h>
-#include "glew_error.h"
-#include "logger.h"
-#include "sdl_error.h"
-
 #include "gl_shader.h"
-#include "config.h"
+#include "glew_error.h"
+#include "Logger.h"
+#include "sdl_error.h"
+#include "Settings.h"
 
 Window::Window(std::string _title, int width, int height) {
 	gl_program = nullptr;
@@ -114,7 +113,7 @@ void Window::load_contents() {
 	if (texture != nullptr) {
 		texture->reload();
 	} else {
-		texture = new Texture(VIRTUAL_WINDOW_WIDTH, VIRTUAL_WINDOW_HEIGHT);
+		texture = new Texture(Settings::get_instance()->virtual_window_size);
 	}
 
 	// Get vertex attribute location.

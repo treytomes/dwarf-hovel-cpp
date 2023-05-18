@@ -43,10 +43,9 @@ int main(int argc, char* argv[]) {
 
 	try {
 		System::initialize();
-		LOG_INFO("Starting %s.", WINDOW_TITLE);
+		LOG_INFO("Starting %s.", Settings::get_instance()->window_title);
 
-        window = new Window(WINDOW_TITLE, ACTUAL_WINDOW_WIDTH, ACTUAL_WINDOW_HEIGHT);
-
+        window = new Window(Settings::get_instance()->window_title, Settings::get_instance()->actual_window_size);
 		window->init_gl();
 
 		//SDL_Delay(3000);

@@ -13,6 +13,7 @@
 class Texture : public IRenderContext {
 public:
 	Texture(unsigned int _width, unsigned int _height);
+	inline Texture(Vector2UI size) : Texture(size.x, size.y) {}
 	~Texture();
 
 	inline void set_pixel(unsigned int offset, float r, float g, float b, float a = 1.0f) {

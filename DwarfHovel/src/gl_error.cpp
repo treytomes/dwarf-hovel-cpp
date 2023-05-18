@@ -1,6 +1,6 @@
 #include "gl_error.h"
 #include <SDL.h>
-#include "logger.h"
+#include "Logger.h"
 
 GLError::GLError(GLenum _code) {
 	code = _code;
