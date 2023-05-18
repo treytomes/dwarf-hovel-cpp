@@ -107,6 +107,8 @@ public:
 		draw_string(point.x, point.y, fg_color, bg_color, text);
 	}
 
+	void flood_fill(Vector2UI origin, Color fill_color, Color border_color);
+
 	void bind();
 	void unbind();
 	void refresh();

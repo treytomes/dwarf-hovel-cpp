@@ -4,7 +4,8 @@
 #include <SDL_opengl.h>
 #include <gl\glu.h>
 
-void render(IRenderContext* ctx) {
+float angle = 0.0f;
+void render(IRenderContext* ctx, unsigned int delta_ticks) {
 	const unsigned int max_x = ctx->get_width() - 1;
 	const unsigned int max_y = ctx->get_height() - 1;
 	const unsigned int center_x = max_x / 2;
@@ -23,7 +24,14 @@ void render(IRenderContext* ctx) {
 
 	ctx->draw_line(Vector2UI(0, 0), Vector2UI(max_x, max_y), Color(1.0f, 0.0f, 1.0f));
 	ctx->draw_line(Vector2UI(0, max_y), Vector2UI(max_x, 0), Color(1.0f, 0.0f, 1.0f));
+
+	ctx->draw_circle(Vector2UI(center_x - 20, center_y - 50), 25, Color(1.0f, 0.0f, 0.0f));
+	ctx->flood_fill(Vector2UI(center_x - 20, center_y - 50), Color(0.5f, 0.0f, 0.5f), Color(1.0f, 0.0f, 0.0f));
+
 	ctx->draw_circle(Vector2UI(center_x, center_y), 25, Color(1.0f, 0.0f, 0.0f));
+
+	angle += 0.25f * delta_ticks * 3.141 / 180;
+	ctx->draw_line(Vector2UI(center_x, center_y), Vector2UI(center_x - 25 * cos(angle), center_y - 25 * sin(angle)), Color(0.5f, 0.0f, 0.0f));
 
 	ctx->draw_string(Vector2UI(50, 190), Color(1.0f, 1.0f, 0.1f), Color(0.0f, 0.0f, 0.9f), "Hello, world!");
 	ctx->draw_char(Vector2UI(50, 200), Color(1.0f, 1.0f, 0.9f), Color(0.0f, 0.0f, 0.1f), '*');
@@ -44,6 +52,7 @@ int main(int argc, char* argv[]) {
 		//SDL_Delay(3000);
 
 		bool is_running = true;
+		unsigned int last_frame_ticks = SDL_GetTicks();
 		while (is_running) {
 			SDL_Event evt;
 			while (SDL_PollEvent(&evt)) {
@@ -64,7 +73,9 @@ int main(int argc, char* argv[]) {
 				}
 			}
 
-			render(window->texture);
+			unsigned int this_frame_ticks = SDL_GetTicks();
+			render(window->texture, this_frame_ticks - last_frame_ticks);
+			last_frame_ticks = this_frame_ticks;
 			window->present();
 		}
 	}

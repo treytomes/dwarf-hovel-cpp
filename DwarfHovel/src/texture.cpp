@@ -1,6 +1,7 @@
 #include "Texture.h"
 #include "gl_error.h"
 #include "moremath.h"
+#include <queue>
 
 Texture::Texture(GLuint _width, GLuint _height)
     : width(_width), height(_height), is_dirty(true), is_bound(false) {
@@ -127,34 +128,28 @@ void Texture::draw_v_line(unsigned int x, unsigned int y1, unsigned int y2, cons
 
 void Texture::draw_line(unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, Color color) {
 	int dx = x2 - x1;
-	if (dx < 0)
-	{
+	if (dx < 0) {
 		dx = -dx;
 	}
 	int sx = (x1 < x2) ? 1 : -1;
 	int dy = y2 - y1;
-	if (dy < 0)
-	{
+	if (dy < 0) {
 		dy = -dy;
 	}
 	dy = -dy;
 	int sy = (y1 < y2) ? 1 : -1;
 	int err = dx + dy;
-	while (true)
-	{
+	while (true) {
 		set_pixel(x1, y1, color);
-		if ((x1 == x2) && (y1 == y2))
-		{
+		if ((x1 == x2) && (y1 == y2)) {
 			break;
 		}
 		int e2 = err << 1;
-		if (e2 >= dy)
-		{
+		if (e2 >= dy) {
 			err += dy;
 			x1 += sx;
 		}
-		if (e2 <= dx)
-		{
+		if (e2 <= dx) {
 			err += dx;
 			y1 += sy;
 		}
@@ -196,4 +191,39 @@ void Texture::draw_bitmap(unsigned int x, unsigned int y, Color fg_color, Color 
 			}
 		}
 	}
+}
+
+void Texture::flood_fill(Vector2UI origin, Color fill_color, Color border_color) {
+	unsigned int size = width * height;
+	bool* map_flags = new bool[size];
+	std::memset(map_flags, false, size);
+
+	std::queue<Vector2UI*> queue;
+
+	map_flags[origin.y * width + origin.x] = true;
+	queue.push(new Vector2UI(origin.x, origin.y));
+
+	while (queue.size() > 0) {
+		Vector2UI* point = queue.front();
+		queue.pop();
+		set_pixel(*point, fill_color);
+
+		for (unsigned int y = point->y - 1; y <= point->y + 1; y++) {
+			for (unsigned int x = point->x - 1; x <= point->x + 1; x++) {
+				if (math::is_in_range(x, 0u, width) && math::is_in_range(y, 0u, height) && (y == point->y) || (x == point->x)) {
+					unsigned int index = y * width + x;
+					if (!map_flags[index]) {
+						if (get_pixel(x, y) != border_color) {
+							map_flags[index] = true;
+							queue.push(new Vector2UI(x, y));
+						}
+					}
+				}
+			}
+		}
+
+		delete point;
+	}
+
+	delete[] map_flags;
 }
