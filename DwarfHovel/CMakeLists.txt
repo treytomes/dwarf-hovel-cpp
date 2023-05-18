@@ -27,20 +27,20 @@ add_executable(DwarfHovel "src/main.cpp" "include/logger.h" "src/logger.cpp" "in
 add_custom_command(
         TARGET DwarfHovel POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy
-                ${CMAKE_SOURCE_DIR}/settings.json
-                ${CMAKE_CURRENT_BINARY_DIR}/settings.json)
+                "${CMAKE_SOURCE_DIR}/${CMAKE_PROJECT_NAME}/settings.json"
+                "${CMAKE_CURRENT_BINARY_DIR}/settings.json")
+                
+add_custom_command(
+        TARGET DwarfHovel POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+                "${CMAKE_SOURCE_DIR}/${CMAKE_PROJECT_NAME}/render.frag"
+                "${CMAKE_CURRENT_BINARY_DIR}/render.frag")
 
 add_custom_command(
         TARGET DwarfHovel POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy
-                ${CMAKE_SOURCE_DIR}/render.frag
-                ${CMAKE_CURRENT_BINARY_DIR}/render.frag)
-
-add_custom_command(
-        TARGET DwarfHovel POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy
-                ${CMAKE_SOURCE_DIR}/render.vert
-                ${CMAKE_CURRENT_BINARY_DIR}/render.vert)
+                "${CMAKE_SOURCE_DIR}/${CMAKE_PROJECT_NAME}/render.vert"
+                "${CMAKE_CURRENT_BINARY_DIR}/render.vert")
 
 if (WIN32)
     add_custom_command(
