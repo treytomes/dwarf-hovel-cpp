@@ -2,9 +2,6 @@
 
 project(DwarfHovel)
 
-
-#set(CMAKE_CXX_STANDARD 11) # Set the C++ standard to C++11
-
 set(CMAKE_CXX_STANDARD 17) # Set the C++ standard to C++17
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -17,11 +14,6 @@ find_package(OpenGL REQUIRED)
 # Find GLEW.
 
 list(APPEND CMAKE_PREFIX_PATH "C:/glew-2.1.0")
-
-# GLEW directories - change according to your version and system
-#set(GLEW_INCLUDE_DIR "C:/glew-2.1.0/include")
-#set(GLEW_LIBRARY "C:/glew-2.1.0/lib/Release/x64/glew32.lib")
-
 find_package(GLEW REQUIRED)
 
 # Set the include directories and link libraries
@@ -29,34 +21,31 @@ include_directories("./include" ${SDL2_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS} ${OPEN
 link_directories(${SDL2_LIBRARY_DIRS})
 link_libraries(${SDL2_LIBRARIES} ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES})
 
-file(COPY "render.frag" "render.vert" DESTINATION ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME})
-
-#set_source_files_properties(main.cpp PROPERTIES OBJECT_DEPENDS "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}/render.frag")
-#set_source_files_properties(main.cpp PROPERTIES OBJECT_DEPENDS "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}/render.vert")
-
 # Add your project executable here
-add_executable(DwarfHovel "src/main.cpp" "include/logger.h" "src/logger.cpp" "include/config.h" "include/system.h" "src/system.cpp" "include/sdl_error.h" "src/sdl_error.cpp" "include/Window.h" "src/Window.cpp" "src/OEM437.cpp" "include/glew_error.h" "src/glew_error.cpp" "src/gl_shader.cpp" "include/gl_shader.h" "include/gl_program.h" "src/gl_program.cpp" "include/Texture.h" "src/Texture.cpp" "include/gl_error.h" "src/gl_error.cpp" "include/Color.h" "src/Color.cpp" "include/Tuple.h"  "include/Vector2UI.h" "include/IRenderContext.h" "include/OEM437.h" "include/moremath.h")
-
-add_custom_target(assets
-	COMMAND "${CMAKE_COMMAND}" -E copy_if_different "render.frag" "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}/render.frag"
-	COMMAND "${CMAKE_COMMAND}" -E copy_if_different "render.vert" "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}/render.vert"
-	"render.frag" "render.vert"
-)
+add_executable(DwarfHovel "src/main.cpp" "include/logger.h" "src/logger.cpp" "include/config.h" "include/system.h" "src/system.cpp" "include/sdl_error.h" "src/sdl_error.cpp" "include/Window.h" "src/Window.cpp" "src/OEM437.cpp" "include/glew_error.h" "src/glew_error.cpp" "src/gl_shader.cpp" "include/gl_shader.h" "include/gl_program.h" "src/gl_program.cpp" "include/Texture.h" "src/Texture.cpp" "include/gl_error.h" "src/gl_error.cpp" "include/Color.h" "src/Color.cpp" "include/Tuple.h"  "include/Vector2UI.h" "include/IRenderContext.h" "include/OEM437.h" "include/moremath.h" "include/json.h")
 
 add_custom_command(
-	TARGET assets PRE_BUILD
-	COMMAND "${CMAKE_COMMAND}" -E copy_if_different "render.frag" "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}/render.frag"
-	COMMAND "${CMAKE_COMMAND}" -E copy_if_different "render.vert" "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}/render.vert"
-	VERBATIM
-)
-#add_dependencies(DwarfHovel "${CMAKE_SOURCE_DIR}/${CMAKE_PROJECT_NAME}/render.frag")
+        TARGET DwarfHovel POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+                ${CMAKE_SOURCE_DIR}/settings.json
+                ${CMAKE_CURRENT_BINARY_DIR}/settings.json)
+
+add_custom_command(
+        TARGET DwarfHovel POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+                ${CMAKE_SOURCE_DIR}/render.frag
+                ${CMAKE_CURRENT_BINARY_DIR}/render.frag)
+
+add_custom_command(
+        TARGET DwarfHovel POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+                ${CMAKE_SOURCE_DIR}/render.vert
+                ${CMAKE_CURRENT_BINARY_DIR}/render.vert)
 
 if (WIN32)
     add_custom_command(
         TARGET DwarfHovel POST_BUILD
         COMMAND "${CMAKE_COMMAND}" -E copy_if_different "$<TARGET_FILE:SDL2::SDL2>" "$<TARGET_FILE_DIR:DwarfHovel>"
-        #COMMAND "${CMAKE_COMMAND}" -E copy_if_different "$<TARGET_FILE:GLEW::GLEW>" "$<TARGET_FILE_DIR:DwarfHovel>"
-        
         COMMAND "${CMAKE_COMMAND}" -E copy_if_different "C:/glew-2.1.0/bin/Release/x64/glew32.dll" "$<TARGET_FILE_DIR:DwarfHovel>/glew32.dll"
         VERBATIM
     )
