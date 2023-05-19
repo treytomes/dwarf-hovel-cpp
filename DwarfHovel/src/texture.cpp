@@ -72,7 +72,7 @@ void Texture::draw_filled_rect(unsigned int x1, unsigned int x2, unsigned int y1
 }
 
 void Texture::draw_h_line(unsigned int x1, unsigned int x2, unsigned int y, Color color) {
-	if (!math::is_in_range(y, 0u, height)) {
+	if (!math::is_in_range(y, 0u, height - 1)) {
 		return;
 	}
 
@@ -98,7 +98,7 @@ void Texture::draw_h_line(unsigned int x1, unsigned int x2, unsigned int y, Colo
 }
 
 void Texture::draw_v_line(unsigned int x, unsigned int y1, unsigned int y2, const Color color) {
-	if (!math::is_in_range(x, 0u, width)) {
+	if (!math::is_in_range(x, 0u, width - 1)) {
 		return;
 	}
 
@@ -210,7 +210,7 @@ void Texture::flood_fill(Vector2UI origin, Color fill_color, Color border_color)
 
 		for (unsigned int y = point->y - 1; y <= point->y + 1; y++) {
 			for (unsigned int x = point->x - 1; x <= point->x + 1; x++) {
-				if (math::is_in_range(x, 0u, width) && math::is_in_range(y, 0u, height) && (y == point->y) || (x == point->x)) {
+				if (math::is_in_range(x, 0u, width - 1) && math::is_in_range(y, 0u, height - 1) && (y == point->y) || (x == point->x)) {
 					unsigned int index = y * width + x;
 					if (!map_flags[index]) {
 						if (get_pixel(x, y) != border_color) {

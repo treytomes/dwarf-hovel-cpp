@@ -9,7 +9,18 @@ namespace math {
 	}
 
 	template <typename T>
-	inline bool is_in_range(T value, T inclusive_min, T exclusive_max) {
-		return (inclusive_min <= value) && (value < exclusive_max);
+	inline bool is_in_range(T value, T inclusive_min, T inclusive_max) {
+		return (inclusive_min <= value) && (value <= inclusive_max);
+	}
+
+	template <typename T>
+	inline T clamp(T value, T inclusive_min, T inclusive_max) {
+		if (value < inclusive_min) {
+			return inclusive_min;
+		} else if (value > inclusive_max) {
+			return inclusive_max;
+		} else {
+			return value;
+		}
 	}
 }

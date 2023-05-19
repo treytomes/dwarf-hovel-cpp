@@ -5,6 +5,7 @@
 
 #include "Color.h"
 #include "IRenderContext.h"
+#include "moremath.h"
 #include "OEM437.h"
 #include "Vector2UI.h"
 
@@ -33,6 +34,9 @@ public:
 	}
 
 	inline void set_pixel(unsigned int x, unsigned int y, const Color color) {
+		if (!math::is_in_range(x, 0u, width - 1) || !math::is_in_range(y, 0u, height)) {
+			return;
+		}
 		set_pixel(x, y, color.red, color.green, color.blue, color.alpha);
 	}
 
@@ -140,6 +144,8 @@ private:
 	bool is_bound;
 
 	inline unsigned int get_offset(unsigned int x, unsigned int y) {
+		x = math::clamp(x, 0u, width - 1u);
+		y = math::clamp(y, 0u, height - 1u);
 		return y * stride + x * NUM_CHANNELS;
 	}
 

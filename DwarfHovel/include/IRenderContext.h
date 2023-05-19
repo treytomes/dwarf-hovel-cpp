@@ -30,6 +30,6 @@ public:
 	virtual void draw_string(unsigned int x, unsigned int y, Color fg_color, Color bg_color, const char* text) = 0;
 	virtual void draw_string(Vector2UI point, Color fg_color, Color bg_color, const char* text) = 0;
 	virtual void flood_fill(Vector2UI origin, Color fill_color, Color border_color) = 0;
-	virtual GLuint get_width() = 0;
-	virtual GLuint get_height() = 0;
+	virtual unsigned int get_width() = 0;
+	virtual unsigned int get_height() = 0;
 };

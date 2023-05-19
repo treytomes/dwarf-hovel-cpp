@@ -56,6 +56,8 @@ void Window::handle_event(SDL_WindowEvent* evt) {
 		init_gl();
 		break;
 	}
+
+	GameStateManager::handle_event(evt);
 }
 
 bool Window::can_handle_event(SDL_KeyboardEvent* evt) {
@@ -80,8 +82,21 @@ void Window::handle_event(SDL_KeyboardEvent* evt) {
 			}
 		}
 	}
+
+	GameStateManager::handle_event(evt);
 }
 
+bool Window::can_handle_event(SDL_MouseMotionEvent* evt) {
+	return evt->windowID == SDL_GetWindowID(window);
+}
+
+void Window::handle_event(SDL_MouseMotionEvent* evt) {
+	if (!can_handle_event(evt)) {
+		return;
+	}
+
+	GameStateManager::handle_event(evt);
+}
 
 SDL_Renderer* Window::create_renderer() {
 	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
@@ -125,6 +140,7 @@ void Window::load_contents() {
 	int width = 0;
 	int height = 0;
 	SDL_GetWindowSize(window, &width, &height);
+	Settings::get_instance()->actual_window_size = Vector2UI(width, height);
 
 	GLShader vertex_shader = GLShader::from_file(GL_VERTEX_SHADER, "render.vert");
 	GLShader fragment_shader = GLShader::from_file(GL_FRAGMENT_SHADER, "render.frag");

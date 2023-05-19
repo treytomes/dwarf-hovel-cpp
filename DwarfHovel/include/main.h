@@ -3,6 +3,8 @@
 #include <SDL.h>
 #include <stdexcept>
 
+#include "GameState.h"
+#include "GameStateManager.h"
 #include "gl_program.h"
 #include "gl_shader.h"
 #include "glew_error.h"

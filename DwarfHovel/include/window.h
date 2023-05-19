@@ -3,10 +3,11 @@
 #include <string>
 #include <SDL.h>
 
+#include "GameStateManager.h"
 #include "gl_program.h"
 #include "Texture.h"
 
-class Window {
+class Window : public GameStateManager {
 public:
     Window(std::string title, int width, int height);
     inline Window(std::string title, Vector2UI size) : Window(title, size.x, size.y) {}
@@ -19,6 +20,8 @@ public:
     void handle_event(SDL_WindowEvent* evt);
     bool can_handle_event(SDL_KeyboardEvent* evt);
     void handle_event(SDL_KeyboardEvent* evt);
+    bool can_handle_event(SDL_MouseMotionEvent* evt);
+    void handle_event(SDL_MouseMotionEvent* evt);
 
     Texture* texture;
     void load_contents();

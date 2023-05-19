@@ -26,6 +26,8 @@ add_executable(DwarfHovel
     "src/main.cpp"
 
     "src/Color.cpp"
+    "src/GameState.cpp"
+    "src/GameStateManager.cpp"
     "src/gl_error.cpp"
     "src/gl_program.cpp"
     "src/gl_shader.cpp"
