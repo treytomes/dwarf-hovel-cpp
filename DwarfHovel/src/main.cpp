@@ -64,43 +64,11 @@ void DemoGameState::render(IRenderContext* context, unsigned int delta_time_ms) 
 	}
 }
 
+
 void DemoGameState::handle_event(SDL_MouseMotionEvent* evt) {
-	Settings* settings = Settings::get_instance();
-	unsigned int actual_width = settings->actual_window_size.x;
-	unsigned int actual_height = settings->actual_window_size.y;
-	float aspect_ratio = (float)settings->virtual_window_size.x / (float)settings->virtual_window_size.y;
-	float height_from_width = (float)actual_width / aspect_ratio;
-	float width_from_height = (float)actual_height * aspect_ratio;
-
-	unsigned int x = evt->x;
-	unsigned int y = evt->y;
-
-	// TODO: Convert actual screen position to virtual screen position.
-
-	if (actual_width > width_from_height) {
-		if (x > 0) {
-			x -= (actual_width - width_from_height) / 2;
-		} else {
-			x += (actual_width - width_from_height) / 2;
-		}
-		actual_width = width_from_height;
-	}
-	if (actual_height > height_from_width) {
-		if (y > 0) {
-			y -= (actual_height - height_from_width) / 2;
-		} else {
-			y += (actual_height - height_from_width) / 2;
-		}
-		actual_height = height_from_width;
-	}
-
-	x *= (float)settings->virtual_window_size.x / (float)actual_width;
-	y *= (float)settings->virtual_window_size.y / (float)actual_height;
-
-	mouse_x = x;
-	mouse_y = y;
-
-	LOG_DEBUG("Mouse position: (%d, %d)", x, y);
+	mouse_x = evt->x;
+	mouse_y = evt->y;
+	LOG_DEBUG("Mouse position: (%d, %d)", mouse_x, mouse_y);
 }
 
 void DemoGameState::handle_event(SDL_KeyboardEvent* evt) {
@@ -149,6 +117,17 @@ int main(int argc, char* argv[]) {
 				case SDL_MOUSEMOTION:
 					if (window->can_handle_event(&evt.motion)) {
 						window->handle_event(&evt.motion);
+					}
+					break;
+				case SDL_MOUSEBUTTONDOWN:
+				case SDL_MOUSEBUTTONUP:
+					if (window->can_handle_event(&evt.button)) {
+						window->handle_event(&evt.button);
+					}
+					break;
+				case SDL_MOUSEWHEEL:
+					if (window->can_handle_event(&evt.wheel)) {
+						window->handle_event(&evt.wheel);
 					}
 					break;
 				}

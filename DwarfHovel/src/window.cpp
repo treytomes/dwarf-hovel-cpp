@@ -38,6 +38,43 @@ Window::~Window() {
 	}
 }
 
+Vector2UI Window::translate_position(unsigned int x, unsigned int y) {
+	Settings* settings = Settings::get_instance();
+	unsigned int actual_width = settings->actual_window_size.x;
+	unsigned int actual_height = settings->actual_window_size.y;
+	float aspect_ratio = (float)settings->virtual_window_size.x / (float)settings->virtual_window_size.y;
+
+	// TODO: Convert actual screen position to virtual screen position.
+
+	float width_from_height = (float)actual_height * aspect_ratio;
+	if (actual_width > width_from_height) {
+		if (x > 0) {
+			x -= (actual_width - width_from_height) / 2;
+		}
+		else {
+			x += (actual_width - width_from_height) / 2;
+		}
+		actual_width = width_from_height;
+	}
+	else {
+		float height_from_width = (float)actual_width / aspect_ratio;
+		if (actual_height > height_from_width) {
+			if (y > 0) {
+				y -= (actual_height - height_from_width) / 2;
+			}
+			else {
+				y += (actual_height - height_from_width) / 2;
+			}
+			actual_height = height_from_width;
+		}
+	}
+
+	x *= (float)settings->virtual_window_size.x / (float)actual_width;
+	y *= (float)settings->virtual_window_size.y / (float)actual_height;
+
+	return Vector2UI(x, y);
+}
+
 bool Window::can_handle_event(SDL_WindowEvent* evt) {
 	return evt->windowID == SDL_GetWindowID(window);
 }
@@ -94,6 +131,42 @@ void Window::handle_event(SDL_MouseMotionEvent* evt) {
 	if (!can_handle_event(evt)) {
 		return;
 	}
+
+	Vector2UI mouse_pos = translate_position(evt->x, evt->y);
+	evt->x = mouse_pos.x;
+	evt->y = mouse_pos.y;
+
+	GameStateManager::handle_event(evt);
+}
+
+bool Window::can_handle_event(SDL_MouseButtonEvent* evt) {
+	return evt->windowID == SDL_GetWindowID(window);
+}
+
+void Window::handle_event(SDL_MouseButtonEvent* evt) {
+	if (!can_handle_event(evt)) {
+		return;
+	}
+
+	Vector2UI mouse_pos = translate_position(evt->x, evt->y);
+	evt->x = mouse_pos.x;
+	evt->y = mouse_pos.y;
+
+	GameStateManager::handle_event(evt);
+}
+
+bool Window::can_handle_event(SDL_MouseWheelEvent* evt) {
+	return evt->windowID == SDL_GetWindowID(window);
+}
+
+void Window::handle_event(SDL_MouseWheelEvent* evt) {
+	if (!can_handle_event(evt)) {
+		return;
+	}
+
+	Vector2UI mouse_pos = translate_position(evt->x, evt->y);
+	evt->x = mouse_pos.x;
+	evt->y = mouse_pos.y;
 
 	GameStateManager::handle_event(evt);
 }

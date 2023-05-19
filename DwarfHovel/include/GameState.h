@@ -19,6 +19,8 @@ public:
 	inline virtual void handle_event(SDL_WindowEvent* evt) {}
 	inline virtual void handle_event(SDL_KeyboardEvent* evt) {}
 	inline virtual void handle_event(SDL_MouseMotionEvent* evt) {}
+	inline virtual void handle_event(SDL_MouseButtonEvent* evt) {}
+	inline virtual void handle_event(SDL_MouseWheelEvent* evt) {}
 
 private:
 	GameStateManager* parent;

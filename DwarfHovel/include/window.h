@@ -22,6 +22,10 @@ public:
     void handle_event(SDL_KeyboardEvent* evt);
     bool can_handle_event(SDL_MouseMotionEvent* evt);
     void handle_event(SDL_MouseMotionEvent* evt);
+    bool can_handle_event(SDL_MouseButtonEvent* evt);
+    void handle_event(SDL_MouseButtonEvent* evt);
+    bool can_handle_event(SDL_MouseWheelEvent* evt);
+    void handle_event(SDL_MouseWheelEvent* evt);
 
     Texture* texture;
     void load_contents();
@@ -40,4 +44,5 @@ private:
     SDL_GLContext gl_context;
 
     void rebuild_gl_context();
+    Vector2UI translate_position(unsigned int x, unsigned int y);
 };

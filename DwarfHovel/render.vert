@@ -23,8 +23,7 @@ void main() {
         } else { 
             tx += (actual_screen_size.x - widthFromHeight) / actual_screen_size.x;
         }
-    }
-    if (actual_screen_size.y > heightFromWidth) {
+    } else if (actual_screen_size.y > heightFromWidth) {
         if (ty > 0) {
             ty -= (actual_screen_size.y - heightFromWidth) / actual_screen_size.y;
         } else { 
