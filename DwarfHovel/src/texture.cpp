@@ -5,7 +5,7 @@
 
 Texture::Texture(GLuint _width, GLuint _height)
     : width(_width), height(_height), is_dirty(true), is_bound(false) {
-    pixels = new GLfloat[width * height * NUM_CHANNELS];
+    pixels = new float[width * height * NUM_CHANNELS];
     stride = width * NUM_CHANNELS;
     reload();
 }
@@ -181,9 +181,9 @@ void Texture::clear(float r, float g, float b, float a) {
 }
 
 void Texture::draw_bitmap(unsigned int x, unsigned int y, Color fg_color, Color bg_color, unsigned char* bitmap, unsigned int width, unsigned int height) {
-	for (unsigned int yc = 0; yc < OEM437::CHAR_HEIGHT; yc++, bitmap++) {
+	for (unsigned int yc = 0; yc < height; yc++, bitmap++) {
 		unsigned int char_byte = *bitmap;
-		for (unsigned int xc = 0; xc < OEM437::CHAR_WIDTH; xc++, char_byte = char_byte >> 1) {
+		for (unsigned int xc = 0; xc < width; xc++, char_byte = char_byte >> 1) {
 			if ((char_byte & 1) != 0) {
 				set_pixel(x + xc, y + yc, fg_color);
 			} else if (bg_color.alpha != 0) {

@@ -40,6 +40,9 @@ private:
     GLint v_texcoord;
     GLuint vbo;
     GLuint ibo;
+	Vector2UI mouse_position;
+    unsigned char mouse_bitmap[12];
+    unsigned char mouse_outline_bitmap[12];
 
     SDL_GLContext gl_context;
 

@@ -11,6 +11,8 @@ Window::Window(std::string _title, int width, int height) {
 	gl_program = nullptr;
 	gl_context = nullptr;
 	window = SDL_CreateWindow(_title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+	SDL_ShowCursor(SDL_DISABLE);
+
 	if (window == nullptr) {
 		throw SDLError();
 	}
@@ -20,6 +22,32 @@ Window::Window(std::string _title, int width, int height) {
 	v_texcoord = -1;
 	vbo = 0;
 	ibo = 0;
+
+	mouse_bitmap[ 0] = 0b00000001;
+	mouse_bitmap[ 1] = 0b00000011;
+	mouse_bitmap[ 2] = 0b00000111;
+	mouse_bitmap[ 3] = 0b00001111;
+	mouse_bitmap[ 4] = 0b00011111;
+	mouse_bitmap[ 5] = 0b00111111;
+	mouse_bitmap[ 6] = 0b01111111;
+	mouse_bitmap[ 7] = 0b11111111;
+	mouse_bitmap[ 8] = 0b00011000;
+	mouse_bitmap[ 9] = 0b00110000;
+	mouse_bitmap[10] = 0b00110000;
+	mouse_bitmap[11] = 0b00000000;
+
+	mouse_outline_bitmap[ 0] = 0b00000001;
+	mouse_outline_bitmap[ 1] = 0b00000011;
+	mouse_outline_bitmap[ 2] = 0b00000101;
+	mouse_outline_bitmap[ 3] = 0b00001001;
+	mouse_outline_bitmap[ 4] = 0b00010001;
+	mouse_outline_bitmap[ 5] = 0b00100001;
+	mouse_outline_bitmap[ 6] = 0b01000001;
+	mouse_outline_bitmap[ 7] = 0b10000001;
+	mouse_outline_bitmap[ 8] = 0b11100111;
+	mouse_outline_bitmap[ 9] = 0b01001000;
+	mouse_outline_bitmap[10] = 0b01001000;
+	mouse_outline_bitmap[11] = 0b00110000;
 }
 
 Window::~Window() {
@@ -46,7 +74,7 @@ Vector2UI Window::translate_position(unsigned int x, unsigned int y) {
 
 	// TODO: Convert actual screen position to virtual screen position.
 
-	float width_from_height = (float)actual_height * aspect_ratio;
+	unsigned int width_from_height = (unsigned int)(actual_height * aspect_ratio);
 	if (actual_width > width_from_height) {
 		if (x > 0) {
 			x -= (actual_width - width_from_height) / 2;
@@ -57,7 +85,7 @@ Vector2UI Window::translate_position(unsigned int x, unsigned int y) {
 		actual_width = width_from_height;
 	}
 	else {
-		float height_from_width = (float)actual_width / aspect_ratio;
+		unsigned int height_from_width = (unsigned int)(actual_width / aspect_ratio);
 		if (actual_height > height_from_width) {
 			if (y > 0) {
 				y -= (actual_height - height_from_width) / 2;
@@ -69,8 +97,8 @@ Vector2UI Window::translate_position(unsigned int x, unsigned int y) {
 		}
 	}
 
-	x *= (float)settings->virtual_window_size.x / (float)actual_width;
-	y *= (float)settings->virtual_window_size.y / (float)actual_height;
+	x = (unsigned int)(x * settings->virtual_window_size.x / (float)actual_width);
+	y = (unsigned int)(y * settings->virtual_window_size.y / (float)actual_height);
 
 	return Vector2UI(x, y);
 }
@@ -132,9 +160,9 @@ void Window::handle_event(SDL_MouseMotionEvent* evt) {
 		return;
 	}
 
-	Vector2UI mouse_pos = translate_position(evt->x, evt->y);
-	evt->x = mouse_pos.x;
-	evt->y = mouse_pos.y;
+	mouse_position = translate_position(evt->x, evt->y);
+	evt->x = mouse_position.x;
+	evt->y = mouse_position.y;
 
 	GameStateManager::handle_event(evt);
 }
@@ -148,9 +176,9 @@ void Window::handle_event(SDL_MouseButtonEvent* evt) {
 		return;
 	}
 
-	Vector2UI mouse_pos = translate_position(evt->x, evt->y);
-	evt->x = mouse_pos.x;
-	evt->y = mouse_pos.y;
+	mouse_position = translate_position(evt->x, evt->y);
+	evt->x = mouse_position.x;
+	evt->y = mouse_position.y;
 
 	GameStateManager::handle_event(evt);
 }
@@ -163,10 +191,6 @@ void Window::handle_event(SDL_MouseWheelEvent* evt) {
 	if (!can_handle_event(evt)) {
 		return;
 	}
-
-	Vector2UI mouse_pos = translate_position(evt->x, evt->y);
-	evt->x = mouse_pos.x;
-	evt->y = mouse_pos.y;
 
 	GameStateManager::handle_event(evt);
 }
@@ -280,6 +304,9 @@ void Window::load_contents() {
 }
 
 void Window::present() {
+	texture->draw_bitmap(mouse_position, Color(1.0f, 1.0f, 1.0f), Color(0.0f, 0.0f, 0.0f, 0.0f), mouse_bitmap, 8, 12);
+	texture->draw_bitmap(mouse_position, Color(0.0f, 0.0f, 0.0f), Color(0.0f, 0.0f, 0.0f, 0.0f), mouse_outline_bitmap, 8, 12);
+
 	texture->refresh();
 
 	gl_program->bind();

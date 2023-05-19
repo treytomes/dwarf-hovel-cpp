@@ -58,12 +58,11 @@ void DemoGameState::render(IRenderContext* context, unsigned int delta_time_ms) 
 	context->draw_string(Vector2UI(50, 190), Color(1.0f, 1.0f, 0.1f), Color(0.0f, 0.0f, 0.9f), "Hello, world!");
 	context->draw_char(Vector2UI(50, 200), Color(1.0f, 1.0f, 0.9f), Color(0.0f, 0.0f, 0.1f), '*');
 
-	if (math::is_in_range(mouse_x, 0u, context->get_width() - 1) && math::is_in_range(mouse_y, 0u, context->get_height() - 1)) {
-		context->draw_circle(Vector2UI(mouse_x, mouse_y), 4, Color(1.0f, 1.0f, 0.0f));
-		context->flood_fill(Vector2UI(mouse_x, mouse_y), Color(1.0f, 1.0f, 0.0f), Color(1.0f, 1.0f, 0.0f));
-	}
+	//if (math::is_in_range(mouse_x, 0u, context->get_width() - 1) && math::is_in_range(mouse_y, 0u, context->get_height() - 1)) {
+	//	context->draw_circle(Vector2UI(mouse_x, mouse_y), 4, Color(1.0f, 1.0f, 0.0f));
+	//	context->flood_fill(Vector2UI(mouse_x, mouse_y), Color(1.0f, 1.0f, 0.0f), Color(1.0f, 1.0f, 0.0f));
+	//}
 }
-
 
 void DemoGameState::handle_event(SDL_MouseMotionEvent* evt) {
 	mouse_x = evt->x;
