@@ -58,6 +58,31 @@ void Window::handle_event(SDL_WindowEvent* evt) {
 	}
 }
 
+bool Window::can_handle_event(SDL_KeyboardEvent* evt) {
+	return evt->windowID == SDL_GetWindowID(window);
+}
+
+void Window::handle_event(SDL_KeyboardEvent* evt) {
+	if (!can_handle_event(evt)) {
+		return;
+	}
+
+	LOG_INFO(evt);
+
+	if (evt->state == SDL_PRESSED) {
+		if (evt->keysym.sym == SDLK_F11) {
+			unsigned int flags = SDL_GetWindowFlags(window);
+			bool is_fullscreen = (flags & SDL_WINDOW_FULLSCREEN_DESKTOP) || (flags & SDL_WINDOW_FULLSCREEN);
+			if (is_fullscreen) {
+				SDL_SetWindowFullscreen(window, 0);
+			} else {
+				SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+			}
+		}
+	}
+}
+
+
 SDL_Renderer* Window::create_renderer() {
 	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
 	if (renderer == nullptr) {

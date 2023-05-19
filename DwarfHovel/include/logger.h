@@ -32,6 +32,7 @@ public:
 	void write(LogLevel level, SDL_Event* evt);
 	void write(LogLevel level, SDL_QuitEvent* evt);
 	void write(LogLevel level, SDL_WindowEvent* evt);
+	void write(LogLevel level, SDL_KeyboardEvent* evt);
 	void write(LogLevel level, GLuint gl_id);
 
 private:

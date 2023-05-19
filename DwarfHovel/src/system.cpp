@@ -25,10 +25,10 @@ System::System() {
 
 System::~System() {
 	SDL_Quit();
-	Settings::shutdown();
 
 	LOG_INFO("And that is all.");
 	Logger::shutdown();
+	Settings::shutdown();
 }
 
 System* System::instance = nullptr;

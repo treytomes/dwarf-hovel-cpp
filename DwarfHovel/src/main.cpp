@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
 
 	try {
 		System::initialize();
-		LOG_INFO("Starting %s.", Settings::get_instance()->window_title);
+		LOG_INFO("Starting %s.", Settings::get_instance()->window_title.c_str());
 
         window = new Window(Settings::get_instance()->window_title, Settings::get_instance()->actual_window_size);
 		window->init_gl();
@@ -65,9 +65,11 @@ int main(int argc, char* argv[]) {
 						window->handle_event(&evt.window);
 					}
 					break;
-				case SDL_KEYUP:
-					break;
 				case SDL_KEYDOWN:
+				case SDL_KEYUP:
+					if (window->can_handle_event(&evt.key)) {
+						window->handle_event(&evt.key);
+					}
 					break;
 				}
 			}

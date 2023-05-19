@@ -117,6 +117,10 @@ void Logger::write(LogLevel level, SDL_Event* evt) {
     case SDL_QUIT:
         write(level, &evt->quit);
         break;
+	case SDL_KEYDOWN:
+	case SDL_KEYUP:
+		write(level, &evt->key);
+		break;
     case SDL_WINDOWEVENT:
         write(level, &evt->window);
         break;
@@ -186,6 +190,18 @@ void Logger::write(LogLevel level, SDL_WindowEvent* evt) {
 
 void Logger::write(LogLevel level, SDL_QuitEvent* evt) {
     write(LogLevel::LOG_LEVEL_INFO, "Program quit after %i ticks.", evt->timestamp);
+}
+
+void Logger::write(LogLevel level, SDL_KeyboardEvent* evt) {
+	bool is_key_down = evt->type == SDL_KEYDOWN;
+	bool is_pressed = evt->state == SDL_PRESSED;
+	bool is_repeat = evt->repeat != 0;
+
+	if (is_key_down) {
+		write(level, "Key down: (keysym.mod=%u;scancode=%d;sym=%d), (pressed=%d), (repeat=%d), (timestamp=%d)", evt->keysym.mod, evt->keysym.scancode, evt->keysym.sym, is_pressed, is_repeat, evt->timestamp);
+	} else {
+		write(level, "Key up: (keysym.mod=%u;scancode=%d;sym=%d), (pressed=%d), (repeat=%d), (timestamp=%d)", evt->keysym.mod, evt->keysym.scancode, evt->keysym.sym, is_pressed, is_repeat, evt->timestamp);
+	}
 }
 
 void Logger::write(LogLevel level, GLuint gl_id) {

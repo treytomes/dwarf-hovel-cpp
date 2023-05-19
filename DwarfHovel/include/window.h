@@ -17,6 +17,8 @@ public:
     void init_gl();
     bool can_handle_event(SDL_WindowEvent* evt);
     void handle_event(SDL_WindowEvent* evt);
+    bool can_handle_event(SDL_KeyboardEvent* evt);
+    void handle_event(SDL_KeyboardEvent* evt);
 
     Texture* texture;
     void load_contents();

@@ -8,7 +8,7 @@ public:
 	TComponent z;
 	TComponent w;
 
-	Tuple(TComponent _x, TComponent _y, TComponent _z, TComponent _w)
+	inline Tuple(TComponent _x, TComponent _y, TComponent _z, TComponent _w)
 		: x(_x), y(_y), z(_z), w(_w) {
 	}
 
@@ -20,3 +20,13 @@ public:
 		return *this;
 	}
 };
+
+template <typename TComponent>
+inline bool operator==(const Tuple<TComponent>& lhs, const Tuple<TComponent>& rhs) {
+	return (lhs.x == rhs.x) && (lhs.y == rhs.y) && (lhs.z == rhs.z) && (lhs.w == rhs.w);
+}
+
+template <typename TComponent>
+inline bool operator!=(const Tuple<TComponent>& lhs, const Tuple<TComponent>& rhs) {
+	return (lhs.x != rhs.x) || (lhs.y != rhs.y) || (lhs.z != rhs.z) || (lhs.w != rhs.w);
+}
