@@ -193,18 +193,18 @@ void Texture::draw_bitmap(unsigned int x, unsigned int y, Color fg_color, Color 
 	}
 }
 
-void Texture::flood_fill(Vector2UI origin, Color fill_color, Color border_color) {
+void Texture::flood_fill(Point2UI origin, Color fill_color, Color border_color) {
 	unsigned int size = width * height;
 	bool* map_flags = new bool[size];
 	std::memset(map_flags, false, size);
 
-	std::queue<Vector2UI*> queue;
+	std::queue<Point2UI*> queue;
 
 	map_flags[origin.y * width + origin.x] = true;
-	queue.push(new Vector2UI(origin.x, origin.y));
+	queue.push(new Point2UI(origin.x, origin.y));
 
 	while (queue.size() > 0) {
-		Vector2UI* point = queue.front();
+		Point2UI* point = queue.front();
 		queue.pop();
 		set_pixel(*point, fill_color);
 
@@ -215,7 +215,7 @@ void Texture::flood_fill(Vector2UI origin, Color fill_color, Color border_color)
 					if (!map_flags[index]) {
 						if (get_pixel(x, y) != border_color) {
 							map_flags[index] = true;
-							queue.push(new Vector2UI(x, y));
+							queue.push(new Point2UI(x, y));
 						}
 					}
 				}

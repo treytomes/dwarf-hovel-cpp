@@ -10,7 +10,7 @@
 class Window : public GameStateManager {
 public:
     Window(std::string title, int width, int height);
-    inline Window(std::string title, Vector2UI size) : Window(title, size.x, size.y) {}
+    inline Window(std::string title, Point2UI size) : Window(title, size.x, size.y) {}
 
     ~Window();
 
@@ -40,12 +40,12 @@ private:
     GLint v_texcoord;
     GLuint vbo;
     GLuint ibo;
-	Vector2UI mouse_position;
+	Point2UI mouse_position;
     unsigned char mouse_bitmap[12];
     unsigned char mouse_outline_bitmap[12];
 
     SDL_GLContext gl_context;
 
     void rebuild_gl_context();
-    Vector2UI translate_position(unsigned int x, unsigned int y);
+    Point2UI translate_position(unsigned int x, unsigned int y);
 };

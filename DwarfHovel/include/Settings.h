@@ -3,7 +3,7 @@
 #include <string>
 
 #include "Logger.h"
-#include "Vector2UI.h"
+#include "Point2UI.h"
 
 class Settings {
 public:
@@ -13,8 +13,8 @@ public:
 
 	LogLevel log_level;
 	std::string window_title;
-	Vector2UI virtual_window_size;
-	Vector2UI actual_window_size;
+	Point2UI virtual_window_size;
+	Point2UI actual_window_size;
 
 private:
 	Settings();

@@ -10,11 +10,11 @@ Settings::Settings() {
 
 	log_level = from_string(data["log_level"]);
 	window_title = data["window_title"];
-	virtual_window_size = Vector2UI(
+	virtual_window_size = Point2UI(
 		data["virtual_window_size"]["x"],
 		data["virtual_window_size"]["y"]
 	);
-	actual_window_size = Vector2UI(
+	actual_window_size = Point2UI(
 		data["actual_window_size"]["x"],
 		data["actual_window_size"]["y"]
 	);

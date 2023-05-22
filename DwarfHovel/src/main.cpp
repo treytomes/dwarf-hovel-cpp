@@ -41,26 +41,26 @@ void DemoGameState::render(IRenderContext* context, unsigned int delta_time_ms) 
 	context->draw_v_line(0, 0, max_y, Color(0.0f, 1.0f, 0.0f));
 	context->draw_v_line(max_x, 0, max_y, Color(0.0f, 1.0f, 1.0f));
 
-	context->set_pixel(Vector2UI(50u, 50u), Color(0.0f, 0.0f, 1.0f));
+	context->set_pixel(Point2UI(50u, 50u), Color(0.0f, 0.0f, 1.0f));
 
-	context->draw_filled_rect(Vector2UI(55u, 65u), Vector2UI(105u, 90u), Color(1.0f, 0.5f, 0.25f));
+	context->draw_filled_rect(Point2UI(55u, 65u), Point2UI(105u, 90u), Color(1.0f, 0.5f, 0.25f));
 
-	context->draw_line(Vector2UI(0, 0), Vector2UI(max_x, max_y), Color(1.0f, 0.0f, 1.0f));
-	context->draw_line(Vector2UI(0, max_y), Vector2UI(max_x, 0), Color(1.0f, 0.0f, 1.0f));
+	context->draw_line(Point2UI(0, 0), Point2UI(max_x, max_y), Color(1.0f, 0.0f, 1.0f));
+	context->draw_line(Point2UI(0, max_y), Point2UI(max_x, 0), Color(1.0f, 0.0f, 1.0f));
 
-	context->draw_circle(Vector2UI(center_x - 20, center_y - 50), 25, Color(1.0f, 0.0f, 0.0f));
-	context->flood_fill(Vector2UI(center_x - 20, center_y - 50), Color(0.5f, 0.0f, 0.5f), Color(1.0f, 0.0f, 0.0f));
+	context->draw_circle(Point2UI(center_x - 20, center_y - 50), 25, Color(1.0f, 0.0f, 0.0f));
+	context->flood_fill(Point2UI(center_x - 20, center_y - 50), Color(0.5f, 0.0f, 0.5f), Color(1.0f, 0.0f, 0.0f));
 
-	context->draw_circle(Vector2UI(center_x, center_y), 25, Color(1.0f, 0.0f, 0.0f));
+	context->draw_circle(Point2UI(center_x, center_y), 25, Color(1.0f, 0.0f, 0.0f));
 
-	context->draw_line(Vector2UI(center_x, center_y), Vector2UI(center_x - (unsigned int)(25 * cos(angle)), center_y - (unsigned int)(25 * sin(angle))), Color(0.5f, 0.0f, 0.0f));
+	context->draw_line(Point2UI(center_x, center_y), Point2UI(center_x - (unsigned int)(25 * cos(angle)), center_y - (unsigned int)(25 * sin(angle))), Color(0.5f, 0.0f, 0.0f));
 
-	context->draw_string(Vector2UI(50, 190), Color(1.0f, 1.0f, 0.1f), Color(0.0f, 0.0f, 0.9f), "Hello, world!");
-	context->draw_char(Vector2UI(50, 200), Color(1.0f, 1.0f, 0.9f), Color(0.0f, 0.0f, 0.1f), '*');
+	context->draw_string(Point2UI(50, 190), Color(1.0f, 1.0f, 0.1f), Color(0.0f, 0.0f, 0.9f), "Hello, world!");
+	context->draw_char(Point2UI(50, 200), Color(1.0f, 1.0f, 0.9f), Color(0.0f, 0.0f, 0.1f), '*');
 
 	//if (math::is_in_range(mouse_x, 0u, context->get_width() - 1) && math::is_in_range(mouse_y, 0u, context->get_height() - 1)) {
-	//	context->draw_circle(Vector2UI(mouse_x, mouse_y), 4, Color(1.0f, 1.0f, 0.0f));
-	//	context->flood_fill(Vector2UI(mouse_x, mouse_y), Color(1.0f, 1.0f, 0.0f), Color(1.0f, 1.0f, 0.0f));
+	//	context->draw_circle(Point2UI(mouse_x, mouse_y), 4, Color(1.0f, 1.0f, 0.0f));
+	//	context->flood_fill(Point2UI(mouse_x, mouse_y), Color(1.0f, 1.0f, 0.0f), Color(1.0f, 1.0f, 0.0f));
 	//}
 }
 
