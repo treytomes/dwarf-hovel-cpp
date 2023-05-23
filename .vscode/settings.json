@@ -8,6 +8,8 @@
 		"xlocmon": "cpp",
 		"xlocnum": "cpp",
 		"xtr1common": "cpp",
-		"queue": "cpp"
+		"queue": "cpp",
+		"vector": "cpp",
+		"xstring": "cpp"
 	}
 }

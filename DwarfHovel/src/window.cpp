@@ -237,7 +237,7 @@ void Window::load_contents() {
 	int width = 0;
 	int height = 0;
 	SDL_GetWindowSize(window, &width, &height);
-	Settings::get_instance()->actual_window_size = Point2UI(width, height);
+	Settings::get_instance()->actual_window_size = Vector2UI(width, height);
 
 	GLShader vertex_shader = GLShader::from_file(GL_VERTEX_SHADER, "render.vert");
 	GLShader fragment_shader = GLShader::from_file(GL_FRAGMENT_SHADER, "render.frag");

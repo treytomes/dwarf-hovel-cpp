@@ -2,6 +2,7 @@
 
 #include "Color.h"
 #include "Point2UI.h"
+#include "Rectangle.h"
 
 class IRenderContext {
 public:
@@ -15,6 +16,8 @@ public:
 	virtual const Color get_pixel(Point2UI point) = 0;
 	virtual void draw_filled_rect(unsigned int x1, unsigned int x2, unsigned int y1, unsigned int y2, const Color color) = 0;
 	virtual void draw_filled_rect(Point2UI point1, Point2UI point2, const Color color) = 0;
+	virtual inline void draw_filled_rect(Rectangle rect, const Color color) = 0;
+	virtual inline void draw_rect(Rectangle rect, const Color color) = 0;
 	virtual void draw_h_line(unsigned int x1, unsigned int x2, unsigned int y, const Color color) = 0;
 	virtual void draw_v_line(unsigned int x, unsigned int y1, unsigned int y2, const Color color) = 0;
 	virtual void draw_line(unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, Color color) = 0;

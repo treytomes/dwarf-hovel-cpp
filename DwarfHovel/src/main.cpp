@@ -5,16 +5,29 @@
 #include <gl\glu.h>
 
 #include "moremath.h"
+#include "Rectangle.h"
+#include <vector>
+
+class UIButton : public UIElement {
+public:
+	void render(IRenderContext* context, unsigned int delta_time_ms);
+};
+
+void UIButton::render(IRenderContext* context, unsigned int delta_time_ms) {
+	context->draw_filled_rect(get_bounds(), Color(1.0f, 0.5f, 0.0f));
+}
 
 class DemoGameState : public GameState {
 public:
 	DemoGameState(GameStateManager* parent);
+	~DemoGameState();
 	void update(unsigned int delta_time_ms);
 	void render(IRenderContext* context, unsigned int delta_time_ms);
 	void handle_event(SDL_MouseMotionEvent* evt);
 	void handle_event(SDL_KeyboardEvent* evt);
 
 private:
+	UIElement* ui_root;
 	float angle;
 	unsigned int mouse_x;
 	unsigned int mouse_y;
@@ -22,6 +35,15 @@ private:
 
 DemoGameState::DemoGameState(GameStateManager* parent)
 	: GameState(parent), angle(0.0f), mouse_x(0u), mouse_y(0u) {
+	ui_root = new UIElement(nullptr, Rectangle(Point2UI::zero(), Settings::get_instance()->virtual_window_size));
+	// TODO: New children should be added to the parent's children vector.
+}
+
+DemoGameState::~DemoGameState() {
+	if (ui_root != nullptr) {
+		delete ui_root;
+		ui_root = nullptr;
+	}
 }
 
 void DemoGameState::update(unsigned int delta_time_ms) {
@@ -45,7 +67,7 @@ void DemoGameState::render(IRenderContext* context, unsigned int delta_time_ms) 
 
 	context->draw_filled_rect(Point2UI(55u, 65u), Point2UI(105u, 90u), Color(1.0f, 0.5f, 0.25f));
 
-	context->draw_line(Point2UI(0, 0), Point2UI(max_x, max_y), Color(1.0f, 0.0f, 1.0f));
+	context->draw_line(Point2UI::zero(), Point2UI(max_x, max_y), Color(1.0f, 0.0f, 1.0f));
 	context->draw_line(Point2UI(0, max_y), Point2UI(max_x, 0), Color(1.0f, 0.0f, 1.0f));
 
 	context->draw_circle(Point2UI(center_x - 20, center_y - 50), 25, Color(1.0f, 0.0f, 0.0f));

@@ -12,4 +12,5 @@
 #include "sdl_error.h"
 #include "Settings.h"
 #include "system.h"
+#include "UIElement.h"
 #include "Window.h"

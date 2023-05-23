@@ -8,13 +8,14 @@
 #include "moremath.h"
 #include "OEM437.h"
 #include "Point2UI.h"
+#include "Vector2UI.h"
 
 #define NUM_CHANNELS 4
 
 class Texture : public IRenderContext {
 public:
 	Texture(unsigned int _width, unsigned int _height);
-	inline Texture(Point2UI size) : Texture(size.x, size.y) {}
+	inline Texture(Vector2UI size) : Texture(size.x, size.y) {}
 	~Texture();
 
 	inline void set_pixel(unsigned int offset, float r, float g, float b, float a = 1.0f) {
@@ -66,6 +67,15 @@ public:
 
 	inline void draw_filled_rect(Point2UI point1, Point2UI point2, const Color color) {
 		draw_filled_rect(point1.x, point2.x, point1.y, point2.y, color);
+	}
+
+	inline void draw_filled_rect(Rectangle rect, const Color color) {
+		draw_filled_rect(rect.get_left(), rect.get_right(), rect.get_top(), rect.get_bottom(), color);
+	}
+
+	inline void draw_rect(Rectangle rect, const Color color) {
+		draw_h_line(rect.get_left(), rect.get_right(), rect.get_top(), color);
+		draw_h_line(rect.get_left(), rect.get_right(), rect.get_bottom(), color);
 	}
 
 	void draw_h_line(unsigned int x1, unsigned int x2, unsigned int y, const Color color);

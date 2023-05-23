@@ -6,11 +6,12 @@
 #include "GameStateManager.h"
 #include "gl_program.h"
 #include "Texture.h"
+#include "Vector2UI.h"
 
 class Window : public GameStateManager {
 public:
     Window(std::string title, int width, int height);
-    inline Window(std::string title, Point2UI size) : Window(title, size.x, size.y) {}
+    inline Window(std::string title, Vector2UI size) : Window(title, size.x, size.y) {}
 
     ~Window();
 
