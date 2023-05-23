@@ -1,5 +1,5 @@
 #include "Color.h"
 
-Color::Color(float r, float g, float b, float a)
-	: red(r), green(g), blue(b), alpha(a) {
+Color::Color(float _r, float _g, float _b, float _a)
+	: r(_r), g(_g), b(_b), a(_a) {
 }

@@ -1,4 +1,5 @@
 #include "UIElement.h"
+#include "Logger.h"
 
 UIElement* UIElement::mouse_hover_element = nullptr;
 UIElement* UIElement::mouse_focus_element = nullptr;
@@ -128,4 +129,45 @@ bool UIElement::handle_event(SDL_MouseWheelEvent* evt) {
 	}
 
 	return inner_handle_event(evt);
+}
+
+void UIElement::add_child(UIElement* child) {
+	if (has_child(child)) {
+		return;
+	}
+
+	if (child->parent_element != nullptr) {
+		child->parent_element->remove_child(child);
+	}
+
+	children.push_back(child);
+	child->parent_element = this;
+}
+
+void UIElement::remove_child(UIElement* child) {
+	if (!has_child(child)) {
+		return;
+	}
+
+	children.erase(std::remove(children.begin(), children.end(), child));
+	child->parent_element = nullptr;
+	delete child;
+}
+
+void UIElement::push_to_back(UIElement* child) {
+	if (!has_child(child)) {
+		return;
+	}
+
+	children.erase(std::remove(children.begin(), children.end(), this));
+	children.insert(children.begin(), this);
+}
+
+void UIElement::pull_to_front(UIElement* child) {
+	if (!has_child(child)) {
+		return;
+	}
+
+	children.erase(std::remove(children.begin(), children.end(), this));
+	children.push_back(this);
 }

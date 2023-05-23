@@ -186,7 +186,7 @@ void Texture::draw_bitmap(unsigned int x, unsigned int y, Color fg_color, Color 
 		for (unsigned int xc = 0; xc < width; xc++, char_byte = char_byte >> 1) {
 			if ((char_byte & 1) != 0) {
 				set_pixel(x + xc, y + yc, fg_color);
-			} else if (bg_color.alpha != 0) {
+			} else if (bg_color.a != 0) {
 				set_pixel(x + xc, y + yc, bg_color);
 			}
 		}

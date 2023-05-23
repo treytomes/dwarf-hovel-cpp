@@ -31,18 +31,18 @@ public:
 	}
 
 	inline void set_pixel(unsigned int offset, const Color color) {
-		set_pixel(offset, color.red, color.green, color.blue, color.alpha);
+		set_pixel(offset, color.r, color.g, color.b, color.a);
 	}
 
 	inline void set_pixel(unsigned int x, unsigned int y, const Color color) {
 		if (!math::is_in_range(x, 0u, width - 1) || !math::is_in_range(y, 0u, height)) {
 			return;
 		}
-		set_pixel(x, y, color.red, color.green, color.blue, color.alpha);
+		set_pixel(x, y, color.r, color.g, color.b, color.a);
 	}
 
 	inline void set_pixel(Point2UI point, const Color color) {
-		set_pixel(point.x, point.y, color.red, color.green, color.blue, color.alpha);
+		set_pixel(point.x, point.y, color.r, color.g, color.b, color.a);
 	}
 
 	inline void get_pixel(unsigned int x, unsigned int y, float *r, float *g, float *b, float *a) {
@@ -95,7 +95,7 @@ public:
 	void clear(float r, float g, float b, float a = 1.0f);
 
 	inline void clear(Color color) {
-		clear(color.red, color.green, color.blue, color.alpha);
+		clear(color.r, color.g, color.b, color.a);
 	}
 
 	void draw_bitmap(unsigned int x, unsigned int y, Color fg_color, Color bg_color, unsigned char* bitmap, unsigned int width, unsigned int height);

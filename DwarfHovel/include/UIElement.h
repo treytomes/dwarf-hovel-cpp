@@ -1,13 +1,14 @@
 #pragma once
 
 #include <SDL.h>
+#include <algorithm>
 #include <vector>
 #include "IRenderContext.h"
 #include "Rectangle.h"
 
 class UIElement {
 public:
-	inline UIElement(UIElement* _parent, Rectangle _bounds) : parent_element(_parent), bounds(_bounds), has_mouse_hover(false) {}
+	inline UIElement(Rectangle _bounds) : parent_element(nullptr), bounds(_bounds), has_mouse_hover(false) {}
 	~UIElement();
 
 	void update(unsigned int delta_time_ms);
@@ -17,6 +18,8 @@ public:
 	bool handle_event(SDL_MouseMotionEvent* evt);
 	bool handle_event(SDL_MouseButtonEvent* evt);
 	bool handle_event(SDL_MouseWheelEvent* evt);
+
+	void add_child(UIElement* child);
 
 	inline Rectangle get_bounds() { return bounds; }
 
@@ -36,8 +39,13 @@ protected:
 	inline virtual void inner_update(unsigned int delta_time_ms) {}
 	inline virtual void inner_render(IRenderContext* context, unsigned int delta_time_ms) {}
 
-	void push_to_back();
-	void pull_to_front();
+	inline bool has_child(UIElement* child) {
+		return std::find(children.begin(), children.end(), child) != children.end();
+	}
+
+	void remove_child(UIElement* child);
+	void push_to_back(UIElement* child);
+	void pull_to_front(UIElement* child);
 	inline bool has_keyboard_focus() { return keyboard_focus_element == this; }
 	inline bool has_mouse_focus() { return mouse_focus_element == this; }
 	inline bool is_root() { return parent_element == nullptr; }

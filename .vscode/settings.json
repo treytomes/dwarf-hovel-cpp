@@ -10,6 +10,7 @@
 		"xtr1common": "cpp",
 		"queue": "cpp",
 		"vector": "cpp",
-		"xstring": "cpp"
+		"xstring": "cpp",
+		"xlocmes": "cpp"
 	}
 }

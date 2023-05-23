@@ -10,11 +10,17 @@
 
 class UIButton : public UIElement {
 public:
-	void render(IRenderContext* context, unsigned int delta_time_ms);
+	UIButton(Rectangle bounds) : UIElement(bounds) {}
+	void inner_render(IRenderContext* context, unsigned int delta_time_ms);
 };
 
-void UIButton::render(IRenderContext* context, unsigned int delta_time_ms) {
-	context->draw_filled_rect(get_bounds(), Color(1.0f, 0.5f, 0.0f));
+void UIButton::inner_render(IRenderContext* context, unsigned int delta_time_ms) {
+	if (has_mouse_hover) {
+		context->draw_filled_rect(get_bounds(), Color(0.9f, 0.9f, 0.9f));
+	} else {
+		context->draw_filled_rect(get_bounds(), Color(0.2f, 0.2f, 0.2f));
+	}
+	LOG_INFO("I am here.");
 }
 
 class DemoGameState : public GameState {
@@ -23,8 +29,10 @@ public:
 	~DemoGameState();
 	void update(unsigned int delta_time_ms);
 	void render(IRenderContext* context, unsigned int delta_time_ms);
-	void handle_event(SDL_MouseMotionEvent* evt);
 	void handle_event(SDL_KeyboardEvent* evt);
+	void handle_event(SDL_MouseMotionEvent* evt);
+	void handle_event(SDL_MouseButtonEvent* evt);
+	void handle_event(SDL_MouseWheelEvent* evt);
 
 private:
 	UIElement* ui_root;
@@ -35,8 +43,9 @@ private:
 
 DemoGameState::DemoGameState(GameStateManager* parent)
 	: GameState(parent), angle(0.0f), mouse_x(0u), mouse_y(0u) {
-	ui_root = new UIElement(nullptr, Rectangle(Point2UI::zero(), Settings::get_instance()->virtual_window_size));
+	ui_root = new UIElement(Rectangle(Point2UI::zero(), Settings::get_instance()->virtual_window_size));
 	// TODO: New children should be added to the parent's children vector.
+	ui_root->add_child(new UIButton(Rectangle(Point2UI(10, 10), Vector2UI(32, 8))));
 }
 
 DemoGameState::~DemoGameState() {
@@ -47,6 +56,7 @@ DemoGameState::~DemoGameState() {
 }
 
 void DemoGameState::update(unsigned int delta_time_ms) {
+	ui_root->update(delta_time_ms);
 	angle += 0.25f * delta_time_ms * 3.141f / 180.0f;
 }
 
@@ -84,12 +94,16 @@ void DemoGameState::render(IRenderContext* context, unsigned int delta_time_ms) 
 	//	context->draw_circle(Point2UI(mouse_x, mouse_y), 4, Color(1.0f, 1.0f, 0.0f));
 	//	context->flood_fill(Point2UI(mouse_x, mouse_y), Color(1.0f, 1.0f, 0.0f), Color(1.0f, 1.0f, 0.0f));
 	//}
+
+	ui_root->render(context, delta_time_ms);
 }
 
 void DemoGameState::handle_event(SDL_MouseMotionEvent* evt) {
 	mouse_x = evt->x;
 	mouse_y = evt->y;
 	LOG_DEBUG("Mouse position: (%d, %d)", mouse_x, mouse_y);
+	
+	ui_root->handle_event(evt);
 }
 
 void DemoGameState::handle_event(SDL_KeyboardEvent* evt) {
@@ -98,6 +112,16 @@ void DemoGameState::handle_event(SDL_KeyboardEvent* evt) {
 			leave();
 		}
 	}
+	
+	ui_root->handle_event(evt);
+}
+
+void DemoGameState::handle_event(SDL_MouseButtonEvent* evt) {
+	ui_root->handle_event(evt);
+}
+
+void DemoGameState::handle_event(SDL_MouseWheelEvent* evt) {
+	ui_root->handle_event(evt);
 }
 
 int main(int argc, char* argv[]) {

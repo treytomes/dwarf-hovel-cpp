@@ -6,9 +6,9 @@
 
 class Rectangle {
 public:
-	inline Rectangle(Point2UI _point, Vector2UI _size)
-		: point(_point), size(_size) {
-	}
+	inline Rectangle(Point2UI _point, Vector2UI _size) : point(_point), size(_size) {}
+
+	inline Rectangle(unsigned int x, unsigned int y, unsigned int width, unsigned int height) : Rectangle(Point2UI(x, y), Vector2UI(width, height)) {}
 
 	inline Point2UI get_position() { return point; }
 	inline Vector2UI get_size() { return size; }
@@ -36,7 +36,7 @@ public:
 	inline void set_bottom(unsigned int value) { set_height(value - get_top() + 1); }
 
 	inline bool contains(unsigned int x, unsigned int y) {
-		return math::is_in_range(x, get_left(), get_right()) && math::is_in_range(y, get_left(), get_right());
+		return math::is_in_range(x, get_left(), get_right()) && math::is_in_range(y, get_top(), get_bottom());
 	}
 
 	inline bool contains(Point2UI point) {
