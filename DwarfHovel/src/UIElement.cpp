@@ -24,7 +24,7 @@ void UIElement::update(unsigned int delta_time_ms) {
 
 void UIElement::render(IRenderContext* context, unsigned int delta_time_ms) {
 	Rectangle b = get_relative_bounds();
-	if (!is_root() && !parent_element->get_bounds().contains(b)) {
+	if (!is_root() && !parent_element->get_bounds().intersects(b)) {
 		// The element isn't visible, so we're done.
 		return;
 	}

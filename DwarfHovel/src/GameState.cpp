@@ -1,14 +1,6 @@
 #include "GameState.h"
 #include "GameStateManager.h"
 
-GameState::GameState(GameStateManager* _parent)
-	: parent(_parent) {
-}
-
-GameState::~GameState() {
-	parent = nullptr;
-}
-
 void GameState::update(unsigned int delta_time_ms) {
 }
 

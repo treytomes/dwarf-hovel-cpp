@@ -45,7 +45,7 @@ public:
 		return contains(point.x, point.y);
 	}
 
-	inline bool contains(Rectangle rect) {
+	inline bool intersects(Rectangle rect) {
 		return get_left() <= rect.get_right() && rect.get_left() <= get_right() && get_top() <= rect.get_bottom() && rect.get_top() <= get_bottom();
 	}
 

@@ -16,6 +16,7 @@ public:
 	}
 
 	inline void enter(GameState* state) {
+		state->set_parent(this);
 		states.push(state);
 	}
 

@@ -26,6 +26,7 @@ add_executable(DwarfHovel
     "src/main.cpp"
 
     "src/Color.cpp"
+    "src/DemoGameState.cpp"
     "src/GameState.cpp"
     "src/GameStateManager.cpp"
     "src/gl_error.cpp"
@@ -33,6 +34,7 @@ add_executable(DwarfHovel
     "src/gl_shader.cpp"
     "src/glew_error.cpp"
     "src/Logger.cpp"
+	"src/MainMenuGameState.cpp"
     "src/OEM437.cpp"
     "src/sdl_error.cpp"
     "src/Settings.cpp"
