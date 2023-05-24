@@ -24,6 +24,10 @@ void UIElement::update(unsigned int delta_time_ms) {
 
 void UIElement::render(IRenderContext* context, unsigned int delta_time_ms) {
 	Rectangle b = get_relative_bounds();
+	if (!is_root() && !parent_element->get_bounds().contains(b)) {
+		// The element isn't visible, so we're done.
+		return;
+	}
 	inner_render(b, context, delta_time_ms);
 	
 	for (auto iter = children.begin(); iter != children.end(); iter++) {
@@ -182,8 +186,7 @@ Rectangle UIElement::get_relative_bounds() {
 	}
 
 	Rectangle parent_bounds = parent_element->get_relative_bounds();
-	my_bounds.set_x(parent_bounds.get_x() + my_bounds.get_x());
-	my_bounds.set_y(parent_bounds.get_y() + my_bounds.get_y());
+	my_bounds.offset(parent_bounds.get_position());
 
 	if (my_bounds.get_right() > parent_bounds.get_right()) {
 		my_bounds.set_width(parent_bounds.get_right() - my_bounds.get_left() + 1);

@@ -45,6 +45,14 @@ public:
 		return contains(point.x, point.y);
 	}
 
+	inline bool contains(Rectangle rect) {
+		return get_left() <= rect.get_right() && rect.get_left() <= get_right() && get_top() <= rect.get_bottom() && rect.get_top() <= get_bottom();
+	}
+
+	inline void offset(Tuple<unsigned int> delta) {
+		point += delta;
+	}
+
 	inline Rectangle& operator=(const Rectangle& other) {
 		point = Point2UI(other.point.x, other.point.y);
 		size = Vector2UI(other.size.x, other.size.y);

@@ -127,6 +127,13 @@ void DemoGameState::handle_event(SDL_UserEvent* evt) {
 	}
 }
 
+void try_register_event(unsigned int& event_id) {
+	event_id = SDL_RegisterEvents(1);
+	if (event_id == ((unsigned int)-1)) {
+		LOG_ERROR("Failed to register the button event.");
+	}
+}
+
 int main(int argc, char* argv[]) {
 	Window* window = nullptr;
 	int error_code = 0;
@@ -136,10 +143,7 @@ int main(int argc, char* argv[]) {
 		LOG_INFO("Starting %s.", Settings::get_instance()->window_title.c_str());
 
 		LOG_INFO("Registering custom events.");
-		UIButton::command_event_id = SDL_RegisterEvents(1);
-		if (UIButton::command_event_id == ((unsigned int)-1)) {
-			LOG_ERROR("Failed to register the button event.");
-		}
+		try_register_event(UIButton::command_event_id);
 
         window = new Window(Settings::get_instance()->window_title, Settings::get_instance()->actual_window_size);
 		window->init_gl();

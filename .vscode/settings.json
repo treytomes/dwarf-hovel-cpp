@@ -12,6 +12,7 @@
 		"vector": "cpp",
 		"xstring": "cpp",
 		"xlocmes": "cpp",
-		"algorithm": "cpp"
+		"algorithm": "cpp",
+		"xiosbase": "cpp"
 	}
 }
