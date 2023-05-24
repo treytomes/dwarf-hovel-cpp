@@ -14,6 +14,20 @@
 		"xlocmes": "cpp",
 		"algorithm": "cpp",
 		"xiosbase": "cpp",
-		"string": "cpp"
+		"string": "cpp",
+		"ios": "cpp",
+		"array": "cpp",
+		"deque": "cpp",
+		"filesystem": "cpp",
+		"format": "cpp",
+		"forward_list": "cpp",
+		"initializer_list": "cpp",
+		"list": "cpp",
+		"ranges": "cpp",
+		"span": "cpp",
+		"valarray": "cpp",
+		"xhash": "cpp",
+		"xtree": "cpp",
+		"xutility": "cpp"
 	}
 }

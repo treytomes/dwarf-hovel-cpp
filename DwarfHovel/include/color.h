@@ -11,12 +11,80 @@ public:
 	//inline Color(unsigned char r, unsigned char g, unsigned char b, unsigned char a = 255)
 	//	: Color((float)r / 255.0f, (float)g / 255.0f, (float)b / 255.0f, (float)a / 255.0f) {}
 
+	inline Color add(Color clr) {
+		return Color(r + clr.r, g + clr.g, b + clr.b, a + clr.a);
+	}
+
+	inline Color subtract(Color clr) {
+		return Color(r - clr.r, g - clr.g, b - clr.b, a - clr.a);
+	}
+
+	inline Color scale(float v) {
+		return Color(v * r, v * g, v * b, a);
+	}
+
+	inline Color inverted() {
+		return Color(1.0f - r, 1.0f - g, 1.0f - b, 1.0f);
+	}
+
+	inline Color desaturated() {
+		return white().subtract(*this).scale(0.5f).add(*this).scale(0.5f);
+	}
+
+	inline Color lightest() {
+		return white().subtract(*this).scale(0.75f).add(*this);
+	}
+
+	inline Color lighter() {
+		return white().subtract(*this).scale(0.65f).add(*this);
+	}
+
+	inline Color light() {
+		return white().subtract(*this).scale(0.45f).add(*this);
+	}
+
+	inline Color dark() {
+		return scale(0.75f);
+	}
+
+	inline Color darker() {
+		return scale(0.5f);
+	}
+
+	inline Color darkest() {
+		return scale(0.25f);
+	}
+
 	inline Color& operator=(const Color& other) {
 		r = other.r;
 		g = other.g;
 		b = other.b;
 		a = other.a;
 		return *this;
+	}
+
+	inline Color& operator+=(const Color& rhs) {
+		return add(rhs);
+	}
+
+	inline Color operator+(const Color& rhs) {
+		return add(rhs);
+	}
+
+	inline Color& operator-=(const Color& rhs) {
+		return subtract(rhs);
+	}
+
+	inline Color operator-(const Color& rhs) {
+		return subtract(rhs);
+	}
+
+	inline Color& operator*=(const float v) {
+		return scale(v);
+	}
+
+	inline Color operator*(const float v) {
+		return scale(v);
 	}
 
 	static inline Color red()         { return Color(1.00f, 0.00f, 0.00f); }
@@ -53,7 +121,6 @@ public:
 	static inline Color olive()       { return Color(0.50f, 0.50f, 0.00f); }
 	static inline Color teal()        { return Color(0.00f, 0.50f, 0.50f); }
 	static inline Color brown()       { return Color(0.60f, 0.40f, 0.20f); }
-
 };
 
 inline bool operator==(const Color& lhs, const Color& rhs) {
