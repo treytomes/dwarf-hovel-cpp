@@ -7,9 +7,7 @@
 #include "UILabel.h"
 
 MainMenuGameState::MainMenuGameState()
-	: angle(0.0f), mouse_x(0u), mouse_y(0u) {
-	ui_root = new UIElement(Rectangle(Point2UI::zero(), Settings::get_instance()->virtual_window_size));
-
+	: GameState(), angle(0.0f), mouse_x(0u), mouse_y(0u) {
 	std::vector<std::string> options = {
 		"Demo",
 		"Button 1",
@@ -32,24 +30,8 @@ MainMenuGameState::MainMenuGameState()
 		UILabel* lbl = new UILabel(Point2UI(padding, padding), text);
 		UIButton* btn = new UIButton(n, Rectangle(Point2UI(x, y), Vector2UI(width, height)));
 		btn->add_child(lbl);
-		ui_root->add_child(btn);
+		ui->add_child(btn);
 	}
-}
-
-MainMenuGameState::~MainMenuGameState() {
-	if (ui_root != nullptr) {
-		delete ui_root;
-		ui_root = nullptr;
-	}
-}
-
-void MainMenuGameState::update(unsigned int delta_time_ms) {
-	ui_root->update(delta_time_ms);
-}
-
-void MainMenuGameState::render(IRenderContext* context, unsigned int delta_time_ms) {
-	context->clear(Color::black());
-	ui_root->render(context, delta_time_ms);
 }
 
 void MainMenuGameState::handle_event(SDL_KeyboardEvent* evt) {
@@ -58,20 +40,8 @@ void MainMenuGameState::handle_event(SDL_KeyboardEvent* evt) {
 			leave();
 		}
 	}
-	
-	ui_root->handle_event(evt);
-}
 
-void MainMenuGameState::handle_event(SDL_MouseMotionEvent* evt) {
-	ui_root->handle_event(evt);
-}
-
-void MainMenuGameState::handle_event(SDL_MouseButtonEvent* evt) {
-	ui_root->handle_event(evt);
-}
-
-void MainMenuGameState::handle_event(SDL_MouseWheelEvent* evt) {
-	ui_root->handle_event(evt);
+	GameState::handle_event(evt);
 }
 
 void MainMenuGameState::handle_event(SDL_UserEvent* evt) {

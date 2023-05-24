@@ -11,11 +11,6 @@
 #include "Rectangle.h"
 #include "OEM437.h"
 
-
-
-
-
-
 void try_register_event(unsigned int& event_id) {
 	event_id = SDL_RegisterEvents(1);
 	if (event_id == ((unsigned int)-1)) {

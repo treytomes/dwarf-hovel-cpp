@@ -11,27 +11,18 @@
 #include "Vector2UI.h"
 
 DemoGameState::DemoGameState()
-	: angle(0.0f), mouse_x(0u), mouse_y(0u) {
-	ui_root = new UIElement(Rectangle(Point2UI::zero(), Settings::get_instance()->virtual_window_size));
-
+	: GameState(), angle(0.0f), mouse_x(0u), mouse_y(0u) {
 	test_button_id = 1;
 	unsigned int padding = 2;
 	std::string text = "My Button";
 	UILabel* lbl = new UILabel(Point2UI(padding, padding), text);
 	UIButton* btn = new UIButton(test_button_id, Rectangle(Point2UI(10, 10), Vector2UI((unsigned int)text.size() * OEM437::CHAR_WIDTH + padding * 2, OEM437::CHAR_HEIGHT + padding * 2)));
 	btn->add_child(lbl);
-	ui_root->add_child(btn);
-}
-
-DemoGameState::~DemoGameState() {
-	if (ui_root != nullptr) {
-		delete ui_root;
-		ui_root = nullptr;
-	}
+	ui->add_child(btn);
 }
 
 void DemoGameState::update(unsigned int delta_time_ms) {
-	ui_root->update(delta_time_ms);
+	GameState::update(delta_time_ms);
 	angle += 0.25f * delta_time_ms * 3.141f / 180.0f;
 }
 
@@ -70,7 +61,7 @@ void DemoGameState::render(IRenderContext* context, unsigned int delta_time_ms) 
 	//	context->flood_fill(Point2UI(mouse_x, mouse_y), Color(1.0f, 1.0f, 0.0f), Color(1.0f, 1.0f, 0.0f));
 	//}
 
-	ui_root->render(context, delta_time_ms);
+	GameState::render(context, delta_time_ms);
 }
 
 void DemoGameState::handle_event(SDL_MouseMotionEvent* evt) {
@@ -78,7 +69,8 @@ void DemoGameState::handle_event(SDL_MouseMotionEvent* evt) {
 	mouse_y = evt->y;
 	LOG_DEBUG("Mouse position: (%d, %d)", mouse_x, mouse_y);
 	
-	ui_root->handle_event(evt);
+	GameState::handle_event(evt);
+	
 }
 
 void DemoGameState::handle_event(SDL_KeyboardEvent* evt) {
@@ -88,15 +80,7 @@ void DemoGameState::handle_event(SDL_KeyboardEvent* evt) {
 		}
 	}
 	
-	ui_root->handle_event(evt);
-}
-
-void DemoGameState::handle_event(SDL_MouseButtonEvent* evt) {
-	ui_root->handle_event(evt);
-}
-
-void DemoGameState::handle_event(SDL_MouseWheelEvent* evt) {
-	ui_root->handle_event(evt);
+	GameState::handle_event(evt);
 }
 
 void DemoGameState::handle_event(SDL_UserEvent* evt) {
