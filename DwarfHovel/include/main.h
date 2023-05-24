@@ -12,5 +12,7 @@
 #include "sdl_error.h"
 #include "Settings.h"
 #include "system.h"
+#include "UIButton.h"
 #include "UIElement.h"
+#include "UILabel.h"
 #include "Window.h"

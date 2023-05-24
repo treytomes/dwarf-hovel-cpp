@@ -76,6 +76,8 @@ public:
 	inline void draw_rect(Rectangle rect, const Color color) {
 		draw_h_line(rect.get_left(), rect.get_right(), rect.get_top(), color);
 		draw_h_line(rect.get_left(), rect.get_right(), rect.get_bottom(), color);
+		draw_v_line(rect.get_left(), rect.get_top(), rect.get_bottom(), color);
+		draw_v_line(rect.get_right(), rect.get_top(), rect.get_bottom(), color);
 	}
 
 	void draw_h_line(unsigned int x1, unsigned int x2, unsigned int y, const Color color);

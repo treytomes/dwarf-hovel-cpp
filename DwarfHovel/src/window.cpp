@@ -195,6 +195,10 @@ void Window::handle_event(SDL_MouseWheelEvent* evt) {
 	GameStateManager::handle_event(evt);
 }
 
+void Window::handle_event(SDL_UserEvent* evt) {
+	GameStateManager::handle_event(evt);
+}
+
 SDL_Renderer* Window::create_renderer() {
 	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
 	if (renderer == nullptr) {

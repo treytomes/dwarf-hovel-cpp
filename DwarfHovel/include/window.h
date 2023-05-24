@@ -27,6 +27,7 @@ public:
     void handle_event(SDL_MouseButtonEvent* evt);
     bool can_handle_event(SDL_MouseWheelEvent* evt);
     void handle_event(SDL_MouseWheelEvent* evt);
+    void handle_event(SDL_UserEvent* evt);
 
     Texture* texture;
     void load_contents();

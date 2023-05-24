@@ -4,24 +4,12 @@
 #include <SDL_opengl.h>
 #include <gl\glu.h>
 
+#include <cstdarg>
+#include <string>
+#include <vector>
 #include "moremath.h"
 #include "Rectangle.h"
-#include <vector>
-
-class UIButton : public UIElement {
-public:
-	UIButton(Rectangle bounds) : UIElement(bounds) {}
-	void inner_render(IRenderContext* context, unsigned int delta_time_ms);
-};
-
-void UIButton::inner_render(IRenderContext* context, unsigned int delta_time_ms) {
-	if (has_mouse_hover) {
-		context->draw_filled_rect(get_bounds(), Color(0.9f, 0.9f, 0.9f));
-	} else {
-		context->draw_filled_rect(get_bounds(), Color(0.2f, 0.2f, 0.2f));
-	}
-	LOG_INFO("I am here.");
-}
+#include "OEM437.h"
 
 class DemoGameState : public GameState {
 public:
@@ -33,8 +21,11 @@ public:
 	void handle_event(SDL_MouseMotionEvent* evt);
 	void handle_event(SDL_MouseButtonEvent* evt);
 	void handle_event(SDL_MouseWheelEvent* evt);
+	void handle_event(SDL_UserEvent* evt);
 
 private:
+	unsigned int test_button_id;
+
 	UIElement* ui_root;
 	float angle;
 	unsigned int mouse_x;
@@ -44,8 +35,14 @@ private:
 DemoGameState::DemoGameState(GameStateManager* parent)
 	: GameState(parent), angle(0.0f), mouse_x(0u), mouse_y(0u) {
 	ui_root = new UIElement(Rectangle(Point2UI::zero(), Settings::get_instance()->virtual_window_size));
-	// TODO: New children should be added to the parent's children vector.
-	ui_root->add_child(new UIButton(Rectangle(Point2UI(10, 10), Vector2UI(32, 8))));
+
+	test_button_id = 1;
+	unsigned int padding = 2;
+	std::string text = "My Button";
+	UILabel* lbl = new UILabel(Point2UI(padding, padding), text);
+	UIButton* btn = new UIButton(test_button_id, Rectangle(Point2UI(10, 10), Vector2UI((unsigned int)text.size() * OEM437::CHAR_WIDTH + padding * 2, OEM437::CHAR_HEIGHT + padding * 2)));
+	btn->add_child(lbl);
+	ui_root->add_child(btn);
 }
 
 DemoGameState::~DemoGameState() {
@@ -124,6 +121,12 @@ void DemoGameState::handle_event(SDL_MouseWheelEvent* evt) {
 	ui_root->handle_event(evt);
 }
 
+void DemoGameState::handle_event(SDL_UserEvent* evt) {
+	if (evt->code == test_button_id) {
+		LOG_INFO("The test button was clicked!");
+	}
+}
+
 int main(int argc, char* argv[]) {
 	Window* window = nullptr;
 	int error_code = 0;
@@ -131,6 +134,12 @@ int main(int argc, char* argv[]) {
 	try {
 		System::initialize();
 		LOG_INFO("Starting %s.", Settings::get_instance()->window_title.c_str());
+
+		LOG_INFO("Registering custom events.");
+		UIButton::command_event_id = SDL_RegisterEvents(1);
+		if (UIButton::command_event_id == ((unsigned int)-1)) {
+			LOG_ERROR("Failed to register the button event.");
+		}
 
         window = new Window(Settings::get_instance()->window_title, Settings::get_instance()->actual_window_size);
 		window->init_gl();
@@ -173,6 +182,11 @@ int main(int argc, char* argv[]) {
 				case SDL_MOUSEWHEEL:
 					if (window->can_handle_event(&evt.wheel)) {
 						window->handle_event(&evt.wheel);
+					}
+					break;
+				default:
+					if (evt.user.type == UIButton::command_event_id) {
+						window->handle_event(&evt.user);
 					}
 					break;
 				}

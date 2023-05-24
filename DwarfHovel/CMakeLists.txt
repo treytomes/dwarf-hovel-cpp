@@ -38,7 +38,9 @@ add_executable(DwarfHovel
     "src/Settings.cpp"
     "src/system.cpp"
     "src/Texture.cpp"
+    "src/UIButton.cpp"
     "src/UIElement.cpp"
+	"src/UILabel.cpp"
     "src/Window.cpp"
 )
 

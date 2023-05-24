@@ -71,3 +71,11 @@ void GameStateManager::handle_event(SDL_MouseWheelEvent* evt) {
 	}
 	state->handle_event(evt);
 }
+
+void GameStateManager::handle_event(SDL_UserEvent* evt) {
+	GameState* state = get_current();
+	if (state == nullptr) {
+		return;
+	}
+	state->handle_event(evt);
+}

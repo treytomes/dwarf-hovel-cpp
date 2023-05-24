@@ -29,6 +29,7 @@ public:
 	virtual void handle_event(SDL_MouseMotionEvent* evt);
 	virtual void handle_event(SDL_MouseButtonEvent* evt);
 	virtual void handle_event(SDL_MouseWheelEvent* evt);
+	virtual void handle_event(SDL_UserEvent* evt);
 
 	inline GameState* get_current() { return states.empty() ? nullptr : states.top(); }
 

@@ -11,6 +11,7 @@
 		"queue": "cpp",
 		"vector": "cpp",
 		"xstring": "cpp",
-		"xlocmes": "cpp"
+		"xlocmes": "cpp",
+		"algorithm": "cpp"
 	}
 }

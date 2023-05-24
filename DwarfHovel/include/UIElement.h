@@ -8,7 +8,7 @@
 
 class UIElement {
 public:
-	inline UIElement(Rectangle _bounds) : parent_element(nullptr), bounds(_bounds), has_mouse_hover(false) {}
+	inline UIElement(Rectangle _bounds) : parent_element(nullptr), bounds(_bounds), can_receive_mouse_hover(true), has_mouse_hover(false) {}
 	~UIElement();
 
 	void update(unsigned int delta_time_ms);
@@ -19,9 +19,7 @@ public:
 	bool handle_event(SDL_MouseButtonEvent* evt);
 	bool handle_event(SDL_MouseWheelEvent* evt);
 
-	void add_child(UIElement* child);
-
-	inline Rectangle get_bounds() { return bounds; }
+	UIElement* add_child(UIElement* child);
 
 	inline static UIElement* get_root() { return root_element; }
 	inline static UIElement* get_mouse_hover() { return mouse_hover_element; }
@@ -29,6 +27,10 @@ public:
 	inline static UIElement* get_keyboard_focus() { return keyboard_focus_element; }
 
 protected:
+	inline void set_bounds(Rectangle _bounds) { bounds = _bounds; }
+	inline void set_bounds(unsigned int x, unsigned int y, unsigned int w, unsigned int h) { set_bounds(Rectangle(x, y, w, h)); }
+	inline Rectangle get_bounds() { return bounds; }
+	bool can_receive_mouse_hover;
 	bool has_mouse_hover;
 
 	inline virtual bool inner_handle_event(SDL_KeyboardEvent* evt) { return false; }
@@ -37,7 +39,7 @@ protected:
 	inline virtual bool inner_handle_event(SDL_MouseWheelEvent* evt) { return false; }
 
 	inline virtual void inner_update(unsigned int delta_time_ms) {}
-	inline virtual void inner_render(IRenderContext* context, unsigned int delta_time_ms) {}
+	inline virtual void inner_render(Rectangle bounds, IRenderContext* context, unsigned int delta_time_ms) {}
 
 	inline bool has_child(UIElement* child) {
 		return std::find(children.begin(), children.end(), child) != children.end();
@@ -81,6 +83,8 @@ protected:
 	}
 
 private:
+	Rectangle get_relative_bounds();
+
 	static UIElement* root_element;
 	static UIElement* mouse_hover_element;
 	static UIElement* mouse_focus_element;

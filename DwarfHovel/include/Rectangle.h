@@ -13,6 +13,8 @@ public:
 	inline Point2UI get_position() { return point; }
 	inline Vector2UI get_size() { return size; }
 
+	inline Point2UI get_top_left() { return get_position(); }
+
 	inline unsigned int get_x() { return point.x; }
 	inline unsigned int get_y() { return point.y; }
 	inline unsigned int get_width() { return size.x; }
@@ -41,6 +43,12 @@ public:
 
 	inline bool contains(Point2UI point) {
 		return contains(point.x, point.y);
+	}
+
+	inline Rectangle& operator=(const Rectangle& other) {
+		point = Point2UI(other.point.x, other.point.y);
+		size = Vector2UI(other.size.x, other.size.y);
+		return *this;
 	}
 
 private:

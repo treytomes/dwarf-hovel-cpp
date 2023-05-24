@@ -23,7 +23,8 @@ void UIElement::update(unsigned int delta_time_ms) {
 }
 
 void UIElement::render(IRenderContext* context, unsigned int delta_time_ms) {
-	inner_render(context, delta_time_ms);
+	Rectangle b = get_relative_bounds();
+	inner_render(b, context, delta_time_ms);
 	
 	for (auto iter = children.begin(); iter != children.end(); iter++) {
 		UIElement* child = *iter;
@@ -56,7 +57,7 @@ bool UIElement::handle_event(SDL_KeyboardEvent* evt) {
 }
 
 bool UIElement::handle_event(SDL_MouseMotionEvent* evt) {
-	has_mouse_hover = bounds.contains(evt->x, evt->y);
+	has_mouse_hover = can_receive_mouse_hover && bounds.contains(evt->x, evt->y);
 
 	if (!has_mouse_focus() && !has_mouse_hover && !is_root()) {
 		return false;
@@ -82,7 +83,7 @@ bool UIElement::handle_event(SDL_MouseMotionEvent* evt) {
 }
 
 bool UIElement::handle_event(SDL_MouseButtonEvent* evt) {
-	has_mouse_hover = bounds.contains(evt->x, evt->y);
+	has_mouse_hover = can_receive_mouse_hover && bounds.contains(evt->x, evt->y);
 
 	if (!has_mouse_focus() && !has_mouse_hover && !is_root()) {
 		return false;
@@ -131,9 +132,9 @@ bool UIElement::handle_event(SDL_MouseWheelEvent* evt) {
 	return inner_handle_event(evt);
 }
 
-void UIElement::add_child(UIElement* child) {
+UIElement* UIElement::add_child(UIElement* child) {
 	if (has_child(child)) {
-		return;
+		return this;
 	}
 
 	if (child->parent_element != nullptr) {
@@ -142,6 +143,8 @@ void UIElement::add_child(UIElement* child) {
 
 	children.push_back(child);
 	child->parent_element = this;
+
+	return this;
 }
 
 void UIElement::remove_child(UIElement* child) {
@@ -170,4 +173,23 @@ void UIElement::pull_to_front(UIElement* child) {
 
 	children.erase(std::remove(children.begin(), children.end(), this));
 	children.push_back(this);
+}
+
+Rectangle UIElement::get_relative_bounds() {
+	Rectangle my_bounds = get_bounds();
+	if (is_root()) {
+		return my_bounds;
+	}
+
+	Rectangle parent_bounds = parent_element->get_relative_bounds();
+	my_bounds.set_x(parent_bounds.get_x() + my_bounds.get_x());
+	my_bounds.set_y(parent_bounds.get_y() + my_bounds.get_y());
+
+	if (my_bounds.get_right() > parent_bounds.get_right()) {
+		my_bounds.set_width(parent_bounds.get_right() - my_bounds.get_left() + 1);
+	}
+	if (my_bounds.get_bottom() > parent_bounds.get_bottom()) {
+		my_bounds.set_height(parent_bounds.get_bottom() - my_bounds.get_top() + 1);
+	}
+	return my_bounds;
 }
