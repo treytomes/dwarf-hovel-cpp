@@ -17,4 +17,8 @@ private:
 	unsigned int mouse_x;
 	unsigned int mouse_y;
 	unsigned int elapsed_time_ms;
+
+	unsigned int horizontal_move_timer;
+	unsigned int x_offset;
+	float noise_offset;
 };

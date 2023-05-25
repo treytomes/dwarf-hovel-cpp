@@ -1,6 +1,7 @@
 #include "MainMenuGameState.h"
 
 #include "DemoGameState.h"
+#include "SoundFXGameState.h"
 #include "Logger.h"
 #include "Settings.h"
 #include "UIButton.h"
@@ -10,13 +11,14 @@
 #include "perlin.h"
 
 #define IDB_DEMO 0
+#define IDB_SFX 1
 #define IDB_EXIT 4
 
 MainMenuGameState::MainMenuGameState()
-	: GameState(), angle(0.0f), mouse_x(0u), mouse_y(0u) {
+	: GameState(), angle(0.0f), mouse_x(0u), mouse_y(0u), horizontal_move_timer(0u), x_offset(0u), noise_offset(0.0f) {
 	std::vector<std::string> options = {
 		"Demo",
-		"Button 1",
+		"SFX",
 		"Button 2",
 		"Button 3",
 		"Exit",
@@ -49,31 +51,39 @@ MainMenuGameState::MainMenuGameState()
 
 void MainMenuGameState::render(IRenderContext* context, unsigned int delta_time_ms) {
 	elapsed_time_ms += delta_time_ms;
-	float offset = elapsed_time_ms / 1000.0f;
 
+	horizontal_move_timer += delta_time_ms;
+	if (horizontal_move_timer > 20) {
+		horizontal_move_timer = 0;
+		x_offset--;
+		if (x_offset < -7) {
+			x_offset = 0;
+			noise_offset += 0.5f;
+		}
+	}
+	
 	context->clear(Color::sky().darker());
 
 	Vector2UI size = Settings::get_instance()->virtual_window_size;
 	for (unsigned int y = 0, row = 0; y < size.y; y += OEM437::CHAR_HEIGHT, row++) {
-		for (unsigned int x = 0, col = 0; x < size.x; x += OEM437::CHAR_WIDTH, col++) {
-			//float height = db::perlin<float>((float)x, (float)y);
+		for (unsigned int x = 0, col = 0; x < size.x + OEM437::CHAR_WIDTH; x += OEM437::CHAR_WIDTH, col++) {
 			auto const noise = (
-				db::perlin(float(x + offset * 16.0f) / 64.0f, float(y) / 64.0f, offset * 0.1f) * 1.0f +
-				db::perlin(float(x + offset * 16.0f) / 32.0f, float(y) / 32.0f, offset * 0.2f) * 0.5f
-                ) / 1.5f;
+				db::perlin(float(x + noise_offset * 16.0f) / 64.0f, float(y) / 64.0f, noise_offset * 0.1f) * 1.0f +
+				db::perlin(float(x + noise_offset * 16.0f) / 32.0f, float(y) / 32.0f, noise_offset * 0.2f) * 0.5f
+			) / 1.5f;
 
 			float height = (noise * 0.5f + 0.5f);
 
 			if (height < 0.5f) {
-				context->draw_char(Point2UI(x, y), Color::white(), Color::transparent(), 32);
+				context->draw_char(Point2UI(x + x_offset, y), Color::white(), Color::transparent(), 32);
 			} else if (height < 0.55f) {
-				context->draw_char(Point2UI(x, y), Color::white(), Color::transparent(), 176);
+				context->draw_char(Point2UI(x + x_offset, y), Color::white(), Color::transparent(), 176);
 			} else if (height < 0.6f) {
-				context->draw_char(Point2UI(x, y), Color::white(), Color::transparent(), 177);
+				context->draw_char(Point2UI(x + x_offset, y), Color::white(), Color::transparent(), 177);
 			} else if (height < 0.65f) {
-				context->draw_char(Point2UI(x, y), Color::white(), Color::transparent(), 178);
+				context->draw_char(Point2UI(x + x_offset, y), Color::white(), Color::transparent(), 178);
 			} else {
-				context->draw_char(Point2UI(x, y), Color::white(), Color::transparent(), 219);
+				context->draw_char(Point2UI(x + x_offset, y), Color::white(), Color::transparent(), 219);
 			}
 		}
 	}
@@ -96,8 +106,12 @@ void MainMenuGameState::handle_event(SDL_KeyboardEvent* evt) {
 void MainMenuGameState::handle_event(SDL_UserEvent* evt) {
 	switch (evt->code) {
 	case IDB_DEMO:
-		LOG_INFO("Entering the demo state.");
+		LOG_INFO("Entering the graphics demo state.");
 		enter(new DemoGameState());
+		break;
+	case IDB_SFX:
+		LOG_INFO("Entering the sound effect demo state.");
+		enter(new SoundFXGameState());
 		break;
 	case IDB_EXIT:
 		leave();
