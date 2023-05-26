@@ -23,31 +23,29 @@ Window::Window(std::string _title, int width, int height) {
 	vbo = 0;
 	ibo = 0;
 
-	mouse_bitmap[ 0] = 0b00000001;
-	mouse_bitmap[ 1] = 0b00000011;
-	mouse_bitmap[ 2] = 0b00000111;
-	mouse_bitmap[ 3] = 0b00001111;
-	mouse_bitmap[ 4] = 0b00011111;
-	mouse_bitmap[ 5] = 0b00111111;
-	mouse_bitmap[ 6] = 0b01111111;
-	mouse_bitmap[ 7] = 0b11111111;
-	mouse_bitmap[ 8] = 0b00011000;
-	mouse_bitmap[ 9] = 0b00110000;
-	mouse_bitmap[10] = 0b00110000;
-	mouse_bitmap[11] = 0b00000000;
+	const char bitmap[] =
+		"10000000"
+		"11000000"
+		"12100000"
+		"12210000"
+		"12221000"
+		"12222100"
+		"12222210"
+		"12222221"
+		"11122111"
+		"00012210"
+		"00012210"
+		"00001100";
 
-	mouse_outline_bitmap[ 0] = 0b00000001;
-	mouse_outline_bitmap[ 1] = 0b00000011;
-	mouse_outline_bitmap[ 2] = 0b00000101;
-	mouse_outline_bitmap[ 3] = 0b00001001;
-	mouse_outline_bitmap[ 4] = 0b00010001;
-	mouse_outline_bitmap[ 5] = 0b00100001;
-	mouse_outline_bitmap[ 6] = 0b01000001;
-	mouse_outline_bitmap[ 7] = 0b10000001;
-	mouse_outline_bitmap[ 8] = 0b11100111;
-	mouse_outline_bitmap[ 9] = 0b01001000;
-	mouse_outline_bitmap[10] = 0b01001000;
-	mouse_outline_bitmap[11] = 0b00110000;
+	for (auto r = 0, n = 0; r < 12; r++) {
+		unsigned short value = 0;
+		for (auto c = 0; c < 8; c++, n++) {
+			value >>= 2;
+			char ch = bitmap[n];
+			value |= ((ch - '0') << 14);
+		}
+		mouse_bitmap[r] = value;
+	}
 }
 
 Window::~Window() {
@@ -308,8 +306,7 @@ void Window::load_contents() {
 }
 
 void Window::present() {
-	texture->draw_bitmap(mouse_position, Color(1.0f, 1.0f, 1.0f), Color(0.0f, 0.0f, 0.0f, 0.0f), mouse_bitmap, 8, 12);
-	texture->draw_bitmap(mouse_position, Color(0.0f, 0.0f, 0.0f), Color(0.0f, 0.0f, 0.0f, 0.0f), mouse_outline_bitmap, 8, 12);
+	texture->draw_bitmap_2bpp(mouse_position, Color::transparent(), Color::black(), Color::white(), Color::transparent(), mouse_bitmap, 8, 12);
 
 	texture->refresh();
 

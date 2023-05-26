@@ -100,14 +100,20 @@ public:
 		clear(color.r, color.g, color.b, color.a);
 	}
 
-	void draw_bitmap(unsigned int x, unsigned int y, Color fg_color, Color bg_color, unsigned char* bitmap, unsigned int width, unsigned int height);
+	void draw_bitmap_1bpp(unsigned int x, unsigned int y, Color fg_color, Color bg_color, unsigned char* bitmap, unsigned int width, unsigned int height);
 
-	inline void draw_bitmap(Point2UI point, Color fg_color, Color bg_color, unsigned char* bitmap, unsigned int width, unsigned int height) {
-		draw_bitmap(point.x, point.y, fg_color, bg_color, bitmap, width, height);
+	inline void draw_bitmap_1bpp(Point2UI point, Color fg_color, Color bg_color, unsigned char* bitmap, unsigned int width, unsigned int height) {
+		draw_bitmap_1bpp(point.x, point.y, fg_color, bg_color, bitmap, width, height);
+	}
+
+	void draw_bitmap_2bpp(unsigned int x, unsigned int y, Color c0, Color c1, Color c2, Color c3, unsigned short* bitmap, unsigned int width, unsigned int height);
+	
+	inline void draw_bitmap_2bpp(Point2UI point, Color c0, Color c1, Color c2, Color c3, unsigned short* bitmap, unsigned int width, unsigned int height) {
+		draw_bitmap_2bpp(point.x, point.y, c0, c1, c2, c3, bitmap, width, height);
 	}
 
 	inline void draw_char(unsigned int x, unsigned int y, Color fg_color, Color bg_color, unsigned char ch) {
-		draw_bitmap(x, y, fg_color, bg_color, (unsigned char*)(OEM437::DATA + ch * OEM437::BYTES_PER_CHAR), OEM437::CHAR_WIDTH, OEM437::CHAR_HEIGHT);
+		draw_bitmap_1bpp(x, y, fg_color, bg_color, (unsigned char*)(OEM437::DATA + ch * OEM437::BYTES_PER_CHAR), OEM437::CHAR_WIDTH, OEM437::CHAR_HEIGHT);
 	}
 
 	inline void draw_char(Point2UI point, Color fg_color, Color bg_color, unsigned char ch) {

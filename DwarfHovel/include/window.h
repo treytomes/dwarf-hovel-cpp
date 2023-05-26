@@ -43,8 +43,7 @@ private:
     GLuint vbo;
     GLuint ibo;
 	Point2UI mouse_position;
-    unsigned char mouse_bitmap[12];
-    unsigned char mouse_outline_bitmap[12];
+    unsigned short mouse_bitmap[12];
 
     SDL_GLContext gl_context;
 

@@ -50,8 +50,6 @@ MainMenuGameState::MainMenuGameState()
 }
 
 void MainMenuGameState::render(IRenderContext* context, unsigned int delta_time_ms) {
-	elapsed_time_ms += delta_time_ms;
-
 	horizontal_move_timer += delta_time_ms;
 	if (horizontal_move_timer > 20) {
 		horizontal_move_timer = 0;
@@ -64,7 +62,8 @@ void MainMenuGameState::render(IRenderContext* context, unsigned int delta_time_
 	
 	context->clear(Color::sky().darker());
 
-	Vector2UI size = Settings::get_instance()->virtual_window_size;
+	const auto size = Settings::get_instance()->virtual_window_size;
+	const auto cloud_bg = Color::transparent();
 	for (unsigned int y = 0, row = 0; y < size.y; y += OEM437::CHAR_HEIGHT, row++) {
 		for (unsigned int x = 0, col = 0; x < size.x + OEM437::CHAR_WIDTH; x += OEM437::CHAR_WIDTH, col++) {
 			auto const noise = (
@@ -72,23 +71,28 @@ void MainMenuGameState::render(IRenderContext* context, unsigned int delta_time_
 				db::perlin(float(x + noise_offset * 16.0f) / 32.0f, float(y) / 32.0f, noise_offset * 0.2f) * 0.5f
 			) / 1.5f;
 
-			float height = (noise * 0.5f + 0.5f);
-
-			if (height < 0.5f) {
-				context->draw_char(Point2UI(x + x_offset, y), Color::white(), Color::transparent(), 32);
-			} else if (height < 0.55f) {
-				context->draw_char(Point2UI(x + x_offset, y), Color::white(), Color::transparent(), 176);
-			} else if (height < 0.6f) {
-				context->draw_char(Point2UI(x + x_offset, y), Color::white(), Color::transparent(), 177);
-			} else if (height < 0.65f) {
-				context->draw_char(Point2UI(x + x_offset, y), Color::white(), Color::transparent(), 178);
-			} else {
-				context->draw_char(Point2UI(x + x_offset, y), Color::white(), Color::transparent(), 219);
-			}
+			auto const height = (noise * 0.5f + 0.5f);
+			auto const cloud_fg = Color::white();
+			auto const tile = choose_cloud_tile(height);
+			context->draw_char(Point2UI(x + x_offset, y), cloud_fg, cloud_bg, tile);
 		}
 	}
 
 	GameState::render(context, delta_time_ms);
+}
+
+unsigned char MainMenuGameState::choose_cloud_tile(float height) {
+	if (height < 0.5f) {
+		return 32;
+	} else if (height < 0.55f) {
+		return 176;
+	} else if (height < 0.6f) {
+		return 177;
+	} else if (height < 0.65f) {
+		return 178;
+	} else {
+		return 219;
+	}
 }
 
 void MainMenuGameState::handle_event(SDL_KeyboardEvent* evt) {

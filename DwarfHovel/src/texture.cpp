@@ -180,14 +180,37 @@ void Texture::clear(float r, float g, float b, float a) {
 	}
 }
 
-void Texture::draw_bitmap(unsigned int x, unsigned int y, Color fg_color, Color bg_color, unsigned char* bitmap, unsigned int width, unsigned int height) {
+void Texture::draw_bitmap_1bpp(unsigned int x, unsigned int y, Color fg_color, Color bg_color, unsigned char* bitmap, unsigned int width, unsigned int height) {
 	for (unsigned int yc = 0; yc < height; yc++, bitmap++) {
-		unsigned int char_byte = *bitmap;
+		unsigned char char_byte = *bitmap;
 		for (unsigned int xc = 0; xc < width; xc++, char_byte = char_byte >> 1) {
 			if ((char_byte & 1) != 0) {
 				set_pixel(x + xc, y + yc, fg_color);
 			} else if (bg_color.a != 0) {
 				set_pixel(x + xc, y + yc, bg_color);
+			}
+		}
+	}
+}
+
+void Texture::draw_bitmap_2bpp(unsigned int x, unsigned int y, Color c0, Color c1, Color c2, Color c3, unsigned short* bitmap, unsigned int width, unsigned int height) {
+	for (unsigned int yc = 0; yc < height; yc++, bitmap++) {
+		unsigned short value = *bitmap;
+		for (unsigned int xc = 0; xc < width; xc++, value >>= 2) {
+			unsigned char color = value & 0b11;
+			switch (color) {
+				case 0:
+					if (c0.a != 0) set_pixel(x + xc, y + yc, c0);
+					break;
+				case 1:
+					if (c1.a != 0) set_pixel(x + xc, y + yc, c1);
+					break;
+				case 2:
+					if (c2.a != 0) set_pixel(x + xc, y + yc, c2);
+					break;
+				case 3:
+					if (c3.a != 0) set_pixel(x + xc, y + yc, c3);
+					break;
 			}
 		}
 	}
