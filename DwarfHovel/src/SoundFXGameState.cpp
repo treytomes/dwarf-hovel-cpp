@@ -30,14 +30,14 @@ const int FREQUENCY = 4194; // 44100;
 
 bool lock_samples = false;
 void audio_callback(void* userdata, Uint8* stream, int len) {
-	auto samples = reinterpret_cast<std::vector<Sint16>*>(userdata);
+	auto samples = reinterpret_cast<std::vector<float>*>(userdata);
 	if (samples->empty()) {
 		SDL_memset(stream, 0, len);
 		return;
 	}
 
-    auto num_samples = len / sizeof(Sint16);
-	auto audio_stream = reinterpret_cast<Sint16*>(stream);
+    auto num_samples = len / sizeof(float);
+	auto audio_stream = reinterpret_cast<float*>(stream);
 
 	auto index = 0;
 	lock_samples = true;
@@ -64,7 +64,7 @@ SoundFXGameState::SoundFXGameState()
 
 	SDL_AudioSpec desired_spec;
     desired_spec.freq = SAMPLE_RATE; // Sample rate
-    desired_spec.format = AUDIO_S16SYS; // Sample format (signed 16-bit)
+    desired_spec.format = AUDIO_F32; // Sample format (signed 16-bit)
     desired_spec.channels = 1; // Mono sound
     desired_spec.samples = 2048; // Buffer size (number of samples)
     desired_spec.callback = audio_callback;
@@ -103,16 +103,12 @@ void SoundFXGameState::handle_event(SDL_KeyboardEvent* evt) {
 	GameState::handle_event(evt);
 }
 
-float exponential_ramp_to_value_at_time(float base_value, float final_value, float current_time, float total_duration, float decay_duration) {
-    float decay_start = total_duration - decay_duration;
-	return powf(final_value * (base_value / final_value), -(current_time - decay_start) / decay_duration);
-}
-
 float get_decay(float current_time, float total_duration, float decay_duration) {
     float decay_start = total_duration - decay_duration;
     //float decay_factor = (current_time >= decay_start) ? (1.0f - (current_time - decay_start) / decay_duration) : 1.0f;
 	//float decay_factor = (current_time >= decay_start) ? std::exp(-(current_time - decay_start) / decay_duration) : 1.0f;
-	float decay_factor = (current_time >= decay_start) ? std::pow(2.0f, -(current_time - decay_start) / decay_duration) : 1.0f;
+	//float decay_factor = (current_time >= decay_start) ? std::pow(2.0f, -(current_time - decay_start) / decay_duration) : 1.0f;
+	float decay_factor = (current_time < decay_start) ? 1.0f : math::lerp(1.0f, 0.0f, (current_time - decay_start) / decay_duration);
 
 	//LOG_INFO("decay_factor: %f", decay_factor);
     return decay_factor;
@@ -124,17 +120,14 @@ void SoundFXGameState::sine(float volume) {
 
 	// Generate the audio buffer for the beep sound
 	const int buffer_size = (int)(duration * SAMPLE_RATE);
-	Sint16* audio_buffer = new Sint16[buffer_size];
+	float* audio_buffer = new float[buffer_size];
 	double angular_frequency = 2.0 * M_PI * frequency; // / SAMPLE_RATE;
 	for (int i = 0; i < buffer_size; ++i) {
 		float time = (float)i / (float)SAMPLE_RATE;
-
-		float value = (float)std::sin(angular_frequency * time);
-		value *= volume; // scale by volume, then scale again to 0..255
-		//value = value * get_decay(time, duration, 0.5f);
-		value = exponential_ramp_to_value_at_time(value, 0.00001f, time, duration, 0.01f);
-
-		push_sample((Sint16)(32767 * value));
+		float sample = (float)std::sin(angular_frequency * time);
+		sample *= volume;
+		sample = sample * get_decay(time, duration, 0.5f);
+		push_sample(sample);
 	}
 }
 
@@ -149,17 +142,36 @@ void SoundFXGameState::square(float volume) {
     for (int i = 0; i < buffer_size; ++i) {
 		float time = (float)i / SAMPLE_RATE;
         bool is_high = (i % samples_per_cycle) < (samples_per_cycle / 2);
-		float value = is_high ? (255 * volume) : 0.0f;
-		//value = exponential_ramp_to_value_at_time(value, 1, time, 0.9f, duration);
-        push_sample((Uint8)value);
+		float sample = is_high ? volume : -volume;
+		sample = sample * get_decay(time, duration, 0.5f);
+        push_sample(sample);
 	}
 }
 
-/**
- * @brief 
- * 
- * @param volume A value from 0.0f --> 1.0f.
- */
+void SoundFXGameState::sawtooth(float volume) {
+    const int duration = 1; // Duration of the sound in seconds
+    const int frequency = 440; // Frequency of the sound in Hz
+
+    const int buffer_size = duration * SAMPLE_RATE;
+	const auto samples_per_cycle = SAMPLE_RATE / frequency;
+
+	float current_position = 0.0f;
+    for (int i = 0; i < buffer_size; ++i) {
+        if (current_position >= samples_per_cycle) {
+            current_position = 0.0f;
+        }
+
+        float position_in_half_cycle = current_position / samples_per_cycle;
+        float amplitude;
+
+		amplitude = math::lerp(-1.0f, 1.0f, (float)current_position / (float)samples_per_cycle);
+		amplitude = volume * amplitude;
+		push_sample(amplitude);
+
+        current_position += 1.0;
+    }
+}
+
 void SoundFXGameState::triangle(float volume) {
     const int duration = 1; // Duration of the sound in seconds
     const int frequency = 440; // Frequency of the sound in Hz
@@ -172,49 +184,33 @@ void SoundFXGameState::triangle(float volume) {
 	float current_position = 0.0f;
     for (int i = 0; i < buffer_size; ++i) {
         if (current_position >= samples_per_half_cycle) {
-            current_position = 0.0;
+            current_position = 0.0f;
             is_rising = !is_rising;
         }
 
-        double position_in_half_cycle = current_position / samples_per_half_cycle;
-        double amplitude;
+        float position_in_half_cycle = current_position / samples_per_half_cycle;
+        float amplitude;
 
         if (is_rising) {
-            amplitude = math::lerp(0.0f, 1.0f, (float)current_position / (float)samples_per_half_cycle); // -AMPLITUDE + (2.0 * AMPLITUDE * position_in_half_cycle);
+            amplitude = math::lerp(-1.0f, 1.0f, (float)current_position / (float)samples_per_half_cycle);
         } else {
-            amplitude = math::lerp(1.0f, 0.0f, (float)current_position / (float)samples_per_half_cycle); // AMPLITUDE - (2.0 * AMPLITUDE * position_in_half_cycle);
+            amplitude = math::lerp(1.0f, -1.0f, (float)current_position / (float)samples_per_half_cycle);
         }
-		amplitude = volume * amplitude; // + (1.0f - volume);
-
-        //samples.push_back(static_cast<Sint16>(amplitude));
-		push_sample((Uint8)(255.0f * amplitude));
+		amplitude = volume * amplitude;
+		push_sample(amplitude);
 
         current_position += 1.0;
 	}
 }
 
-void SoundFXGameState::sawtooth(float volume) {
-    const int duration = 1; // Duration of the sound in seconds
-    const int frequency = 440; // Frequency of the sound in Hz
-
-    // Generate the audio buffer for the sawtooth wave sound.
-    const int buffer_size = duration * SAMPLE_RATE;
-    for (int i = 0; i < buffer_size; ++i) {
-        push_sample((Uint8)(volume * i * 255 / (SAMPLE_RATE / frequency)));
-    }
-}
-
 void SoundFXGameState::whitenoise(float volume) {
-    const int duration = 1; // Duration of the sound in seconds
-
-    // Generate the audio buffer for the white noise sound
+    const int duration = 1;
     const int buffer_size = duration * SAMPLE_RATE;
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<int> dist(0, 255);
+	std::uniform_real_distribution<float> dist(0.0f, 1.0f);
     for (int i = 0; i < buffer_size; ++i) {
-		push_sample(volume * dist(gen)); // + 255.0f * (1.0f - volume) / 2.0f));
-        //samples.push_back((Uint8)dist(gen));
+		push_sample(volume * dist(gen));
     }
 }
 
@@ -251,10 +247,7 @@ UIButton* SoundFXGameState::make_button(unsigned int id, unsigned int row, unsig
 	return btn;
 }
 
-void SoundFXGameState::push_sample(Sint16 sample) {
+void SoundFXGameState::push_sample(float sample) {
 	while (lock_samples) ;
-	// Convert to a "4-bit" sample.
-	//sample /= 16;
-	//sample *= 16;
 	samples.push_back(sample);
 }

@@ -20,7 +20,7 @@ public:
 
 private:
 	SDL_AudioDeviceID audio_device;
-	std::vector<Sint16> samples;
+	std::vector<float> samples;
 
 	UIButton* make_button(unsigned int id, unsigned int row, unsigned int column, std::string text);
 	void sine(float volume);
@@ -28,5 +28,5 @@ private:
 	void triangle(float volume);
 	void sawtooth(float volume);
 	void whitenoise(float volume);
-	void push_sample(Sint16 sample);
+	void push_sample(float sample);
 };
