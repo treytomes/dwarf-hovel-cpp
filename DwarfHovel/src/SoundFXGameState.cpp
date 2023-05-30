@@ -75,6 +75,7 @@ SoundFXGameState::SoundFXGameState()
 }
 
 SoundFXGameState::~SoundFXGameState() {
+	LOG_INFO("Closing audio device.");
 	SDL_PauseAudioDevice(audio_device, 1);
 	SDL_CloseAudioDevice(audio_device);
 }

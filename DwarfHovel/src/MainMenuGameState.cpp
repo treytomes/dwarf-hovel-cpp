@@ -1,5 +1,6 @@
 #include "MainMenuGameState.h"
 
+#include "CharacterTestState.h"
 #include "DemoGameState.h"
 #include "SoundFXGameState.h"
 #include "Logger.h"
@@ -11,15 +12,16 @@
 #include "perlin.h"
 
 #define IDB_DEMO 0
-#define IDB_SFX 1
+#define IDB_CHARACTERTEST 1
+#define IDB_SFX 2
 #define IDB_EXIT 4
 
 MainMenuGameState::MainMenuGameState()
 	: GameState(), angle(0.0f), mouse_x(0u), mouse_y(0u), horizontal_move_timer(0u), x_offset(0u), noise_offset(0.0f) {
 	std::vector<std::string> options = {
 		"Demo",
+		"Character Test",
 		"SFX",
-		"Button 2",
 		"Button 3",
 		"Exit",
 	};
@@ -112,6 +114,10 @@ void MainMenuGameState::handle_event(SDL_UserEvent* evt) {
 	case IDB_DEMO:
 		LOG_INFO("Entering the graphics demo state.");
 		enter(new DemoGameState());
+		break;
+	case IDB_CHARACTERTEST:
+		LOG_INFO("Entering the character test state.");
+		enter(new CharacterTestState());
 		break;
 	case IDB_SFX:
 		LOG_INFO("Entering the sound effect demo state.");

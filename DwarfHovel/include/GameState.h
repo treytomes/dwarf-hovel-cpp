@@ -13,7 +13,7 @@ public:
 		: ui(new UIElement(Rectangle(Point2UI::zero(), Settings::get_instance()->virtual_window_size))) {
 	}
 
-	inline ~GameState() {
+	virtual inline ~GameState() {
 		parent = nullptr;
 		if (ui != nullptr) {
 			delete ui;

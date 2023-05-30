@@ -1,5 +1,7 @@
 #pragma once
 
+#include "moremath.h"
+
 class Color {
 public:
 	float r;
@@ -10,6 +12,15 @@ public:
 	Color(float _r, float _g, float _b, float _a = 1.0f);
 	//inline Color(unsigned char r, unsigned char g, unsigned char b, unsigned char a = 255)
 	//	: Color((float)r / 255.0f, (float)g / 255.0f, (float)b / 255.0f, (float)a / 255.0f) {}
+
+	inline Color lerp(Color clr, float t) {
+		return Color(
+			math::lerp(r, clr.r, t),
+			math::lerp(g, clr.g, t),
+			math::lerp(b, clr.b, t),
+			math::lerp(a, clr.a, t)
+		);
+	}
 
 	inline Color add(Color clr) {
 		return Color(r + clr.r, g + clr.g, b + clr.b, a + clr.a);
