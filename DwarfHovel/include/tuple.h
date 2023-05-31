@@ -29,8 +29,7 @@ public:
 	}
 
 	inline Tuple operator+(const Tuple& rhs) {
-		lhs += rhs;
-		return lhs;
+		return Tuple(x + rhs.x, y + rhs.y, z + rhs.z, w + rhs.w);
 	}
 
 	inline Tuple& operator-=(const Tuple& rhs) {
@@ -42,8 +41,11 @@ public:
 	}
 
 	inline Tuple operator-(const Tuple& rhs) {
-		lhs -= rhs;
-		return lhs;
+		return Tuple(x - rhs.x, y - rhs.y, z - rhs.z, w - rhs.w);
+	}
+
+	inline Tuple operator-() const {
+		return Tuple(-x, -y, -z, -w);
 	}
 };
 

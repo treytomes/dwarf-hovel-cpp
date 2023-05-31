@@ -9,13 +9,6 @@
 #include "UIButton.h"
 #include "Vector2UI.h"
 
-enum class Direction {
-	NORTH,
-	SOUTH,
-	EAST,
-	WEST
-};
-
 class CharacterTestState : public GameState {
 public:
 	CharacterTestState();
@@ -41,5 +34,5 @@ private:
 	Sprite* player_base;
 
 	Vector2UI player_speed;
-	Direction player_facing;
+	Vector2UI player_facing;
 };

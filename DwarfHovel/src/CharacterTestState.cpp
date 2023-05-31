@@ -32,7 +32,7 @@
 
 CharacterTestState::CharacterTestState()
 	: GameState(), total_elapsed_time(0u), last_horizontal_pulse_time(0u), last_vertical_pulse_time(0u),
-	  grid_offset_x(GRID_OFFSET), grid_offset_y(GRID_OFFSET), player_facing(Direction::SOUTH) {
+	  grid_offset_x(GRID_OFFSET), grid_offset_y(GRID_OFFSET), player_facing(Vector2UI::south()) {
 	Vector2UI size = Settings::get_instance()->virtual_window_size;
 
 	player_north_bitmap = new Bitmap2bpp(
@@ -104,20 +104,15 @@ void CharacterTestState::update(unsigned int delta_time_ms) {
 
 	player_base->position += player_speed;
 	if (player_speed != Vector2UI::zero()) {
-		float grid_offset_speed = player_speed.magnitude() / 4.0f;;
-		switch (player_facing) {
-		case Direction::NORTH:
+		float grid_offset_speed = player_speed.magnitude() / 4.0f;
+		if (player_facing == Vector2UI::north()) {
 			grid_offset_y += grid_offset_speed;
-			break;
-		case Direction::SOUTH:
+		} else if (player_facing == Vector2UI::south()) {
 			grid_offset_y -= grid_offset_speed;
-			break;
-		case Direction::WEST:
+		} else if (player_facing == Vector2UI::west()) {
 			grid_offset_x += grid_offset_speed;
-			break;
-		case Direction::EAST:
+		} else if (player_facing == Vector2UI::east()) {
 			grid_offset_x -= grid_offset_speed;
-			break;
 		}
 
 		if (grid_offset_x < 0) {
@@ -198,22 +193,22 @@ void CharacterTestState::handle_event(SDL_KeyboardEvent* evt) {
 		case SDLK_w:
 			player_speed = Vector2UI(0, -1);
 			player_base->bitmap = player_north_bitmap;
-			player_facing = Direction::NORTH;
+			player_facing = Vector2UI::north();
 			break;
 		case SDLK_s:
 			player_speed = Vector2UI(0, 1);
 			player_base->bitmap = player_south_bitmap;
-			player_facing = Direction::SOUTH;
+			player_facing = Vector2UI::south();
 			break;
 		case SDLK_a:
 			player_speed = Vector2UI(-1, 0);
 			player_base->bitmap = player_west_bitmap;
-			player_facing = Direction::WEST;
+			player_facing = Vector2UI::west();
 			break;
 		case SDLK_d:
 			player_speed = Vector2UI(1, 0);
 			player_base->bitmap = player_east_bitmap;
-			player_facing = Direction::EAST;
+			player_facing = Vector2UI::east();
 			break;
 		}
 	}
