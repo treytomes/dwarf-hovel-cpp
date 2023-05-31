@@ -9,7 +9,10 @@ public:
 	float b;
 	float a;
 
-	Color(float _r = 0.0f, float _g = 0.0f, float _b = 0.0f, float _a = 1.0f);
+	inline Color(float _r = 0.0f, float _g = 0.0f, float _b = 0.0f, float _a = 1.0f)
+		: r(_r), g(_g), b(_b), a(_a) {
+	}
+
 	//inline Color(unsigned char r, unsigned char g, unsigned char b, unsigned char a = 255)
 	//	: Color((float)r / 255.0f, (float)g / 255.0f, (float)b / 255.0f, (float)a / 255.0f) {}
 

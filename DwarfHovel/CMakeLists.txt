@@ -26,7 +26,6 @@ add_executable(DwarfHovel
     "src/main.cpp"
 
     "src/CharacterTestState.cpp"
-    "src/Color.cpp"
     "src/DemoGameState.cpp"
     "src/GameState.cpp"
     "src/GameStateManager.cpp"

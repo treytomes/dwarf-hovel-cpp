@@ -26,13 +26,69 @@
 #define GRID_SPACING 8
 #define GRID_OFFSET 4
 
+#define SKIN_COLOR Color::sepia()
+#define EYE_COLOR Color::blue().dark()
+#define MOUTH_COLOR Color::red().darkest()
+
 CharacterTestState::CharacterTestState()
-	: GameState(), total_elapsed_time(0u), last_horizontal_pulse_time(0u), last_vertical_pulse_time(0u) {
+	: GameState(), total_elapsed_time(0u), last_horizontal_pulse_time(0u), last_vertical_pulse_time(0u), player_facing(Direction::SOUTH) {
 	Vector2UI size = Settings::get_instance()->virtual_window_size;
-	player_position = Point2UI(size.x / 2, size.y / 2);
+
+	player_north_bitmap = new Bitmap2bpp(
+		"01111110"
+		"11111111"
+		"11111111"
+		"11111111"
+		"11111111"
+		"11111111"
+		"11111111"
+		"01111110"
+	);
+	player_south_bitmap = new Bitmap2bpp(
+		"01111110"
+		"11111111"
+		"11311311"
+		"11311311"
+		"11111111"
+		"11222211"
+		"11122111"
+		"01111110"
+	);
+	player_east_bitmap = new Bitmap2bpp(
+		"01111110"
+		"11111111"
+		"11111311"
+		"11111311"
+		"11111111"
+		"11111222"
+		"11111122"
+		"01111110"
+	);
+	player_west_bitmap = new Bitmap2bpp(
+		"01111110"
+		"11111111"
+		"11311111"
+		"11311111"
+		"11111111"
+		"22211111"
+		"22111111"
+		"01111110"
+	);
+
+
+	player_base = new Sprite(player_south_bitmap);
+	player_base->color1 = SKIN_COLOR;
+	player_base->color2 = MOUTH_COLOR;
+	player_base->color3 = EYE_COLOR;
+	player_base->position = Point2UI(size.x / 2, size.y / 2);
 }
 
 CharacterTestState::~CharacterTestState() {
+	if (player_south_bitmap != nullptr) delete player_south_bitmap;
+	if (player_north_bitmap != nullptr) delete player_north_bitmap;
+	if (player_east_bitmap != nullptr) delete player_east_bitmap;
+	if (player_west_bitmap != nullptr) delete player_west_bitmap;
+	if (player_base != nullptr) delete player_base;
 }
 
 void CharacterTestState::update(unsigned int delta_time_ms) {
@@ -45,6 +101,7 @@ void CharacterTestState::update(unsigned int delta_time_ms) {
 		last_vertical_pulse_time = total_elapsed_time;
 	}
 
+	player_base->position += player_speed;
 	GameState::update(delta_time_ms);
 }
 
@@ -95,6 +152,8 @@ void CharacterTestState::render(IRenderContext* context, unsigned int delta_time
 		}
 	}
 
+	player_base->draw(context);
+
 	GameState::render(context, delta_time_ms);
 }
 
@@ -103,9 +162,33 @@ void CharacterTestState::handle_event(SDL_MouseMotionEvent* evt) {
 }
 
 void CharacterTestState::handle_event(SDL_KeyboardEvent* evt) {
+	player_speed = Vector2UI::zero();
+
 	if (evt->state == SDL_PRESSED) {
-		if (evt->keysym.sym == SDLK_ESCAPE) {
+		switch (evt->keysym.sym) {
+		case SDLK_ESCAPE:
 			leave();
+			break;
+		case SDLK_w:
+			player_speed = Vector2UI(0, -1);
+			player_base->bitmap = player_north_bitmap;
+			player_facing = Direction::NORTH;
+			break;
+		case SDLK_s:
+			player_speed = Vector2UI(0, 1);
+			player_base->bitmap = player_south_bitmap;
+			player_facing = Direction::SOUTH;
+			break;
+		case SDLK_a:
+			player_speed = Vector2UI(-1, 0);
+			player_base->bitmap = player_west_bitmap;
+			player_facing = Direction::WEST;
+			break;
+		case SDLK_d:
+			player_speed = Vector2UI(1, 0);
+			player_base->bitmap = player_east_bitmap;
+			player_facing = Direction::EAST;
+			break;
 		}
 	}
 	

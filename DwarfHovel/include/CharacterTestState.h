@@ -5,7 +5,16 @@
 #include <SDL.h>
 #include "GameState.h"
 #include "IRenderContext.h"
+#include "Sprite.h"
 #include "UIButton.h"
+#include "Vector2UI.h"
+
+enum class Direction {
+	NORTH,
+	SOUTH,
+	EAST,
+	WEST
+};
 
 class CharacterTestState : public GameState {
 public:
@@ -23,6 +32,12 @@ private:
 	unsigned int last_horizontal_pulse_time;
 	unsigned int last_vertical_pulse_time;
 	
-	Point2UI player_position;
-    unsigned short bitmap_player_base[8];
+	Bitmap2bpp* player_south_bitmap;
+	Bitmap2bpp* player_north_bitmap;
+	Bitmap2bpp* player_east_bitmap;
+	Bitmap2bpp* player_west_bitmap;
+	Sprite* player_base;
+
+	Vector2UI player_speed;
+	Direction player_facing;
 };

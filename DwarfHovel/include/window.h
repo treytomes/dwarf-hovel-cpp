@@ -3,7 +3,7 @@
 #include <string>
 #include <SDL.h>
 
-#include "Bitmap2pp.h"
+#include "Bitmap2bpp.h"
 #include "GameStateManager.h"
 #include "gl_program.h"
 #include "Sprite.h"

@@ -1,17 +1,30 @@
 #pragma once
 
-#include "Bitmap2pp.h"
+#include "Bitmap2bpp.h"
 
 class Sprite {
 public:
+	Bitmap2bpp* bitmap;
 	Point2UI position;
 	Color color0;
 	Color color1;
 	Color color2;
 	Color color3;
 
-	inline Sprite(const char* _data, unsigned int _height = BITMAP_HEIGHT_DEFAULT) {
-		bitmap = new Bitmap2pp(_data, _height);
+	inline Sprite(Bitmap2bpp* _bitmap)
+		: owns_bitmap(false) {
+		bitmap = _bitmap;
+		position = Point2UI::zero();
+		color0 = Color::transparent();
+		color1 = Color::transparent();
+		color2 = Color::transparent();
+		color3 = Color::transparent();
+	}
+
+	inline Sprite(const char* _data, const unsigned int height)
+		: owns_bitmap(true) {
+		owns_bitmap = true;
+		bitmap = new Bitmap2bpp(_data, height);
 		position = Point2UI::zero();
 		color0 = Color::transparent();
 		color1 = Color::transparent();
@@ -20,7 +33,7 @@ public:
 	}
 
 	inline ~Sprite() {
-		if (bitmap != nullptr) {
+		if (owns_bitmap && bitmap != nullptr) {
 			delete bitmap;
 		}
 	}
@@ -30,5 +43,5 @@ public:
 	}
 
 private:
-	Bitmap2pp* bitmap;
+	bool owns_bitmap;
 };

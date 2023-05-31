@@ -9,14 +9,14 @@
 #define BITMAP_WIDTH (BITMAP_BIT_WIDTH / BITMAP_BPP)
 #define BITMAP_HEIGHT_DEFAULT 8
 
-class Bitmap2pp {
+class Bitmap2bpp {
 public:
-	inline Bitmap2pp(const char* _data, unsigned int _height = BITMAP_HEIGHT_DEFAULT)
+	inline Bitmap2bpp(const char* _data, unsigned int _height = BITMAP_HEIGHT_DEFAULT)
 		: width(BITMAP_WIDTH), height(_height) {
 		data = new unsigned short[height];
-		for (auto r = 0, n = 0; r < height; r++) {
+		for (auto r = 0u, n = 0u; r < height; r++) {
 			unsigned short value = 0;
-			for (auto c = 0; c < width; c++, n++) {
+			for (auto c = 0u; c < width; c++, n++) {
 				value >>= BITMAP_BPP;
 				char ch = _data[n];
 				value |= ((ch - '0') << (BITMAP_BIT_WIDTH - 2));
@@ -25,7 +25,7 @@ public:
 		}
 	}
 
-	inline ~Bitmap2pp() {
+	inline ~Bitmap2bpp() {
 		if (data != nullptr) {
 			delete data;
 			data = nullptr;

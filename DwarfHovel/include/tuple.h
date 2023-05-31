@@ -32,6 +32,19 @@ public:
 		lhs += rhs;
 		return lhs;
 	}
+
+	inline Tuple& operator-=(const Tuple& rhs) {
+		x -= rhs.x;
+		y -= rhs.y;
+		z -= rhs.z;
+		w -= rhs.w;
+		return *this;
+	}
+
+	inline Tuple operator-(const Tuple& rhs) {
+		lhs -= rhs;
+		return lhs;
+	}
 };
 
 template <typename TComponent>
