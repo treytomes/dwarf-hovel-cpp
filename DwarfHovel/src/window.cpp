@@ -36,19 +36,18 @@ Window::Window(std::string _title, int width, int height) {
 		"00012210"
 		"00012210"
 		"00001100";
-
-	for (auto r = 0, n = 0; r < 12; r++) {
-		unsigned short value = 0;
-		for (auto c = 0; c < 8; c++, n++) {
-			value >>= 2;
-			char ch = bitmap[n];
-			value |= ((ch - '0') << 14);
-		}
-		mouse_bitmap[r] = value;
-	}
+	mouse = new Sprite(bitmap, 12);
+	mouse->color0 = Color::transparent();
+	mouse->color1 = Color::black();
+	mouse->color2 = Color::white();
 }
 
 Window::~Window() {
+	if (mouse != nullptr) {
+		delete mouse;
+		mouse = nullptr;
+	}
+
 	if (texture != nullptr) {
 		delete texture;
 		texture = nullptr;
@@ -158,9 +157,9 @@ void Window::handle_event(SDL_MouseMotionEvent* evt) {
 		return;
 	}
 
-	mouse_position = translate_position(evt->x, evt->y);
-	evt->x = mouse_position.x;
-	evt->y = mouse_position.y;
+	mouse->position = translate_position(evt->x, evt->y);
+	evt->x = mouse->position.x;
+	evt->y = mouse->position.y;
 
 	GameStateManager::handle_event(evt);
 }
@@ -174,9 +173,9 @@ void Window::handle_event(SDL_MouseButtonEvent* evt) {
 		return;
 	}
 
-	mouse_position = translate_position(evt->x, evt->y);
-	evt->x = mouse_position.x;
-	evt->y = mouse_position.y;
+	mouse->position = translate_position(evt->x, evt->y);
+	evt->x = mouse->position.x;
+	evt->y = mouse->position.y;
 
 	GameStateManager::handle_event(evt);
 }
@@ -306,7 +305,7 @@ void Window::load_contents() {
 }
 
 void Window::present() {
-	texture->draw_bitmap_2bpp(mouse_position, Color::transparent(), Color::black(), Color::white(), Color::transparent(), mouse_bitmap, 8, 12);
+	mouse->draw(texture);
 
 	texture->refresh();
 

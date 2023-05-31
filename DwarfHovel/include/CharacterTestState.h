@@ -22,6 +22,7 @@ private:
 	unsigned int total_elapsed_time;
 	unsigned int last_horizontal_pulse_time;
 	unsigned int last_vertical_pulse_time;
-	//unsigned int pulse_x;
-	//unsigned int pulse_y;
+	
+	Point2UI player_position;
+    unsigned short bitmap_player_base[8];
 };

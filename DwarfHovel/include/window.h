@@ -3,8 +3,10 @@
 #include <string>
 #include <SDL.h>
 
+#include "Bitmap2pp.h"
 #include "GameStateManager.h"
 #include "gl_program.h"
+#include "Sprite.h"
 #include "Texture.h"
 #include "Vector2UI.h"
 
@@ -42,8 +44,7 @@ private:
     GLint v_texcoord;
     GLuint vbo;
     GLuint ibo;
-	Point2UI mouse_position;
-    unsigned short mouse_bitmap[12];
+    Sprite* mouse;
 
     SDL_GLContext gl_context;
 

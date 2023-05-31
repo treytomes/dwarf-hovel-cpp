@@ -20,9 +20,16 @@
 
 #define TIME_PULSE_X 3000
 #define TIME_PULSE_Y 5000
+#define PULSE_WIDTH 8
+#define PULSE_X_DELAY 3000
+#define PULSE_Y_DELAY 5000
+#define GRID_SPACING 8
+#define GRID_OFFSET 4
 
 CharacterTestState::CharacterTestState()
 	: GameState(), total_elapsed_time(0u), last_horizontal_pulse_time(0u), last_vertical_pulse_time(0u) {
+	Vector2UI size = Settings::get_instance()->virtual_window_size;
+	player_position = Point2UI(size.x / 2, size.y / 2);
 }
 
 CharacterTestState::~CharacterTestState() {
@@ -31,17 +38,15 @@ CharacterTestState::~CharacterTestState() {
 void CharacterTestState::update(unsigned int delta_time_ms) {
 	total_elapsed_time += delta_time_ms;
 
-	if (total_elapsed_time - last_horizontal_pulse_time > TIME_PULSE_X * 2) {
+	if (total_elapsed_time - last_horizontal_pulse_time > TIME_PULSE_X + PULSE_X_DELAY) {
 		last_horizontal_pulse_time = total_elapsed_time;
 	}
-	if (total_elapsed_time - last_vertical_pulse_time > TIME_PULSE_Y * 2) {
+	if (total_elapsed_time - last_vertical_pulse_time > TIME_PULSE_Y + PULSE_Y_DELAY) {
 		last_vertical_pulse_time = total_elapsed_time;
 	}
 
 	GameState::update(delta_time_ms);
 }
-
-#define PULSE_WIDTH 8
 
 void CharacterTestState::render(IRenderContext* context, unsigned int delta_time_ms) {
 	context->clear(Color(0.02f, 0.02f, 0.02f));
@@ -55,10 +60,10 @@ void CharacterTestState::render(IRenderContext* context, unsigned int delta_time
 
 	unsigned int x;
 	unsigned int y;
-	for (y = 4u; y < size.y; y += 8) {
+	for (y = GRID_OFFSET; y < size.y; y += GRID_SPACING) {
 		for (x = 0u; x < size.x; x++) {
 			if (is_pulsing_x) {
-				auto dist = sqrtf((x - pulse_x) * (x - pulse_x));
+				auto dist = sqrtf((float)(x - pulse_x) * (x - pulse_x));
 				if (dist <= PULSE_WIDTH) {
 					Color c = base_color.lerp(bright_color, 1.0f - (float)dist / PULSE_WIDTH);
 					context->set_pixel(x, y, c);
@@ -74,10 +79,10 @@ void CharacterTestState::render(IRenderContext* context, unsigned int delta_time
 	bool is_pulsing_y = total_elapsed_time < last_vertical_pulse_time + TIME_PULSE_Y;
 	unsigned int pulse_y = math::lerp(0u, size.y, (float)(total_elapsed_time - last_vertical_pulse_time) / TIME_PULSE_Y);
 
-	for (x = 4u; x < size.x; x += 8) {
+	for (x = GRID_OFFSET; x < size.x; x += GRID_SPACING) {
 		for (y = 0u; y < size.y; y++) {
 			if (is_pulsing_y) {
-				auto dist = sqrtf((y - pulse_y) * (y - pulse_y));
+				auto dist = sqrtf((float)(y - pulse_y) * (y - pulse_y));
 				if (dist <= PULSE_WIDTH) {
 					Color c = base_color.lerp(bright_color, 1.0f - (float)dist / PULSE_WIDTH);
 					context->set_pixel(x, y, c);
