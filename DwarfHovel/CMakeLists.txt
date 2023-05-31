@@ -25,6 +25,7 @@ link_libraries(${SDL2_LIBRARIES} ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES})
 add_executable(DwarfHovel
     "src/main.cpp"
 
+    "src/bitmaps.cpp"
     "src/CharacterTestState.cpp"
     "src/DemoGameState.cpp"
     "src/GameState.cpp"

@@ -3,6 +3,7 @@
 #include <random>
 #include <string>
 #include <cmath>
+#include "bitmaps.h"
 #include "Logger.h"
 #include "OEM437.h"
 #include "Point2UI.h"
@@ -35,62 +36,7 @@ CharacterTestState::CharacterTestState()
 	  grid_offset_x(GRID_OFFSET), grid_offset_y(GRID_OFFSET), player_facing(Vector2I::south()), is_using_item(false) {
 	Vector2UI size = Settings::get_instance()->virtual_window_size;
 
-	player_north_bitmap = new Bitmap2bpp(
-		"01111110"
-		"11111111"
-		"11111111"
-		"11111111"
-		"11111111"
-		"11111111"
-		"11111111"
-		"01111110"
-	);
-
-	player_south_bitmap = new Bitmap2bpp(
-		"01111110"
-		"11111111"
-		"11311311"
-		"11311311"
-		"11111111"
-		"11222211"
-		"11122111"
-		"01111110"
-	);
-
-	player_east_bitmap = new Bitmap2bpp(
-		"01111110"
-		"11111111"
-		"11111311"
-		"11111311"
-		"11111111"
-		"11111222"
-		"11111122"
-		"01111110"
-	);
-
-	player_west_bitmap = new Bitmap2bpp(
-		"01111110"
-		"11111111"
-		"11311111"
-		"11311111"
-		"11111111"
-		"22211111"
-		"22111111"
-		"01111110"
-	);
-
-	sword_bitmap = new Bitmap2bpp(
-		"00000011"
-		"00000111"
-		"00001113"
-		"02011130"
-		"03211300"
-		"00223000"
-		"02332000"
-		"03003000"
-	);
-
-	player_base = new Sprite(player_south_bitmap);
+	player_base = new Sprite(&bitmaps::person_south);
 	player_base->color1 = SKIN_COLOR;
 	player_base->color2 = MOUTH_COLOR;
 	player_base->color3 = EYE_COLOR;
@@ -98,12 +44,7 @@ CharacterTestState::CharacterTestState()
 }
 
 CharacterTestState::~CharacterTestState() {
-	if (player_south_bitmap != nullptr) delete player_south_bitmap;
-	if (player_north_bitmap != nullptr) delete player_north_bitmap;
-	if (player_east_bitmap != nullptr) delete player_east_bitmap;
-	if (player_west_bitmap != nullptr) delete player_west_bitmap;
 	if (player_base != nullptr) delete player_base;
-	if (sword_bitmap != nullptr) delete sword_bitmap;
 }
 
 void CharacterTestState::update(unsigned int delta_time_ms) {
@@ -152,7 +93,8 @@ void CharacterTestState::render(IRenderContext* context, unsigned int delta_time
 
 	unsigned int x;
 	unsigned int y;
-	for (y = (int)grid_offset_y % GRID_SPACING; y < size.y; y += GRID_SPACING) {
+	
+	for (y = (unsigned int)grid_offset_y % GRID_SPACING; y < size.y; y += GRID_SPACING) {
 		for (x = 0u; x < size.x; x++) {
 			if (is_pulsing_x) {
 				auto dist = sqrtf((float)(x - pulse_x) * (x - pulse_x));
@@ -171,7 +113,7 @@ void CharacterTestState::render(IRenderContext* context, unsigned int delta_time
 	bool is_pulsing_y = total_elapsed_time < last_vertical_pulse_time + TIME_PULSE_Y;
 	unsigned int pulse_y = math::lerp(0u, size.y, (float)(total_elapsed_time - last_vertical_pulse_time) / TIME_PULSE_Y);
 
-	for (x = (int)grid_offset_x % GRID_SPACING; x < size.x; x += GRID_SPACING) {
+	for (x = (unsigned int)grid_offset_x % GRID_SPACING; x < size.x; x += GRID_SPACING) {
 		for (y = 0u; y < size.y; y++) {
 			if (is_pulsing_y) {
 				auto dist = sqrtf((float)(y - pulse_y) * (y - pulse_y));
@@ -191,16 +133,16 @@ void CharacterTestState::render(IRenderContext* context, unsigned int delta_time
 	if (is_using_item) {
 		if (player_facing == Vector2I::north()) {
 			LOG_INFO("use north");
-			sword_bitmap->draw(context, player_base->position + player_facing * 8, Color::transparent(), Color::white(), Color::gray(), Color::gray().darkest(), false, false);
+			bitmaps::sword.draw(context, player_base->position + player_facing * 8, Color::transparent(), Color::white(), Color::gray(), Color::gray().darkest(), false, false);
 		} else if (player_facing == Vector2I::south()) {
 			LOG_INFO("use south");
-			sword_bitmap->draw(context, player_base->position + player_facing * 8, Color::transparent(), Color::white(), Color::gray(), Color::gray().darkest(), false, true);
+			bitmaps::sword.draw(context, player_base->position + player_facing * 8, Color::transparent(), Color::white(), Color::gray(), Color::gray().darkest(), false, true);
 		} else if (player_facing == Vector2I::west()) {
 			LOG_INFO("use west");
-			sword_bitmap->draw(context, player_base->position + player_facing * 8, Color::transparent(), Color::white(), Color::gray(), Color::gray().darkest(), true, false);
+			bitmaps::sword.draw(context, player_base->position + player_facing * 8, Color::transparent(), Color::white(), Color::gray(), Color::gray().darkest(), true, false);
 		} else if (player_facing == Vector2I::east()) {
 			LOG_INFO("use east");
-			sword_bitmap->draw(context, player_base->position + player_facing * 8, Color::transparent(), Color::white(), Color::gray(), Color::gray().darkest(), false, false);
+			bitmaps::sword.draw(context, player_base->position + player_facing * 8, Color::transparent(), Color::white(), Color::gray(), Color::gray().darkest(), false, false);
 		}
 	}
 
@@ -219,19 +161,19 @@ void CharacterTestState::handle_event(SDL_KeyboardEvent* evt) {
 			break;
 		case SDLK_w:
 			player_speed = player_facing = Vector2I::north();
-			player_base->bitmap = player_north_bitmap;
+			player_base->bitmap = &bitmaps::person_north;
 			break;
 		case SDLK_s:
 			player_speed = player_facing = Vector2I::south();
-			player_base->bitmap = player_south_bitmap;
+			player_base->bitmap = &bitmaps::person_south;
 			break;
 		case SDLK_a:
 			player_speed = player_facing = Vector2I::west();
-			player_base->bitmap = player_west_bitmap;
+			player_base->bitmap = &bitmaps::person_west;
 			break;
 		case SDLK_d:
 			player_speed = player_facing = Vector2I::east();
-			player_base->bitmap = player_east_bitmap;
+			player_base->bitmap = &bitmaps::person_east;
 			break;
 		case SDLK_SPACE:
 			is_using_item = true;

@@ -27,13 +27,7 @@ private:
 	float grid_offset_x;
 	float grid_offset_y;
 	
-	Bitmap2bpp* player_south_bitmap;
-	Bitmap2bpp* player_north_bitmap;
-	Bitmap2bpp* player_east_bitmap;
-	Bitmap2bpp* player_west_bitmap;
 	Sprite* player_base;
-
-	Bitmap2bpp* sword_bitmap;
 
 	Vector2I player_speed;
 	Vector2I player_facing;

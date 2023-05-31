@@ -98,14 +98,6 @@ unsigned char MainMenuGameState::choose_cloud_tile(float height) {
 }
 
 void MainMenuGameState::handle_event(SDL_KeyboardEvent* evt) {
-	/*
-	if (evt->state == SDL_PRESSED) {
-		if (evt->keysym.sym == SDLK_ESCAPE) {
-			leave();
-		}
-	}
-	*/
-
 	GameState::handle_event(evt);
 }
 

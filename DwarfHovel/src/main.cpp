@@ -7,6 +7,7 @@
 #include <cstdarg>
 #include <string>
 #include <vector>
+#include "bitmaps.h"
 #include "moremath.h"
 #include "Rectangle.h"
 #include "OEM437.h"
@@ -87,8 +88,7 @@ int main(int argc, char* argv[]) {
 			last_frame_ticks = this_frame_ticks;
 			window->present();
 		}
-	}
-	catch (const std::exception& e) {
+	} catch (const std::exception& e) {
 		LOG_FATAL("Unable to recover: %s", e.what());
 		error_code = 1;
 	}

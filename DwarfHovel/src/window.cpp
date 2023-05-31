@@ -1,6 +1,7 @@
 #include "window.h"
 
 #include <gl\glew.h>
+#include "bitmaps.h"
 #include "gl_shader.h"
 #include "glew_error.h"
 #include "Logger.h"
@@ -23,20 +24,7 @@ Window::Window(std::string _title, int width, int height) {
 	vbo = 0;
 	ibo = 0;
 
-	const char bitmap[] =
-		"10000000"
-		"11000000"
-		"12100000"
-		"12210000"
-		"12221000"
-		"12222100"
-		"12222210"
-		"12222221"
-		"11122111"
-		"00012210"
-		"00012210"
-		"00001100";
-	mouse = new Sprite(bitmap, 12);
+	mouse = new Sprite(&bitmaps::mouse_cursor);
 	mouse->color0 = Color::transparent();
 	mouse->color1 = Color::black();
 	mouse->color2 = Color::white();
