@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cmath>
 #include "Tuple.h"
 
 class Vector2UI : public Tuple<unsigned int> {
@@ -9,4 +10,8 @@ public:
 	}
 
 	static inline Vector2UI zero() { return Vector2UI(0u, 0u); }
+
+	inline float magnitude() {
+		return sqrtf((float)(x * x + y * y));
+	}
 };

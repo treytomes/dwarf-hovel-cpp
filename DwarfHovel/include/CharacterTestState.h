@@ -31,6 +31,8 @@ private:
 	unsigned int total_elapsed_time;
 	unsigned int last_horizontal_pulse_time;
 	unsigned int last_vertical_pulse_time;
+	float grid_offset_x;
+	float grid_offset_y;
 	
 	Bitmap2bpp* player_south_bitmap;
 	Bitmap2bpp* player_north_bitmap;

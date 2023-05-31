@@ -31,7 +31,8 @@
 #define MOUTH_COLOR Color::red().darkest()
 
 CharacterTestState::CharacterTestState()
-	: GameState(), total_elapsed_time(0u), last_horizontal_pulse_time(0u), last_vertical_pulse_time(0u), player_facing(Direction::SOUTH) {
+	: GameState(), total_elapsed_time(0u), last_horizontal_pulse_time(0u), last_vertical_pulse_time(0u),
+	  grid_offset_x(GRID_OFFSET), grid_offset_y(GRID_OFFSET), player_facing(Direction::SOUTH) {
 	Vector2UI size = Settings::get_instance()->virtual_window_size;
 
 	player_north_bitmap = new Bitmap2bpp(
@@ -102,6 +103,31 @@ void CharacterTestState::update(unsigned int delta_time_ms) {
 	}
 
 	player_base->position += player_speed;
+	if (player_speed != Vector2UI::zero()) {
+		float grid_offset_speed = player_speed.magnitude() / 4.0f;;
+		switch (player_facing) {
+		case Direction::NORTH:
+			grid_offset_y += grid_offset_speed;
+			break;
+		case Direction::SOUTH:
+			grid_offset_y -= grid_offset_speed;
+			break;
+		case Direction::WEST:
+			grid_offset_x += grid_offset_speed;
+			break;
+		case Direction::EAST:
+			grid_offset_x -= grid_offset_speed;
+			break;
+		}
+
+		if (grid_offset_x < 0) {
+			grid_offset_x += GRID_SPACING;
+		}
+		if (grid_offset_y < 0) {
+			grid_offset_y += GRID_SPACING;
+		}
+	}
+
 	GameState::update(delta_time_ms);
 }
 
@@ -117,7 +143,7 @@ void CharacterTestState::render(IRenderContext* context, unsigned int delta_time
 
 	unsigned int x;
 	unsigned int y;
-	for (y = GRID_OFFSET; y < size.y; y += GRID_SPACING) {
+	for (y = (int)grid_offset_y % GRID_SPACING; y < size.y; y += GRID_SPACING) {
 		for (x = 0u; x < size.x; x++) {
 			if (is_pulsing_x) {
 				auto dist = sqrtf((float)(x - pulse_x) * (x - pulse_x));
@@ -136,7 +162,7 @@ void CharacterTestState::render(IRenderContext* context, unsigned int delta_time
 	bool is_pulsing_y = total_elapsed_time < last_vertical_pulse_time + TIME_PULSE_Y;
 	unsigned int pulse_y = math::lerp(0u, size.y, (float)(total_elapsed_time - last_vertical_pulse_time) / TIME_PULSE_Y);
 
-	for (x = GRID_OFFSET; x < size.x; x += GRID_SPACING) {
+	for (x = (int)grid_offset_x % GRID_SPACING; x < size.x; x += GRID_SPACING) {
 		for (y = 0u; y < size.y; y++) {
 			if (is_pulsing_y) {
 				auto dist = sqrtf((float)(y - pulse_y) * (y - pulse_y));
