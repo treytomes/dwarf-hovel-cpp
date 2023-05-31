@@ -28,8 +28,8 @@ public:
 	virtual void clear(Color color) = 0;
 	virtual void draw_bitmap_1bpp(unsigned int x, unsigned int y, Color fg_color, Color bg_color, unsigned char* bitmap, unsigned int width, unsigned int height) = 0;
 	virtual void draw_bitmap_1bpp(Point2UI point, Color fg_color, Color bg_color, unsigned char* bitmap, unsigned int width, unsigned int height) = 0;
-	virtual void draw_bitmap_2bpp(unsigned int x, unsigned int y, Color c0, Color c1, Color c2, Color c3, unsigned short* bitmap, unsigned int width, unsigned int height) = 0;
-	virtual void draw_bitmap_2bpp(Point2UI point, Color c0, Color c1, Color c2, Color c3, unsigned short* bitmap, unsigned int width, unsigned int height) = 0;
+	virtual void draw_bitmap_2bpp(unsigned int x, unsigned int y, Color c0, Color c1, Color c2, Color c3, unsigned short* bitmap, unsigned int width, unsigned int height, bool flip_x = false, bool flip_y = false) = 0;
+	virtual void draw_bitmap_2bpp(Point2UI point, Color c0, Color c1, Color c2, Color c3, unsigned short* bitmap, unsigned int width, unsigned int height, bool flip_x = false, bool flip_y = false) = 0;
 	virtual void draw_char(unsigned int x, unsigned int y, Color fg_color, Color bg_color, unsigned char ch) = 0;
 	virtual void draw_char(Point2UI point, Color fg_color, Color bg_color, unsigned char ch) = 0;
 	virtual void draw_string(unsigned int x, unsigned int y, Color fg_color, Color bg_color, const char* text) = 0;

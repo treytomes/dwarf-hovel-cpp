@@ -32,7 +32,7 @@
 
 CharacterTestState::CharacterTestState()
 	: GameState(), total_elapsed_time(0u), last_horizontal_pulse_time(0u), last_vertical_pulse_time(0u),
-	  grid_offset_x(GRID_OFFSET), grid_offset_y(GRID_OFFSET), player_facing(Vector2UI::south()) {
+	  grid_offset_x(GRID_OFFSET), grid_offset_y(GRID_OFFSET), player_facing(Vector2I::south()), is_using_item(false) {
 	Vector2UI size = Settings::get_instance()->virtual_window_size;
 
 	player_north_bitmap = new Bitmap2bpp(
@@ -45,6 +45,7 @@ CharacterTestState::CharacterTestState()
 		"11111111"
 		"01111110"
 	);
+
 	player_south_bitmap = new Bitmap2bpp(
 		"01111110"
 		"11111111"
@@ -55,6 +56,7 @@ CharacterTestState::CharacterTestState()
 		"11122111"
 		"01111110"
 	);
+
 	player_east_bitmap = new Bitmap2bpp(
 		"01111110"
 		"11111111"
@@ -65,6 +67,7 @@ CharacterTestState::CharacterTestState()
 		"11111122"
 		"01111110"
 	);
+
 	player_west_bitmap = new Bitmap2bpp(
 		"01111110"
 		"11111111"
@@ -76,6 +79,16 @@ CharacterTestState::CharacterTestState()
 		"01111110"
 	);
 
+	sword_bitmap = new Bitmap2bpp(
+		"00000011"
+		"00000111"
+		"00001113"
+		"02011130"
+		"03211300"
+		"00223000"
+		"02332000"
+		"03003000"
+	);
 
 	player_base = new Sprite(player_south_bitmap);
 	player_base->color1 = SKIN_COLOR;
@@ -90,6 +103,7 @@ CharacterTestState::~CharacterTestState() {
 	if (player_east_bitmap != nullptr) delete player_east_bitmap;
 	if (player_west_bitmap != nullptr) delete player_west_bitmap;
 	if (player_base != nullptr) delete player_base;
+	if (sword_bitmap != nullptr) delete sword_bitmap;
 }
 
 void CharacterTestState::update(unsigned int delta_time_ms) {
@@ -103,15 +117,15 @@ void CharacterTestState::update(unsigned int delta_time_ms) {
 	}
 
 	player_base->position += player_speed;
-	if (player_speed != Vector2UI::zero()) {
+	if (player_speed != Vector2I::zero()) {
 		float grid_offset_speed = player_speed.magnitude() / 4.0f;
-		if (player_facing == Vector2UI::north()) {
+		if (player_facing == Vector2I::north()) {
 			grid_offset_y += grid_offset_speed;
-		} else if (player_facing == Vector2UI::south()) {
+		} else if (player_facing == Vector2I::south()) {
 			grid_offset_y -= grid_offset_speed;
-		} else if (player_facing == Vector2UI::west()) {
+		} else if (player_facing == Vector2I::west()) {
 			grid_offset_x += grid_offset_speed;
-		} else if (player_facing == Vector2UI::east()) {
+		} else if (player_facing == Vector2I::east()) {
 			grid_offset_x -= grid_offset_speed;
 		}
 
@@ -174,6 +188,21 @@ void CharacterTestState::render(IRenderContext* context, unsigned int delta_time
 	}
 
 	player_base->draw(context);
+	if (is_using_item) {
+		if (player_facing == Vector2I::north()) {
+			LOG_INFO("use north");
+			sword_bitmap->draw(context, player_base->position + player_facing * 8, Color::transparent(), Color::white(), Color::gray(), Color::gray().darkest(), false, false);
+		} else if (player_facing == Vector2I::south()) {
+			LOG_INFO("use south");
+			sword_bitmap->draw(context, player_base->position + player_facing * 8, Color::transparent(), Color::white(), Color::gray(), Color::gray().darkest(), false, true);
+		} else if (player_facing == Vector2I::west()) {
+			LOG_INFO("use west");
+			sword_bitmap->draw(context, player_base->position + player_facing * 8, Color::transparent(), Color::white(), Color::gray(), Color::gray().darkest(), true, false);
+		} else if (player_facing == Vector2I::east()) {
+			LOG_INFO("use east");
+			sword_bitmap->draw(context, player_base->position + player_facing * 8, Color::transparent(), Color::white(), Color::gray(), Color::gray().darkest(), false, false);
+		}
+	}
 
 	GameState::render(context, delta_time_ms);
 }
@@ -183,33 +212,47 @@ void CharacterTestState::handle_event(SDL_MouseMotionEvent* evt) {
 }
 
 void CharacterTestState::handle_event(SDL_KeyboardEvent* evt) {
-	player_speed = Vector2UI::zero();
-
 	if (evt->state == SDL_PRESSED) {
 		switch (evt->keysym.sym) {
 		case SDLK_ESCAPE:
 			leave();
 			break;
 		case SDLK_w:
-			player_speed = Vector2UI(0, -1);
+			player_speed = player_facing = Vector2I::north();
 			player_base->bitmap = player_north_bitmap;
-			player_facing = Vector2UI::north();
 			break;
 		case SDLK_s:
-			player_speed = Vector2UI(0, 1);
+			player_speed = player_facing = Vector2I::south();
 			player_base->bitmap = player_south_bitmap;
-			player_facing = Vector2UI::south();
 			break;
 		case SDLK_a:
-			player_speed = Vector2UI(-1, 0);
+			player_speed = player_facing = Vector2I::west();
 			player_base->bitmap = player_west_bitmap;
-			player_facing = Vector2UI::west();
 			break;
 		case SDLK_d:
-			player_speed = Vector2UI(1, 0);
+			player_speed = player_facing = Vector2I::east();
 			player_base->bitmap = player_east_bitmap;
-			player_facing = Vector2UI::east();
 			break;
+		case SDLK_SPACE:
+			is_using_item = true;
+			break;
+		}
+	} else {
+		switch (evt->keysym.sym) {
+		case SDLK_w:
+			if (player_speed == Vector2I::north()) { player_speed = Vector2I::zero(); }
+			break;
+		case SDLK_s:
+			if (player_speed == Vector2I::south()) { player_speed = Vector2I::zero(); }
+			break;
+		case SDLK_a:
+			if (player_speed == Vector2I::west()) { player_speed = Vector2I::zero(); }
+			break;
+		case SDLK_d:
+			if (player_speed == Vector2I::east()) { player_speed = Vector2I::zero(); }
+			break;
+		case SDLK_SPACE:
+			is_using_item = false;
 		}
 	}
 	

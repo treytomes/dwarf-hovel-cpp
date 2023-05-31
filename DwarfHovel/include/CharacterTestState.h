@@ -7,7 +7,7 @@
 #include "IRenderContext.h"
 #include "Sprite.h"
 #include "UIButton.h"
-#include "Vector2UI.h"
+#include "Vector2I.h"
 
 class CharacterTestState : public GameState {
 public:
@@ -33,6 +33,9 @@ private:
 	Bitmap2bpp* player_west_bitmap;
 	Sprite* player_base;
 
-	Vector2UI player_speed;
-	Vector2UI player_facing;
+	Bitmap2bpp* sword_bitmap;
+
+	Vector2I player_speed;
+	Vector2I player_facing;
+	bool is_using_item;
 };

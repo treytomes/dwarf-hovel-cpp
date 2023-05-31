@@ -32,8 +32,8 @@ public:
 		}
 	}
 
-	inline void draw(IRenderContext *context, Point2UI position, Color c0, Color c1, Color c2, Color c3) {
-		context->draw_bitmap_2bpp(position, c0, c1, c2, c3, data, width, height);
+	inline void draw(IRenderContext *context, Point2UI position, Color c0, Color c1, Color c2, Color c3, bool flip_x = false, bool flip_y = false) {
+		context->draw_bitmap_2bpp(position, c0, c1, c2, c3, data, width, height, flip_x, flip_y);
 	}
 
 private:

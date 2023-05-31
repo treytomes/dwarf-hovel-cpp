@@ -40,6 +40,30 @@ public:
 		return *this;
 	}
 
+	inline Tuple operator*(const TComponent& value) {
+		return Tuple(x * value, y * value, z * value, w * value);
+	}
+
+	inline Tuple& operator*=(const Tuple& rhs) {
+		x *= value;
+		y *= value;
+		z *= value;
+		w *= value;
+		return *this;
+	}
+
+	inline Tuple operator/(const TComponent& value) {
+		return Tuple(x / value, y / value, z / value, w / value);
+	}
+
+	inline Tuple& operator/=(const Tuple& rhs) {
+		x /= value;
+		y /= value;
+		z /= value;
+		w /= value;
+		return *this;
+	}
+
 	inline Tuple operator-(const Tuple& rhs) {
 		return Tuple(x - rhs.x, y - rhs.y, z - rhs.z, w - rhs.w);
 	}
