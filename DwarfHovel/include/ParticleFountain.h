@@ -17,6 +17,8 @@ public:
 				Color color = bitmap->get_pixel(x, y);
 				Point2F particle_position = position + Point2F((float)x, (float)y);
 				
+				// TODO: Add a random -y factor to the speed.  Make it look more explosion-y.
+
 				// Outer particles fly away faster.
 				Vector2F speed = Vector2F(x - bitmap->get_width() / 2.0f, y - bitmap->get_height() / 2.0f) * 8.0f;
 				
