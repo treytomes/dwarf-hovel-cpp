@@ -36,10 +36,7 @@ CharacterTestState::CharacterTestState()
 	  grid_offset_x(GRID_OFFSET), grid_offset_y(GRID_OFFSET), player_facing(Vector2I::south()), is_using_item(false), item_angle(0.0f) {
 	Vector2UI size = Settings::get_instance()->virtual_window_size;
 
-	player_base = new Sprite(&bitmaps::person_south);
-	player_base->color1 = SKIN_COLOR;
-	player_base->color2 = MOUTH_COLOR;
-	player_base->color3 = EYE_COLOR;
+	player_base = new Sprite(&bitmaps::player_south);
 	player_base->position = Point2UI(size.x / 2, size.y / 2);
 }
 
@@ -149,32 +146,32 @@ void CharacterTestState::render(IRenderContext* context, unsigned int delta_time
 			//LOG_INFO("use north");
 			if (is_moving) {
 				actual_angle += DEGREE * 180.0f;
-				bitmaps::sword.draw(context, item_position + Point2I(4, 8), Color::transparent(), Color::white(), Color::gray().darker(), Color::gray().darkest(), false, true, actual_angle);
+				bitmaps::iron_sword.draw(context, item_position + Point2I(4, 8), false, true, actual_angle);
 			} else {
-				bitmaps::sword.draw(context, item_position + Point2I(4, 0), Color::transparent(), Color::white(), Color::gray().darker(), Color::gray().darkest(), false, false);
+				bitmaps::iron_sword.draw(context, item_position + Point2I(4, 0), false, false);
 			}
 		} else if (player_facing == Vector2I::south()) {
 			//LOG_INFO("use south");
 			if (is_moving) {
-				bitmaps::sword.draw(context, item_position + Point2I(4, 0), Color::transparent(), Color::white(), Color::gray().darker(), Color::gray().darkest(), false, true, actual_angle);
+				bitmaps::iron_sword.draw(context, item_position + Point2I(4, 0), false, true, actual_angle);
 			} else {
-				bitmaps::sword.draw(context, item_position + Point2I(4, 0), Color::transparent(), Color::white(), Color::gray().darker(), Color::gray().darkest(), false, true);
+				bitmaps::iron_sword.draw(context, item_position + Point2I(4, 0), false, true);
 			}
 		} else if (player_facing == Vector2I::west()) {
 			//LOG_INFO("use west");
 			if (is_moving) {
 				actual_angle += DEGREE * 90.0f;
-				bitmaps::sword.draw(context, item_position + Point2I(8, 4), Color::transparent(), Color::white(), Color::gray().darker(), Color::gray().darkest(), false, true, actual_angle);
+				bitmaps::iron_sword.draw(context, item_position + Point2I(8, 4), false, true, actual_angle);
 			} else {
-				bitmaps::sword.draw(context, item_position + Point2I(0, -4), Color::transparent(), Color::white(), Color::gray().darker(), Color::gray().darkest(), true, false);
+				bitmaps::iron_sword.draw(context, item_position + Point2I(0, -4), true, false);
 			}
 		} else if (player_facing == Vector2I::east()) {
 			//LOG_INFO("use east");
 			if (is_moving) {
 				actual_angle += DEGREE * 270.0f;
-				bitmaps::sword.draw(context, item_position + Point2I(0, 4), Color::transparent(), Color::white(), Color::gray().darker(), Color::gray().darkest(), false, true, actual_angle);
+				bitmaps::iron_sword.draw(context, item_position + Point2I(0, 4), false, true, actual_angle);
 			} else {
-				bitmaps::sword.draw(context, item_position + Point2I(0, -4), Color::transparent(), Color::white(), Color::gray().darker(), Color::gray().darkest(), false, false);
+				bitmaps::iron_sword.draw(context, item_position + Point2I(0, -4), false, false);
 			}
 		}
 	}
@@ -308,12 +305,12 @@ void CharacterTestState::set_player_facing(Vector2I direction) {
 
 	player_facing = direction;
 	if (player_facing == Vector2I::north()) {
-		player_base->bitmap = &bitmaps::person_north;
+		player_base->bitmap = &bitmaps::player_north;
 	} else if (player_facing == Vector2I::south()) {
-		player_base->bitmap = &bitmaps::person_south;
+		player_base->bitmap = &bitmaps::player_south;
 	} else if (player_facing == Vector2I::east()) {
-		player_base->bitmap = &bitmaps::person_east;
+		player_base->bitmap = &bitmaps::player_east;
 	} else if (player_facing == Vector2I::west()) {
-		player_base->bitmap = &bitmaps::person_west;
+		player_base->bitmap = &bitmaps::player_west;
 	}
 }

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Bitmap2bpp.h"
+#include "ColoredBitmap.h"
 
 namespace bitmaps {
-	extern Bitmap2bpp mouse_cursor;
-	extern Bitmap2bpp person_south;
-	extern Bitmap2bpp person_north;
-	extern Bitmap2bpp person_east;
-	extern Bitmap2bpp person_west;
-	extern Bitmap2bpp sword;
+	extern ColoredBitmap mouse_cursor;
+	extern ColoredBitmap player_south;
+	extern ColoredBitmap player_north;
+	extern ColoredBitmap player_east;
+	extern ColoredBitmap player_west;
+	extern ColoredBitmap iron_sword;
 }

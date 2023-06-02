@@ -1,71 +1,15 @@
 #include "bitmaps.h"
+#include "bitmap_templates.h"
 
-Bitmap2bpp bitmaps::mouse_cursor(
-	"10000000"
-	"11000000"
-	"12100000"
-	"12210000"
-	"12221000"
-	"12222100"
-	"12222210"
-	"12222221"
-	"11122111"
-	"00012210"
-	"00012210"
-	"00001100", 12
-);
+#define PLAYER_SKIN_COLOR Color::sepia()
+#define PLAYER_EYE_COLOR Color::blue().dark()
+#define PLAYER_MOUTH_COLOR Color::red().darkest()
 
-Bitmap2bpp bitmaps::person_north(
-	"01111110"
-	"11111111"
-	"11111111"
-	"11111111"
-	"11111111"
-	"11111111"
-	"11111111"
-	"01111110"
-);
+ColoredBitmap bitmaps::mouse_cursor(&bitmap_templates::mouse_cursor, Color::transparent(), Color::black(), Color::white(), Color::transparent());
 
-Bitmap2bpp bitmaps::person_south(
-	"01111110"
-	"11111111"
-	"11311311"
-	"11311311"
-	"11111111"
-	"11222211"
-	"11122111"
-	"01111110"
-);
+ColoredBitmap bitmaps::player_north(&bitmap_templates::person_north, Color::transparent(), PLAYER_SKIN_COLOR, PLAYER_MOUTH_COLOR, PLAYER_EYE_COLOR);
+ColoredBitmap bitmaps::player_south(&bitmap_templates::person_south, Color::transparent(), PLAYER_SKIN_COLOR, PLAYER_MOUTH_COLOR, PLAYER_EYE_COLOR);
+ColoredBitmap bitmaps::player_east(&bitmap_templates::person_east, Color::transparent(), PLAYER_SKIN_COLOR, PLAYER_MOUTH_COLOR, PLAYER_EYE_COLOR);
+ColoredBitmap bitmaps::player_west(&bitmap_templates::person_west, Color::transparent(), PLAYER_SKIN_COLOR, PLAYER_MOUTH_COLOR, PLAYER_EYE_COLOR);
 
-Bitmap2bpp bitmaps::person_east(
-	"01111110"
-	"11111111"
-	"11111311"
-	"11111311"
-	"11111111"
-	"11111222"
-	"11111122"
-	"01111110"
-);
-
-Bitmap2bpp bitmaps::person_west(
-	"01111110"
-	"11111111"
-	"11311111"
-	"11311111"
-	"11111111"
-	"22211111"
-	"22111111"
-	"01111110"
-);
-
-Bitmap2bpp bitmaps::sword(
-	"00000011"
-	"00000111"
-	"00001113"
-	"02011130"
-	"03211300"
-	"00223000"
-	"02332000"
-	"03003000"
-);
+ColoredBitmap bitmaps::iron_sword(&bitmap_templates::sword, Color::transparent(), Color::white(), Color::gray().darker(), Color::gray().darkest());

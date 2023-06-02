@@ -25,9 +25,6 @@ Window::Window(std::string _title, int width, int height) {
 	ibo = 0;
 
 	mouse = new Sprite(&bitmaps::mouse_cursor);
-	mouse->color0 = Color::transparent();
-	mouse->color1 = Color::black();
-	mouse->color2 = Color::white();
 }
 
 Window::~Window() {
