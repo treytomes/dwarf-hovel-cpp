@@ -36,8 +36,11 @@ public:
 		context->draw_bitmap_2bpp(position, c0, c1, c2, c3, data, width, height, flip_x, flip_y, angle);
 	}
 
-private:
 	const unsigned int width;
 	const unsigned int height;
+
+	inline unsigned short get_pixel(unsigned int x, unsigned int y) { return (data[y] >> (2 * x)) & 0b11; }
+
+private:
 	unsigned short *data;
 };

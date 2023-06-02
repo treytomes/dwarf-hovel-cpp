@@ -9,4 +9,5 @@ namespace bitmap_templates {
 	extern Bitmap2bpp person_east;
 	extern Bitmap2bpp person_west;
 	extern Bitmap2bpp sword;
+	extern Bitmap2bpp asterisk;
 }

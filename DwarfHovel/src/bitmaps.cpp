@@ -13,3 +13,5 @@ ColoredBitmap bitmaps::player_east(&bitmap_templates::person_east, Color::transp
 ColoredBitmap bitmaps::player_west(&bitmap_templates::person_west, Color::transparent(), PLAYER_SKIN_COLOR, PLAYER_MOUTH_COLOR, PLAYER_EYE_COLOR);
 
 ColoredBitmap bitmaps::iron_sword(&bitmap_templates::sword, Color::transparent(), Color::white(), Color::gray().darker(), Color::gray().darkest());
+
+ColoredBitmap bitmaps::bush(&bitmap_templates::asterisk, Color::transparent(), Color::green(), Color::green().darkest(), Color::transparent());

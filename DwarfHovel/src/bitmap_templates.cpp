@@ -69,3 +69,14 @@ Bitmap2bpp bitmap_templates::sword(
 	"02332000"
 	"03003000"
 );
+
+Bitmap2bpp bitmap_templates::asterisk(
+	"00000000"
+	"01100110"
+	"02111120"
+	"11111111"
+	"22111122"
+	"31122113"
+	"32233223"
+	"33333333"
+);

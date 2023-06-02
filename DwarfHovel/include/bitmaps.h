@@ -9,4 +9,5 @@ namespace bitmaps {
 	extern ColoredBitmap player_east;
 	extern ColoredBitmap player_west;
 	extern ColoredBitmap iron_sword;
+	extern ColoredBitmap bush;
 }

@@ -1,5 +1,8 @@
 #pragma once
 
+#define PI 3.14159265359f
+#define DEGREE (PI / 180.0f)
+
 namespace math {
 	template <typename T>
 	inline void swap(T& v0, T& v1) {

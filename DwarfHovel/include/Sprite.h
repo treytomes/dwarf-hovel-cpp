@@ -17,7 +17,7 @@ public:
 		position = Point2I::zero();
 	}
 
-	void draw(IRenderContext* ctx) {
+	inline void draw(IRenderContext* ctx) {
 		bitmap->draw(ctx, position, flip_x, flip_y, angle);
 	}
 };

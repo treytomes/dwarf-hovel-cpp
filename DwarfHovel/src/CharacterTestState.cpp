@@ -6,6 +6,7 @@
 #include "bitmaps.h"
 #include "Logger.h"
 #include "OEM437.h"
+#include "Point2F.h"
 #include "Point2UI.h"
 #include "Settings.h"
 #include "UIElement.h"
@@ -33,19 +34,20 @@
 
 CharacterTestState::CharacterTestState()
 	: GameState(), total_elapsed_time(0u), last_horizontal_pulse_time(0u), last_vertical_pulse_time(0u),
-	  grid_offset_x(GRID_OFFSET), grid_offset_y(GRID_OFFSET), player_facing(Vector2I::south()), is_using_item(false), item_angle(0.0f) {
+	  grid_offset_x(GRID_OFFSET), grid_offset_y(GRID_OFFSET), player_facing(Vector2I::south()), is_using_item(false), item_angle(0.0f),
+	  fountain(nullptr) {
 	Vector2UI size = Settings::get_instance()->virtual_window_size;
 
 	player_base = new Sprite(&bitmaps::player_south);
 	player_base->position = Point2UI(size.x / 2, size.y / 2);
+
+	ui->add_child(new UILabel(Point2UI(8, 8), "*Character Test*", Color::white(), Color::gray().darkest()));
 }
 
 CharacterTestState::~CharacterTestState() {
 	if (player_base != nullptr) delete player_base;
+	if (fountain != nullptr) delete fountain;
 }
-
-#define PI 3.14159265359f
-#define DEGREE (PI / 180.0f)
 
 void CharacterTestState::update(unsigned int delta_time_ms) {
 	total_elapsed_time += delta_time_ms;
@@ -79,6 +81,14 @@ void CharacterTestState::update(unsigned int delta_time_ms) {
 	}
 
 	item_angle += 6.0f * DEGREE;
+
+	if (fountain != nullptr) {
+		fountain->update(delta_time_ms);
+		if (fountain->is_dead()) {
+			delete fountain;
+			fountain = nullptr;
+		}
+	}
 
 	GameState::update(delta_time_ms);
 }
@@ -176,6 +186,12 @@ void CharacterTestState::render(IRenderContext* context, unsigned int delta_time
 		}
 	}
 
+	if (fountain != nullptr) {
+		fountain->draw(context, delta_time_ms);
+	} else {
+		bitmaps::bush.draw(context, Point2UI(100, 100));
+	}
+
 	GameState::render(context, delta_time_ms);
 }
 
@@ -187,6 +203,8 @@ void CharacterTestState::handle_event(SDL_MouseButtonEvent* evt) {
 			float angle_radians = atan2f((float)(evt->y - (player_base->position.y + 4)), (float)(evt->x - (player_base->position.x + 4)));
 			int angle_degrees = (int)(angle_radians / DEGREE + 360.0f) % 360;
 			use_item(angle_degrees);
+		} else if (evt->state == SDL_RELEASED) {
+			is_using_item = false;
 		}
 	}
 }
@@ -288,6 +306,10 @@ void CharacterTestState::use_item(int angle_degrees) {
 		use_item(Vector2I::north());
 	} else {
 		use_item(Vector2I::east());
+	}
+
+	if (fountain == nullptr) {
+		fountain = new ParticleFountain(Point2F(100, 100), &bitmaps::bush);
 	}
 }
 

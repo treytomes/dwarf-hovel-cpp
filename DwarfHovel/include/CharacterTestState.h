@@ -5,6 +5,7 @@
 #include <SDL.h>
 #include "GameState.h"
 #include "IRenderContext.h"
+#include "ParticleFountain.h"
 #include "Sprite.h"
 #include "UIButton.h"
 #include "Vector2I.h"
@@ -29,6 +30,7 @@ private:
 	float grid_offset_y;
 	
 	Sprite* player_base;
+	ParticleFountain* fountain;
 
 	Vector2I player_speed;
 	Vector2I player_facing;

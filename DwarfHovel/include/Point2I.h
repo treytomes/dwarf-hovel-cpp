@@ -4,7 +4,7 @@
 
 class Point2I : public Tuple<int> {
 public:
-	inline Point2I(unsigned int _x = 0.0f, unsigned int _y = 0.0f)
+	inline Point2I(int _x = 0.0f, int _y = 0.0f)
 		: Tuple(_x, _y, 0, 1) {
 	}
 
