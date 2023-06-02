@@ -309,7 +309,7 @@ void CharacterTestState::use_item(int angle_degrees) {
 	}
 
 	if (fountain == nullptr) {
-		fountain = new ParticleFountain(Point2F(100, 100), &bitmaps::bush);
+		fountain = ParticleFountain::from_bitmap(Point2F(100, 100), &bitmaps::bush);
 	}
 }
 

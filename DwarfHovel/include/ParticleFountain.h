@@ -8,7 +8,9 @@
 
 class ParticleFountain {
 public:
-	inline ParticleFountain(Point2F position, ColoredBitmap* bitmap) {
+	inline static ParticleFountain* from_bitmap(Point2F position, ColoredBitmap* bitmap) {
+		ParticleFountain* fountain = new ParticleFountain();
+
 		unsigned int base_life_span = 1000u;
 		for (unsigned int y = 0u; y < bitmap->get_height(); y++) {
 			for (unsigned int x = 0u; x < bitmap->get_width(); x++) {
@@ -23,10 +25,12 @@ public:
 				
 				// Gravity is +y.
 				Vector2F acceleration = Vector2F(0.0f, 64.0f);
-				
-				children.push_back(new Particle(color, particle_position, speed, acceleration, life_span));
+
+				fountain->children.push_back(new Particle(color, particle_position, speed, acceleration, life_span));
 			}
 		}
+
+		return fountain;
 	}
 
 	inline void update(unsigned int delta_time_ms) {
