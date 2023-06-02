@@ -33,7 +33,7 @@
 
 CharacterTestState::CharacterTestState()
 	: GameState(), total_elapsed_time(0u), last_horizontal_pulse_time(0u), last_vertical_pulse_time(0u),
-	  grid_offset_x(GRID_OFFSET), grid_offset_y(GRID_OFFSET), player_facing(Vector2I::south()), is_using_item(false) {
+	  grid_offset_x(GRID_OFFSET), grid_offset_y(GRID_OFFSET), player_facing(Vector2I::south()), is_using_item(false), item_angle(0.0f) {
 	Vector2UI size = Settings::get_instance()->virtual_window_size;
 
 	player_base = new Sprite(&bitmaps::person_south);
@@ -46,6 +46,9 @@ CharacterTestState::CharacterTestState()
 CharacterTestState::~CharacterTestState() {
 	if (player_base != nullptr) delete player_base;
 }
+
+#define PI 3.14159265359f
+#define DEGREE (PI / 180.0f)
 
 void CharacterTestState::update(unsigned int delta_time_ms) {
 	total_elapsed_time += delta_time_ms;
@@ -78,6 +81,8 @@ void CharacterTestState::update(unsigned int delta_time_ms) {
 		}
 	}
 
+	item_angle += 6.0f * DEGREE;
+
 	GameState::update(delta_time_ms);
 }
 
@@ -97,7 +102,7 @@ void CharacterTestState::render(IRenderContext* context, unsigned int delta_time
 	for (y = (unsigned int)grid_offset_y % GRID_SPACING; y < size.y; y += GRID_SPACING) {
 		for (x = 0u; x < size.x; x++) {
 			if (is_pulsing_x) {
-				auto dist = sqrtf((float)(x - pulse_x) * (x - pulse_x));
+				auto dist = fabsf((float)x - (float)pulse_x);
 				if (dist <= PULSE_WIDTH) {
 					Color c = base_color.lerp(bright_color, 1.0f - (float)dist / PULSE_WIDTH);
 					context->set_pixel(x, y, c);
@@ -116,7 +121,7 @@ void CharacterTestState::render(IRenderContext* context, unsigned int delta_time
 	for (x = (unsigned int)grid_offset_x % GRID_SPACING; x < size.x; x += GRID_SPACING) {
 		for (y = 0u; y < size.y; y++) {
 			if (is_pulsing_y) {
-				auto dist = sqrtf((float)(y - pulse_y) * (y - pulse_y));
+				auto dist = fabsf((float)y - (float)pulse_y);
 				if (dist <= PULSE_WIDTH) {
 					Color c = base_color.lerp(bright_color, 1.0f - (float)dist / PULSE_WIDTH);
 					context->set_pixel(x, y, c);
@@ -131,18 +136,46 @@ void CharacterTestState::render(IRenderContext* context, unsigned int delta_time
 
 	player_base->draw(context);
 	if (is_using_item) {
+		auto item_position = player_base->position + player_facing * 8;
+		
+		float actual_angle = 0.0f;
+		bool is_moving = player_speed != Vector2I::zero();
+		if (is_moving) {
+			// Only waggle the item if the player is moving.
+			actual_angle = (sinf(item_angle) + 1.0f) * (DEGREE * 90) / 2.0f;
+		}
+
 		if (player_facing == Vector2I::north()) {
 			LOG_INFO("use north");
-			bitmaps::sword.draw(context, player_base->position + player_facing * 8, Color::transparent(), Color::white(), Color::gray(), Color::gray().darkest(), false, false);
+			if (is_moving) {
+				actual_angle += DEGREE * 180.0f;
+				bitmaps::sword.draw(context, item_position + Point2I(4, 8), Color::transparent(), Color::white(), Color::gray().darker(), Color::gray().darkest(), false, true, actual_angle);
+			} else {
+				bitmaps::sword.draw(context, item_position + Point2I(4, 0), Color::transparent(), Color::white(), Color::gray().darker(), Color::gray().darkest(), false, false);
+			}
 		} else if (player_facing == Vector2I::south()) {
 			LOG_INFO("use south");
-			bitmaps::sword.draw(context, player_base->position + player_facing * 8, Color::transparent(), Color::white(), Color::gray(), Color::gray().darkest(), false, true);
+			if (is_moving) {
+				bitmaps::sword.draw(context, item_position + Point2I(4, 0), Color::transparent(), Color::white(), Color::gray().darker(), Color::gray().darkest(), false, true, actual_angle);
+			} else {
+				bitmaps::sword.draw(context, item_position + Point2I(4, 0), Color::transparent(), Color::white(), Color::gray().darker(), Color::gray().darkest(), false, true);
+			}
 		} else if (player_facing == Vector2I::west()) {
 			LOG_INFO("use west");
-			bitmaps::sword.draw(context, player_base->position + player_facing * 8, Color::transparent(), Color::white(), Color::gray(), Color::gray().darkest(), true, false);
+			if (is_moving) {
+				actual_angle += DEGREE * 90.0f;
+				bitmaps::sword.draw(context, item_position + Point2I(8, 4), Color::transparent(), Color::white(), Color::gray().darker(), Color::gray().darkest(), false, true, actual_angle);
+			} else {
+				bitmaps::sword.draw(context, item_position + Point2I(0, -4), Color::transparent(), Color::white(), Color::gray().darker(), Color::gray().darkest(), true, false);
+			}
 		} else if (player_facing == Vector2I::east()) {
 			LOG_INFO("use east");
-			bitmaps::sword.draw(context, player_base->position + player_facing * 8, Color::transparent(), Color::white(), Color::gray(), Color::gray().darkest(), false, false);
+			if (is_moving) {
+				actual_angle += DEGREE * 270.0f;
+				bitmaps::sword.draw(context, item_position + Point2I(0, 4), Color::transparent(), Color::white(), Color::gray().darker(), Color::gray().darkest(), false, true, actual_angle);
+			} else {
+				bitmaps::sword.draw(context, item_position + Point2I(0, -4), Color::transparent(), Color::white(), Color::gray().darker(), Color::gray().darkest(), false, false);
+			}
 		}
 	}
 
@@ -160,19 +193,35 @@ void CharacterTestState::handle_event(SDL_KeyboardEvent* evt) {
 			leave();
 			break;
 		case SDLK_w:
-			player_speed = player_facing = Vector2I::north();
+			if ((evt->keysym.mod & KMOD_LSHIFT) == 0) {
+				player_speed = player_facing = Vector2I::north();
+			} else {
+				player_facing = Vector2I::north();
+			}
 			player_base->bitmap = &bitmaps::person_north;
 			break;
 		case SDLK_s:
-			player_speed = player_facing = Vector2I::south();
+			if ((evt->keysym.mod & KMOD_LSHIFT) == 0) {
+				player_speed = player_facing = Vector2I::south();
+			} else {
+				player_facing = Vector2I::south();
+			}
 			player_base->bitmap = &bitmaps::person_south;
 			break;
 		case SDLK_a:
-			player_speed = player_facing = Vector2I::west();
+			if ((evt->keysym.mod & KMOD_LSHIFT) == 0) {
+				player_speed = player_facing = Vector2I::west();
+			} else {
+				player_facing = Vector2I::west();
+			}
 			player_base->bitmap = &bitmaps::person_west;
 			break;
 		case SDLK_d:
-			player_speed = player_facing = Vector2I::east();
+			if ((evt->keysym.mod & KMOD_LSHIFT) == 0) {
+				player_speed = player_facing = Vector2I::east();
+			} else {
+				player_facing = Vector2I::east();
+			}
 			player_base->bitmap = &bitmaps::person_east;
 			break;
 		case SDLK_SPACE:

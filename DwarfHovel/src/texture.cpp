@@ -193,7 +193,42 @@ void Texture::draw_bitmap_1bpp(unsigned int x, unsigned int y, Color fg_color, C
 	}
 }
 
-void Texture::draw_bitmap_2bpp(unsigned int x, unsigned int y, Color c0, Color c1, Color c2, Color c3, unsigned short* bitmap, unsigned int width, unsigned int height, bool flip_x, bool flip_y) {
+void Texture::draw_bitmap_2bpp(unsigned int x, unsigned int y, Color c0, Color c1, Color c2, Color c3, unsigned short* bitmap, unsigned int width, unsigned int height, bool flip_x, bool flip_y, float angle) {
+	float cos_a = cosf(angle);
+	float sin_a = sinf(angle);
+	for (unsigned int yc = 0; yc < height; yc++, bitmap++) {
+		unsigned short value = *bitmap;
+		for (unsigned int xc = 0; xc < width; xc++, value >>= 2) {
+			unsigned char color = value & 0b11;
+
+			float xp = (float)(flip_x ? (width - xc) : xc);
+			float yp = (float)(flip_y ? (height - yc) : yc);
+
+			// Rotated coordinates.
+			auto xr = (unsigned int)((angle == 0.0f) ? xp : ((xp * cos_a) - (yp * sin_a)));
+			auto yr = (unsigned int)((angle == 0.0f) ? yp : ((xp * sin_a) + (yp * cos_a)));
+
+			auto xt = x + xr;
+			auto yt = y + yr;
+
+			switch (color) {
+				case 0:
+					if (c0.a != 0) set_pixel(xt, yt, c0);
+					break;
+				case 1:
+					if (c1.a != 0) set_pixel(xt, yt, c1);
+					break;
+				case 2:
+					if (c2.a != 0) set_pixel(xt, yt, c2);
+					break;
+				case 3:
+					if (c3.a != 0) set_pixel(xt, yt, c3);
+					break;
+			}
+		}
+	}
+
+	/*
 	for (unsigned int yc = 0; yc < height; yc++, bitmap++) {
 		unsigned short value = *bitmap;
 		for (unsigned int xc = 0; xc < width; xc++, value >>= 2) {
@@ -218,6 +253,7 @@ void Texture::draw_bitmap_2bpp(unsigned int x, unsigned int y, Color c0, Color c
 			}
 		}
 	}
+	*/
 }
 
 void Texture::flood_fill(Point2UI origin, Color fill_color, Color border_color) {

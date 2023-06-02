@@ -106,10 +106,10 @@ public:
 		draw_bitmap_1bpp(point.x, point.y, fg_color, bg_color, bitmap, width, height);
 	}
 
-	void draw_bitmap_2bpp(unsigned int x, unsigned int y, Color c0, Color c1, Color c2, Color c3, unsigned short* bitmap, unsigned int width, unsigned int height, bool flip_x = false, bool flip_y = false);
+	void draw_bitmap_2bpp(unsigned int x, unsigned int y, Color c0, Color c1, Color c2, Color c3, unsigned short* bitmap, unsigned int width, unsigned int height, bool flip_x = false, bool flip_y = false, float angle = 0.0f);
 	
-	inline void draw_bitmap_2bpp(Point2UI point, Color c0, Color c1, Color c2, Color c3, unsigned short* bitmap, unsigned int width, unsigned int height, bool flip_x = false, bool flip_y = false) {
-		draw_bitmap_2bpp(point.x, point.y, c0, c1, c2, c3, bitmap, width, height, flip_x, flip_y);
+	inline void draw_bitmap_2bpp(Point2UI point, Color c0, Color c1, Color c2, Color c3, unsigned short* bitmap, unsigned int width, unsigned int height, bool flip_x = false, bool flip_y = false, float angle = 0.0f) {
+		draw_bitmap_2bpp(point.x, point.y, c0, c1, c2, c3, bitmap, width, height, flip_x, flip_y, angle);
 	}
 
 	inline void draw_char(unsigned int x, unsigned int y, Color fg_color, Color bg_color, unsigned char ch) {

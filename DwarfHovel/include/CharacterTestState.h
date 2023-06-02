@@ -32,4 +32,5 @@ private:
 	Vector2I player_speed;
 	Vector2I player_facing;
 	bool is_using_item;
+	float item_angle;
 };
