@@ -17,6 +17,7 @@ public:
 	void update(unsigned int delta_time_ms);
 	void render(IRenderContext* context, unsigned int delta_time_ms);
 	void handle_event(SDL_KeyboardEvent* evt);
+	void handle_event(SDL_MouseButtonEvent* evt);
 	void handle_event(SDL_MouseMotionEvent* evt);
 	void handle_event(SDL_UserEvent* evt);
 
@@ -33,4 +34,8 @@ private:
 	Vector2I player_facing;
 	bool is_using_item;
 	float item_angle;
+
+	void use_item(int angle_degrees);
+	void use_item(Vector2I direction);
+	void set_player_facing(Vector2I direction);
 };

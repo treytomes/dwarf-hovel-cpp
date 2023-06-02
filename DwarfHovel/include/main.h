@@ -13,7 +13,7 @@
 #include "MainMenuGameState.h"
 #include "sdl_error.h"
 #include "Settings.h"
-#include "system.h"
+#include "System.h"
 #include "UIButton.h"
 #include "UIElement.h"
 #include "UILabel.h"

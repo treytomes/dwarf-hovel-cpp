@@ -40,7 +40,7 @@ add_executable(DwarfHovel
     "src/sdl_error.cpp"
     "src/Settings.cpp"
 	"src/SoundFXGameState.cpp"
-    "src/system.cpp"
+    "src/System.cpp"
     "src/Texture.cpp"
     "src/UIButton.cpp"
     "src/UIElement.cpp"
