@@ -236,8 +236,8 @@ UIButton* SoundFXGameState::make_button(unsigned int id, unsigned int row, unsig
 	unsigned int x = (OEM437::CHAR_WIDTH + padding) * column;
 	unsigned int y = (OEM437::CHAR_HEIGHT + padding) * row;
 
-	UILabel* lbl = new UILabel(Point2UI(padding, padding), text);
-	UIButton* btn = new UIButton(id, Rectangle(Point2UI(x, y), Vector2UI((unsigned int)text.size() * OEM437::CHAR_WIDTH + padding * 2, OEM437::CHAR_HEIGHT + padding * 2)));
+	UILabel* lbl = new UILabel(PointUI(padding, padding), text);
+	UIButton* btn = new UIButton(id, Rectangle(PointUI(x, y), VectorUI((unsigned int)text.size() * OEM437::CHAR_WIDTH + padding * 2, OEM437::CHAR_HEIGHT + padding * 2)));
 	btn->add_child(lbl);
 	return btn;
 }

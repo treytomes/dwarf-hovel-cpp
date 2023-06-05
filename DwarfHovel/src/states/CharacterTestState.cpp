@@ -27,14 +27,14 @@
 
 CharacterTestState::CharacterTestState()
 	: GameState(), total_elapsed_time(0u), last_horizontal_pulse_time(0u), last_vertical_pulse_time(0u),
-	  grid_offset_x(GRID_OFFSET), grid_offset_y(GRID_OFFSET), player_facing(Vector2I::south()), is_using_item(false), item_angle(0.0f),
+	  grid_offset_x(GRID_OFFSET), grid_offset_y(GRID_OFFSET), player_facing(VectorI::south()), is_using_item(false), item_angle(0.0f),
 	  fountain(nullptr) {
-	Vector2UI size = Settings::get_instance()->virtual_window_size;
+	VectorUI size = Settings::get_instance()->virtual_window_size;
 
 	player_base = new Sprite(&bitmaps::player_south);
-	player_base->position = Point2UI(size.x / 2, size.y / 2);
+	player_base->position = PointUI(size.x / 2, size.y / 2);
 
-	ui->add_child(new UILabel(Point2UI(8, 8), "*Character Test*", Color::white(), Color::gray().darkest()));
+	ui->add_child(new UILabel(PointUI(8, 8), "*Character Test*", Color::white(), Color::gray().darkest()));
 }
 
 CharacterTestState::~CharacterTestState() {
@@ -53,15 +53,15 @@ void CharacterTestState::update(unsigned int delta_time_ms) {
 	}
 
 	player_base->position += player_speed;
-	if (player_speed != Vector2I::zero()) {
+	if (player_speed != VectorI::zero()) {
 		float grid_offset_speed = player_speed.magnitude() / 4.0f;
-		if (player_facing == Vector2I::north()) {
+		if (player_facing == VectorI::north()) {
 			grid_offset_y += grid_offset_speed;
-		} else if (player_facing == Vector2I::south()) {
+		} else if (player_facing == VectorI::south()) {
 			grid_offset_y -= grid_offset_speed;
-		} else if (player_facing == Vector2I::west()) {
+		} else if (player_facing == VectorI::west()) {
 			grid_offset_x += grid_offset_speed;
-		} else if (player_facing == Vector2I::east()) {
+		} else if (player_facing == VectorI::east()) {
 			grid_offset_x -= grid_offset_speed;
 		}
 
@@ -89,7 +89,7 @@ void CharacterTestState::update(unsigned int delta_time_ms) {
 void CharacterTestState::render(IRenderContext* context, unsigned int delta_time_ms) {
 	context->clear(Color(0.02f, 0.02f, 0.02f));
 
-	Vector2UI size = Settings::get_instance()->virtual_window_size;
+	VectorUI size = Settings::get_instance()->virtual_window_size;
 	bool is_pulsing_x = total_elapsed_time < last_horizontal_pulse_time + TIME_PULSE_X;
 	unsigned int pulse_x = math::lerp(0u, size.x, (float)(total_elapsed_time - last_horizontal_pulse_time) / TIME_PULSE_X);
 
@@ -139,42 +139,42 @@ void CharacterTestState::render(IRenderContext* context, unsigned int delta_time
 		auto item_position = player_base->position + player_facing * 8;
 		
 		float actual_angle = 0.0f;
-		bool is_moving = player_speed != Vector2I::zero();
+		bool is_moving = player_speed != VectorI::zero();
 		if (is_moving) {
 			// Only waggle the item if the player is moving.
 			actual_angle = (sinf(item_angle) + 1.0f) * (DEGREE * 90) / 2.0f;
 		}
 
-		if (player_facing == Vector2I::north()) {
+		if (player_facing == VectorI::north()) {
 			//LOG_INFO("use north");
 			if (is_moving) {
 				actual_angle += DEGREE * 180.0f;
-				bitmaps::iron_sword.draw(context, item_position + Point2I(4, 8), false, true, actual_angle);
+				bitmaps::iron_sword.draw(context, item_position + PointI(4, 8), false, true, actual_angle);
 			} else {
-				bitmaps::iron_sword.draw(context, item_position + Point2I(4, 0), false, false);
+				bitmaps::iron_sword.draw(context, item_position + PointI(4, 0), false, false);
 			}
-		} else if (player_facing == Vector2I::south()) {
+		} else if (player_facing == VectorI::south()) {
 			//LOG_INFO("use south");
 			if (is_moving) {
-				bitmaps::iron_sword.draw(context, item_position + Point2I(4, 0), false, true, actual_angle);
+				bitmaps::iron_sword.draw(context, item_position + PointI(4, 0), false, true, actual_angle);
 			} else {
-				bitmaps::iron_sword.draw(context, item_position + Point2I(4, 0), false, true);
+				bitmaps::iron_sword.draw(context, item_position + PointI(4, 0), false, true);
 			}
-		} else if (player_facing == Vector2I::west()) {
+		} else if (player_facing == VectorI::west()) {
 			//LOG_INFO("use west");
 			if (is_moving) {
 				actual_angle += DEGREE * 90.0f;
-				bitmaps::iron_sword.draw(context, item_position + Point2I(8, 4), false, true, actual_angle);
+				bitmaps::iron_sword.draw(context, item_position + PointI(8, 4), false, true, actual_angle);
 			} else {
-				bitmaps::iron_sword.draw(context, item_position + Point2I(0, -4), true, false);
+				bitmaps::iron_sword.draw(context, item_position + PointI(0, -4), true, false);
 			}
-		} else if (player_facing == Vector2I::east()) {
+		} else if (player_facing == VectorI::east()) {
 			//LOG_INFO("use east");
 			if (is_moving) {
 				actual_angle += DEGREE * 270.0f;
-				bitmaps::iron_sword.draw(context, item_position + Point2I(0, 4), false, true, actual_angle);
+				bitmaps::iron_sword.draw(context, item_position + PointI(0, 4), false, true, actual_angle);
 			} else {
-				bitmaps::iron_sword.draw(context, item_position + Point2I(0, -4), false, false);
+				bitmaps::iron_sword.draw(context, item_position + PointI(0, -4), false, false);
 			}
 		}
 	}
@@ -182,7 +182,7 @@ void CharacterTestState::render(IRenderContext* context, unsigned int delta_time
 	if (fountain != nullptr) {
 		fountain->draw(context, delta_time_ms);
 	} else {
-		bitmaps::bush.draw(context, Point2UI(100, 100));
+		bitmaps::bush.draw(context, PointUI(100, 100));
 	}
 
 	GameState::render(context, delta_time_ms);
@@ -226,46 +226,46 @@ void CharacterTestState::handle_event(SDL_KeyboardEvent* evt) {
 			leave();
 			break;
 		case SDLK_w:
-			set_player_facing(Vector2I::north());
+			set_player_facing(VectorI::north());
 			if ((evt->keysym.mod & KMOD_LSHIFT) == 0) {
 				player_speed = player_facing;
 			}
 			break;
 		case SDLK_s:
-			set_player_facing(Vector2I::south());
+			set_player_facing(VectorI::south());
 			if ((evt->keysym.mod & KMOD_LSHIFT) == 0) {
 				player_speed = player_facing;
 			}
 			break;
 		case SDLK_a:
-			set_player_facing(Vector2I::west());
+			set_player_facing(VectorI::west());
 			if ((evt->keysym.mod & KMOD_LSHIFT) == 0) {
 				player_speed = player_facing;
 			}
 			break;
 		case SDLK_d:
-			set_player_facing(Vector2I::east());
+			set_player_facing(VectorI::east());
 			if ((evt->keysym.mod & KMOD_LSHIFT) == 0) {
 				player_speed = player_facing;
 			}
 			break;
 		case SDLK_SPACE:
-			use_item(Vector2I::zero());
+			use_item(VectorI::zero());
 			break;
 		}
 	} else {
 		switch (evt->keysym.sym) {
 		case SDLK_w:
-			if (player_speed == Vector2I::north()) { player_speed = Vector2I::zero(); }
+			if (player_speed == VectorI::north()) { player_speed = VectorI::zero(); }
 			break;
 		case SDLK_s:
-			if (player_speed == Vector2I::south()) { player_speed = Vector2I::zero(); }
+			if (player_speed == VectorI::south()) { player_speed = VectorI::zero(); }
 			break;
 		case SDLK_a:
-			if (player_speed == Vector2I::west()) { player_speed = Vector2I::zero(); }
+			if (player_speed == VectorI::west()) { player_speed = VectorI::zero(); }
 			break;
 		case SDLK_d:
-			if (player_speed == Vector2I::east()) { player_speed = Vector2I::zero(); }
+			if (player_speed == VectorI::east()) { player_speed = VectorI::zero(); }
 			break;
 		case SDLK_SPACE:
 			is_using_item = false;
@@ -292,40 +292,40 @@ void CharacterTestState::handle_event(SDL_UserEvent* evt) {
 
 void CharacterTestState::use_item(int angle_degrees) {
 	if (math::is_in_range(angle_degrees, 45, 135)) {
-		use_item(Vector2I::south());
+		use_item(VectorI::south());
 	} else if (math::is_in_range(angle_degrees, 135, 225)) {
-		use_item(Vector2I::west());
+		use_item(VectorI::west());
 	} else if (math::is_in_range(angle_degrees, 225, 315)) {
-		use_item(Vector2I::north());
+		use_item(VectorI::north());
 	} else {
-		use_item(Vector2I::east());
+		use_item(VectorI::east());
 	}
 
 	if (fountain == nullptr) {
-		fountain = ParticleFountain::from_bitmap(Point2F(100, 100), &bitmaps::bush);
+		fountain = ParticleFountain::from_bitmap(PointF(100, 100), &bitmaps::bush);
 	}
 }
 
-void CharacterTestState::use_item(Vector2I direction) {
+void CharacterTestState::use_item(VectorI direction) {
 	is_using_item = true;
-	if (direction != Vector2I::zero()) {
+	if (direction != VectorI::zero()) {
 		set_player_facing(direction);
 	}
 }
 
-void CharacterTestState::set_player_facing(Vector2I direction) {
+void CharacterTestState::set_player_facing(VectorI direction) {
 	if (player_facing == direction) {
 		return;
 	}
 
 	player_facing = direction;
-	if (player_facing == Vector2I::north()) {
+	if (player_facing == VectorI::north()) {
 		player_base->bitmap = &bitmaps::player_north;
-	} else if (player_facing == Vector2I::south()) {
+	} else if (player_facing == VectorI::south()) {
 		player_base->bitmap = &bitmaps::player_south;
-	} else if (player_facing == Vector2I::east()) {
+	} else if (player_facing == VectorI::east()) {
 		player_base->bitmap = &bitmaps::player_east;
-	} else if (player_facing == Vector2I::west()) {
+	} else if (player_facing == VectorI::west()) {
 		player_base->bitmap = &bitmaps::player_west;
 	}
 }

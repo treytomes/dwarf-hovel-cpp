@@ -32,12 +32,12 @@ private:
 	Sprite* player_base;
 	ParticleFountain* fountain;
 
-	Vector2I player_speed;
-	Vector2I player_facing;
+	VectorI player_speed;
+	VectorI player_facing;
 	bool is_using_item;
 	float item_angle;
 
 	void use_item(int angle_degrees);
-	void use_item(Vector2I direction);
-	void set_player_facing(Vector2I direction);
+	void use_item(VectorI direction);
+	void set_player_facing(VectorI direction);
 };

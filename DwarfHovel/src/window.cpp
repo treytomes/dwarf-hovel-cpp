@@ -47,7 +47,7 @@ Window::~Window() {
 	}
 }
 
-Point2UI Window::translate_position(unsigned int x, unsigned int y) {
+PointUI Window::translate_position(unsigned int x, unsigned int y) {
 	Settings* settings = Settings::get_instance();
 	unsigned int actual_width = settings->actual_window_size.x;
 	unsigned int actual_height = settings->actual_window_size.y;
@@ -81,7 +81,7 @@ Point2UI Window::translate_position(unsigned int x, unsigned int y) {
 	x = (unsigned int)(x * settings->virtual_window_size.x / (float)actual_width);
 	y = (unsigned int)(y * settings->virtual_window_size.y / (float)actual_height);
 
-	return Point2UI(x, y);
+	return PointUI(x, y);
 }
 
 bool Window::can_handle_event(SDL_WindowEvent* evt) {
@@ -222,7 +222,7 @@ void Window::load_contents() {
 	int width = 0;
 	int height = 0;
 	SDL_GetWindowSize(window, &width, &height);
-	Settings::get_instance()->actual_window_size = Vector2UI(width, height);
+	Settings::get_instance()->actual_window_size = VectorUI(width, height);
 
 	GLShader vertex_shader = GLShader::from_file(GL_VERTEX_SHADER, "render.vert");
 	GLShader fragment_shader = GLShader::from_file(GL_FRAGMENT_SHADER, "render.frag");

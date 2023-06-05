@@ -7639,23 +7639,23 @@ namespace detail
                             // expect next \uxxxx entry
                             if (JSON_HEDLEY_LIKELY(get() == '\\' && get() == 'u'))
                             {
-                                const int codepoint2 = get_codepoint();
+                                const int codePoint = get_codepoint();
 
-                                if (JSON_HEDLEY_UNLIKELY(codepoint2 == -1))
+                                if (JSON_HEDLEY_UNLIKELY(codePoint == -1))
                                 {
                                     error_message = "invalid string: '\\u' must be followed by 4 hex digits";
                                     return token_type::parse_error;
                                 }
 
-                                // check if codepoint2 is a low surrogate
-                                if (JSON_HEDLEY_LIKELY(0xDC00 <= codepoint2 && codepoint2 <= 0xDFFF))
+                                // check if codePoint is a low surrogate
+                                if (JSON_HEDLEY_LIKELY(0xDC00 <= codePoint && codePoint <= 0xDFFF))
                                 {
                                     // overwrite codepoint
                                     codepoint = static_cast<int>(
                                         // high surrogate occupies the most significant 22 bits
                                         (static_cast<unsigned int>(codepoint1) << 10u)
                                         // low surrogate occupies the least significant 15 bits
-                                        + static_cast<unsigned int>(codepoint2)
+                                        + static_cast<unsigned int>(codePoint)
                                         // there is still the 0xD800, 0xDC00 and 0x10000 noise
                                         // in the result, so we have to subtract with:
                                         // (0xD800 << 10) + DC00 - 0x10000 = 0x35FDC00
@@ -16797,7 +16797,7 @@ NLOHMANN_JSON_NAMESPACE_END
 // |  |  |__   |  |  | | | |  version 3.11.2
 // |_____|_____|_____|_|___|  https://github.com/nlohmann/json
 //
-// SPDX-FileCopyrightText: 2008-2009 Björn Hoehrmann <bjoern@hoehrmann.de>
+// SPDX-FileCopyrightText: 2008-2009 Bjï¿½rn Hoehrmann <bjoern@hoehrmann.de>
 // SPDX-FileCopyrightText: 2013-2022 Niels Lohmann <https://nlohmann.me>
 // SPDX-License-Identifier: MIT
 

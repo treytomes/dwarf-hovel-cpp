@@ -23,7 +23,7 @@ MainMenuGameState::MainMenuGameState()
 		"Exit",
 	};
 
-	const Vector2UI screen_size = Settings::get_instance()->virtual_window_size;
+	const VectorUI screen_size = Settings::get_instance()->virtual_window_size;
 	const unsigned int padding_top = 2;
 	const unsigned int padding_bottom = 2;
 	const unsigned int padding_left = 2;
@@ -41,8 +41,8 @@ MainMenuGameState::MainMenuGameState()
 		unsigned int x = screen_size.x / 2 - button_width / 2;
 		unsigned int y = screen_size.y / 2 - ((unsigned int)options.size() - n) * (button_height + margin_top + margin_bottom) + total_height / 2;
 
-		UILabel* lbl = new UILabel(Point2UI(padding_left, padding_top), text);
-		UIButton* btn = new UIButton(n, Rectangle(Point2UI(x, y), Vector2UI(button_width, button_height)));
+		UILabel* lbl = new UILabel(PointUI(padding_left, padding_top), text);
+		UIButton* btn = new UIButton(n, Rectangle(PointUI(x, y), VectorUI(button_width, button_height)));
 		btn->add_child(lbl);
 		ui->add_child(btn);
 	}
@@ -73,7 +73,7 @@ void MainMenuGameState::render(IRenderContext* context, unsigned int delta_time_
 			auto const height = (noise * 0.5f + 0.5f);
 			auto const cloud_fg = Color::white();
 			auto const tile = choose_cloud_tile(height);
-			context->draw_char(Point2UI(x + x_offset, y), cloud_fg, cloud_bg, tile);
+			context->draw_char(PointUI(x + x_offset, y), cloud_fg, cloud_bg, tile);
 		}
 	}
 

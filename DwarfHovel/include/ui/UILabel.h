@@ -9,8 +9,8 @@
 
 class UILabel : public UIElement {
 public:
-	UILabel(Point2UI point, std::string _text, Color _fg_color = Color(1.0f, 1.0f, 1.0f), Color _bg_color = Color(0.0f, 0.0f, 0.0f, 0.0f))
-		: UIElement(Rectangle(point, Vector2UI((unsigned int)text.size() * OEM437::CHAR_WIDTH, OEM437::CHAR_HEIGHT))), text(_text), fg_color(_fg_color), bg_color(_bg_color) {
+	UILabel(PointUI point, std::string _text, Color _fg_color = Color(1.0f, 1.0f, 1.0f), Color _bg_color = Color(0.0f, 0.0f, 0.0f, 0.0f))
+		: UIElement(Rectangle(point, VectorUI((unsigned int)text.size() * OEM437::CHAR_WIDTH, OEM437::CHAR_HEIGHT))), text(_text), fg_color(_fg_color), bg_color(_bg_color) {
 		can_receive_mouse_hover = false;
 	}
 

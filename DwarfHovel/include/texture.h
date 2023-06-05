@@ -13,7 +13,7 @@
 class Texture : public IRenderContext {
 public:
 	Texture(unsigned int _width, unsigned int _height);
-	inline Texture(Vector2UI size) : Texture(size.x, size.y) {}
+	inline Texture(VectorUI size) : Texture(size.x, size.y) {}
 	~Texture();
 
 	inline void set_pixel(unsigned int offset, float r, float g, float b, float a = 1.0f) {
@@ -39,7 +39,7 @@ public:
 		set_pixel(x, y, color.r, color.g, color.b, color.a);
 	}
 
-	inline void set_pixel(Point2UI point, const Color color) {
+	inline void set_pixel(PointUI point, const Color color) {
 		set_pixel(point.x, point.y, color.r, color.g, color.b, color.a);
 	}
 
@@ -57,14 +57,14 @@ public:
 		return Color(r, g, b, a);
 	}
 
-	inline const Color get_pixel(Point2UI point) {
+	inline const Color get_pixel(PointUI point) {
 		return get_pixel(point.x, point.y);
 	}
 
 	void draw_filled_rect(unsigned int x1, unsigned int x2, unsigned int y1, unsigned int y2, const Color color);
 
-	inline void draw_filled_rect(Point2UI point1, Point2UI point2, const Color color) {
-		draw_filled_rect(point1.x, point2.x, point1.y, point2.y, color);
+	inline void draw_filled_rect(PointUI point1, PointUI Point, const Color color) {
+		draw_filled_rect(point1.x, Point.x, point1.y, Point.y, color);
 	}
 
 	inline void draw_filled_rect(Rectangle rect, const Color color) {
@@ -82,13 +82,13 @@ public:
 	void draw_v_line(unsigned int x, unsigned int y1, unsigned int y2, const Color color);
 	void draw_line(unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, Color color);
 
-	inline void draw_line(Point2UI point1, Point2UI point2, Color color) {
-		draw_line(point1.x, point1.y, point2.x, point2.y, color);
+	inline void draw_line(PointUI point1, PointUI Point, Color color) {
+		draw_line(point1.x, point1.y, Point.x, Point.y, color);
 	}
 
 	void draw_circle(unsigned int xc, unsigned int yc, unsigned int radius, Color color);
 
-	inline void draw_circle(Point2UI center, unsigned int radius, Color color) {
+	inline void draw_circle(PointUI center, unsigned int radius, Color color) {
 		draw_circle(center.x, center.y, radius, color);
 	}
 	
@@ -100,13 +100,13 @@ public:
 
 	void draw_bitmap_1bpp(unsigned int x, unsigned int y, Color fg_color, Color bg_color, unsigned char* bitmap, unsigned int width, unsigned int height);
 
-	inline void draw_bitmap_1bpp(Point2UI point, Color fg_color, Color bg_color, unsigned char* bitmap, unsigned int width, unsigned int height) {
+	inline void draw_bitmap_1bpp(PointUI point, Color fg_color, Color bg_color, unsigned char* bitmap, unsigned int width, unsigned int height) {
 		draw_bitmap_1bpp(point.x, point.y, fg_color, bg_color, bitmap, width, height);
 	}
 
 	void draw_bitmap_2bpp(unsigned int x, unsigned int y, Color c0, Color c1, Color c2, Color c3, unsigned short* bitmap, unsigned int width, unsigned int height, bool flip_x = false, bool flip_y = false, float angle = 0.0f);
 	
-	inline void draw_bitmap_2bpp(Point2UI point, Color c0, Color c1, Color c2, Color c3, unsigned short* bitmap, unsigned int width, unsigned int height, bool flip_x = false, bool flip_y = false, float angle = 0.0f) {
+	inline void draw_bitmap_2bpp(PointUI point, Color c0, Color c1, Color c2, Color c3, unsigned short* bitmap, unsigned int width, unsigned int height, bool flip_x = false, bool flip_y = false, float angle = 0.0f) {
 		draw_bitmap_2bpp(point.x, point.y, c0, c1, c2, c3, bitmap, width, height, flip_x, flip_y, angle);
 	}
 
@@ -114,7 +114,7 @@ public:
 		draw_bitmap_1bpp(x, y, fg_color, bg_color, (unsigned char*)(OEM437::DATA + ch * OEM437::BYTES_PER_CHAR), OEM437::CHAR_WIDTH, OEM437::CHAR_HEIGHT);
 	}
 
-	inline void draw_char(Point2UI point, Color fg_color, Color bg_color, unsigned char ch) {
+	inline void draw_char(PointUI point, Color fg_color, Color bg_color, unsigned char ch) {
 		draw_char(point.x, point.y, fg_color, bg_color, ch);
 	}
 
@@ -124,11 +124,11 @@ public:
 		}
 	}
 
-	inline void draw_string(Point2UI point, Color fg_color, Color bg_color, const char* text) {
+	inline void draw_string(PointUI point, Color fg_color, Color bg_color, const char* text) {
 		draw_string(point.x, point.y, fg_color, bg_color, text);
 	}
 
-	void flood_fill(Point2UI origin, Color fill_color, Color border_color);
+	void flood_fill(PointUI origin, Color fill_color, Color border_color);
 
 	void bind();
 	void unbind();
@@ -165,7 +165,7 @@ private:
 		return y * stride + x * NUM_CHANNELS;
 	}
 
-	inline unsigned int get_offset(Point2UI point) {
+	inline unsigned int get_offset(PointUI point) {
 		return get_offset(point.x, point.y);
 	}
 

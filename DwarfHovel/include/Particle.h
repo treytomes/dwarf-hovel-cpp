@@ -6,7 +6,7 @@
 
 class Particle {
 public:
-	inline Particle(Color _color, Point2F _position, Vector2F _speed, Vector2F _acceleration, unsigned int _life_span)
+	inline Particle(Color _color, PointF _position, VectorF _speed, VectorF _acceleration, unsigned int _life_span)
 		: color(_color), position(_position), speed(_speed), acceleration(_acceleration), life_span(_life_span), total_elapsed_time(0u) {
 	}
 
@@ -28,12 +28,12 @@ public:
 
 private:
 	Color color;
-	Point2F position;
+	PointF position;
 
 	// Speed is in pixels per second.
-	Vector2F speed;
+	VectorF speed;
 
-	Vector2F acceleration;
+	VectorF acceleration;
 
 	unsigned int life_span;
 	unsigned int total_elapsed_time;

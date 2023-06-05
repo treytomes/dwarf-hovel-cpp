@@ -18,7 +18,7 @@ public:
 		color3 = _color3;
 	}
 
-	inline void draw(IRenderContext *context, Point2UI position, bool flip_x = false, bool flip_y = false, float angle = 0.0f) {
+	inline void draw(IRenderContext *context, PointUI position, bool flip_x = false, bool flip_y = false, float angle = 0.0f) {
 		bitmap->draw(context, position, color0, color1, color2, color3, flip_x, flip_y, angle);
 	}
 

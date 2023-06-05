@@ -10,7 +10,7 @@ class GameStateManager;
 class GameState {
 public:
 	inline GameState()
-		: ui(new UIElement(Rectangle(Point2UI::zero(), Settings::get_instance()->virtual_window_size))) {
+		: ui(new UIElement(Rectangle(PointUI::zero(), Settings::get_instance()->virtual_window_size))) {
 	}
 
 	virtual inline ~GameState() {

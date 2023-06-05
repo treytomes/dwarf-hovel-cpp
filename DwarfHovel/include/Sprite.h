@@ -6,7 +6,7 @@
 class Sprite {
 public:
 	ColoredBitmap* bitmap;
-	Point2I position;
+	PointI position;
 	bool flip_x;
 	bool flip_y;
 	float angle;
@@ -14,7 +14,7 @@ public:
 	inline Sprite(ColoredBitmap* _bitmap)
 		: flip_x(false), flip_y(false), angle(0.0f) {
 		bitmap = _bitmap;
-		position = Point2I::zero();
+		position = PointI::zero();
 	}
 
 	inline void draw(IRenderContext* ctx) {

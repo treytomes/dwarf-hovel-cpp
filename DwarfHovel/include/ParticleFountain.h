@@ -10,21 +10,21 @@
 
 class ParticleFountain {
 public:
-	inline static ParticleFountain* from_bitmap(Point2F position, ColoredBitmap* bitmap) {
+	inline static ParticleFountain* from_bitmap(PointF position, ColoredBitmap* bitmap) {
 		ParticleFountain* fountain = new ParticleFountain();
 		unsigned int base_life_span = 1000u;
 		for (unsigned int y = 0u; y < bitmap->get_height(); y++) {
 			for (unsigned int x = 0u; x < bitmap->get_width(); x++) {
-				Vector2F speed = Vector2F(
+				VectorF speed = VectorF(
 						x - bitmap->get_width() / 2.0f,
 						y - bitmap->get_height() / 2.0f) * (float)bitmap->get_height() // Outer particles fly away faster.
-						- Vector2F::unit_y() * (float)(rand() % (bitmap->get_height() * 2)); // Add a random -y factor to the speed.  Makes it look more explosion-y.
+						- VectorF::unit_y() * (float)(rand() % (bitmap->get_height() * 2)); // Add a random -y factor to the speed.  Makes it look more explosion-y.
 				
 				fountain->children.push_back(new Particle(
 					bitmap->get_pixel(x, y),
-					position + Point2F((float)x, (float)y),
+					position + PointF((float)x, (float)y),
 					speed,
-					Vector2F(0.0f, (float)bitmap->get_width() * bitmap->get_height()), // Gravity is +y.
+					VectorF(0.0f, (float)bitmap->get_width() * bitmap->get_height()), // Gravity is +y.
 					base_life_span - (unsigned int)(speed.magnitude() * bitmap->get_height()) // Slower particles live longer.
 				));
 			}

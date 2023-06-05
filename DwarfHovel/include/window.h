@@ -13,7 +13,7 @@
 class Window : public GameStateManager {
 public:
     Window(std::string title, int width, int height);
-    inline Window(std::string title, Vector2UI size) : Window(title, size.x, size.y) {}
+    inline Window(std::string title, VectorUI size) : Window(title, size.x, size.y) {}
 
     ~Window();
 
@@ -49,5 +49,5 @@ private:
     SDL_GLContext gl_context;
 
     void rebuild_gl_context();
-    Point2UI translate_position(unsigned int x, unsigned int y);
+    PointUI translate_position(unsigned int x, unsigned int y);
 };

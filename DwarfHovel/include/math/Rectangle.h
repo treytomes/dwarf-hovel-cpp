@@ -1,18 +1,17 @@
 #pragma once
 
-#include "math/Point2UI.h"
-#include "math/Vector2UI.h"
+#include "math/math.h"
 
 class Rectangle {
 public:
-	inline Rectangle(Point2UI _point, Vector2UI _size) : point(_point), size(_size) {}
+	inline Rectangle(PointUI _point, VectorUI _size) : point(_point), size(_size) {}
 
-	inline Rectangle(unsigned int x, unsigned int y, unsigned int width, unsigned int height) : Rectangle(Point2UI(x, y), Vector2UI(width, height)) {}
+	inline Rectangle(unsigned int x, unsigned int y, unsigned int width, unsigned int height) : Rectangle(PointUI(x, y), VectorUI(width, height)) {}
 
-	inline Point2UI get_position() { return point; }
-	inline Vector2UI get_size() { return size; }
+	inline PointUI get_position() { return point; }
+	inline VectorUI get_size() { return size; }
 
-	inline Point2UI get_top_left() { return get_position(); }
+	inline PointUI get_top_left() { return get_position(); }
 
 	inline unsigned int get_x() { return point.x; }
 	inline unsigned int get_y() { return point.y; }
@@ -23,8 +22,8 @@ public:
 	inline unsigned int get_top() { return get_y(); }
 	inline unsigned int get_bottom() { return get_top() + get_height() - 1; }
 
-	inline void set_position(Point2UI value) { point = value; }
-	inline void set_size(Vector2UI value) { size = value; }
+	inline void set_position(PointUI value) { point = value; }
+	inline void set_size(VectorUI value) { size = value; }
 
 	inline void set_x(unsigned int value) { point.x = value; }
 	inline void set_y(unsigned int value) { point.y = value; }
@@ -40,7 +39,7 @@ public:
 		return math::is_in_range(x, get_left(), get_right()) && math::is_in_range(y, get_top(), get_bottom());
 	}
 
-	inline bool contains(Point2UI point) {
+	inline bool contains(PointUI point) {
 		return contains(point.x, point.y);
 	}
 
@@ -53,12 +52,12 @@ public:
 	}
 
 	inline Rectangle& operator=(const Rectangle& other) {
-		point = Point2UI(other.point.x, other.point.y);
-		size = Vector2UI(other.size.x, other.size.y);
+		point = PointUI(other.point.x, other.point.y);
+		size = VectorUI(other.size.x, other.size.y);
 		return *this;
 	}
 
 private:
-	Point2UI point;
-	Vector2UI size;
+	PointUI point;
+	VectorUI size;
 };
