@@ -1,8 +1,8 @@
-#include "MainMenuGameState.h"
+#include "states/MainMenuGameState.h"
 
-#include "CharacterTestState.h"
-#include "DemoGameState.h"
-#include "SoundFXGameState.h"
+#include "states/CharacterTestState.h"
+#include "states/DemoGameState.h"
+#include "states/SoundFXGameState.h"
 #include "Logger.h"
 #include "Settings.h"
 #include "ui/ui.h"

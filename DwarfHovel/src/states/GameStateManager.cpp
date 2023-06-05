@@ -1,4 +1,4 @@
-#include "GameStateManager.h"
+#include "states/GameStateManager.h"
 
 GameStateManager::~GameStateManager() {
 	while (!states.empty()) {

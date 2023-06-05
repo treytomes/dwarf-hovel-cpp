@@ -1,4 +1,4 @@
-#include "DemoGameState.h"
+#include "states/DemoGameState.h"
 
 #include <string>
 #include "Logger.h"

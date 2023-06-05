@@ -1,4 +1,4 @@
-#include "SoundFXGameState.h"
+#include "states/SoundFXGameState.h"
 
 #include <string>
 #include "Logger.h"

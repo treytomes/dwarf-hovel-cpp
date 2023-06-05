@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SDL.h>
-#include "GameState.h"
+#include "states/GameState.h"
 #include "IRenderContext.h"
 
 class DemoGameState : public GameState {

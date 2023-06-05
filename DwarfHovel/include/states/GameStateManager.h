@@ -2,7 +2,7 @@
 
 #include <SDL.h>
 #include <stack>
-#include "GameState.h"
+#include "states/GameState.h"
 #include "IRenderContext.h"
 
 class GameStateManager {

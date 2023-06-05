@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include <SDL.h>
-#include "GameState.h"
+#include "states/GameState.h"
 #include "IRenderContext.h"
 #include "ParticleFountain.h"
 #include "Sprite.h"

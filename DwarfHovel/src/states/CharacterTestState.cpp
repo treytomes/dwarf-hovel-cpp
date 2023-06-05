@@ -1,4 +1,4 @@
-#include "CharacterTestState.h"
+#include "states/CharacterTestState.h"
 
 #include <string>
 #include "bitmaps.h"

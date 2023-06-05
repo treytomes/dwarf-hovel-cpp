@@ -4,7 +4,7 @@
 #include <SDL.h>
 
 #include "Bitmap2bpp.h"
-#include "GameStateManager.h"
+#include "states/states.h"
 #include "gl_program.h"
 #include "Sprite.h"
 #include "Texture.h"
