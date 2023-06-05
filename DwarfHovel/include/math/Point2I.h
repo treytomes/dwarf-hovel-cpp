@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Tuple.h"
+#include "math/Tuple.h"
 
 class Point2I : public Tuple<int> {
 public:

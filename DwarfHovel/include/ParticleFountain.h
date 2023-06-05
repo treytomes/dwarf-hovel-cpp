@@ -1,37 +1,34 @@
 #pragma once
 
+#include <cstdlib>
 #include <vector>
 #include "ColoredBitmap.h"
 #include "IRenderContext.h"
 #include "Logger.h"
 #include "Particle.h"
+#include "math/math.h"
 
 class ParticleFountain {
 public:
 	inline static ParticleFountain* from_bitmap(Point2F position, ColoredBitmap* bitmap) {
 		ParticleFountain* fountain = new ParticleFountain();
-
 		unsigned int base_life_span = 1000u;
 		for (unsigned int y = 0u; y < bitmap->get_height(); y++) {
 			for (unsigned int x = 0u; x < bitmap->get_width(); x++) {
-				Color color = bitmap->get_pixel(x, y);
-				Point2F particle_position = position + Point2F((float)x, (float)y);
+				Vector2F speed = Vector2F(
+						x - bitmap->get_width() / 2.0f,
+						y - bitmap->get_height() / 2.0f) * (float)bitmap->get_height() // Outer particles fly away faster.
+						- Vector2F::unit_y() * (float)(rand() % (bitmap->get_height() * 2)); // Add a random -y factor to the speed.  Makes it look more explosion-y.
 				
-				// TODO: Add a random -y factor to the speed.  Make it look more explosion-y.
-
-				// Outer particles fly away faster.
-				Vector2F speed = Vector2F(x - bitmap->get_width() / 2.0f, y - bitmap->get_height() / 2.0f) * 8.0f;
-				
-				// Slower particles live longer.
-				unsigned int life_span = base_life_span - (unsigned int)(speed.magnitude() * 8.0f);
-				
-				// Gravity is +y.
-				Vector2F acceleration = Vector2F(0.0f, 64.0f);
-
-				fountain->children.push_back(new Particle(color, particle_position, speed, acceleration, life_span));
+				fountain->children.push_back(new Particle(
+					bitmap->get_pixel(x, y),
+					position + Point2F((float)x, (float)y),
+					speed,
+					Vector2F(0.0f, (float)bitmap->get_width() * bitmap->get_height()), // Gravity is +y.
+					base_life_span - (unsigned int)(speed.magnitude() * bitmap->get_height()) // Slower particles live longer.
+				));
 			}
 		}
-
 		return fountain;
 	}
 

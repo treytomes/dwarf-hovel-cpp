@@ -4,9 +4,8 @@
 #include "Color.h"
 #include "IRenderContext.h"
 #include "OEM437.h"
-#include "Rectangle.h"
-#include "UIElement.h"
-#include "Vector2UI.h"
+#include "math/math.h"
+#include "ui/ui.h"
 
 class UILabel : public UIElement {
 public:

@@ -1,8 +1,7 @@
 #pragma once
 
 #include "Color.h"
-#include "Point2UI.h"
-#include "Rectangle.h"
+#include "math/math.h"
 
 class IRenderContext {
 public:

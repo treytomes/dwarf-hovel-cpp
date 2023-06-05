@@ -1,18 +1,12 @@
 #include "CharacterTestState.h"
 
-#include <random>
 #include <string>
-#include <cmath>
 #include "bitmaps.h"
 #include "Logger.h"
 #include "OEM437.h"
-#include "Point2F.h"
-#include "Point2UI.h"
+#include "math/math.h"
 #include "Settings.h"
-#include "UIElement.h"
-#include "UILabel.h"
-#include "UIButton.h"
-#include "Vector2UI.h"
+#include "ui/ui.h"
 
 #define IDB_BUTTON0 0
 #define IDB_BUTTON1 1

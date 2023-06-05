@@ -3,7 +3,7 @@
 #include <SDL.h>
 #include "IRenderContext.h"
 #include "Settings.h"
-#include "UIElement.h"
+#include "ui/ui.h"
 
 class GameStateManager;
 

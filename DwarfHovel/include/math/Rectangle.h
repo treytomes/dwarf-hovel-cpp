@@ -1,8 +1,7 @@
 #pragma once
 
-#include "moremath.h"
-#include "Point2UI.h"
-#include "Vector2UI.h"
+#include "math/Point2UI.h"
+#include "math/Vector2UI.h"
 
 class Rectangle {
 public:

@@ -5,7 +5,7 @@
 #include <SDL.h>
 #include "GameState.h"
 #include "IRenderContext.h"
-#include "UIButton.h"
+#include "ui/ui.h"
 
 class SoundFXGameState : public GameState {
 public:

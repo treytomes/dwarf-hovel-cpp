@@ -5,10 +5,8 @@
 
 #include "Color.h"
 #include "IRenderContext.h"
-#include "moremath.h"
 #include "OEM437.h"
-#include "Point2UI.h"
-#include "Vector2UI.h"
+#include "math/math.h"
 
 #define NUM_CHANNELS 4
 

@@ -25,6 +25,10 @@ link_libraries(${SDL2_LIBRARIES} ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES})
 add_executable(DwarfHovel
     "src/main.cpp"
 
+	"src/ui/UIButton.cpp"
+    "src/ui/UIElement.cpp"
+	"src/ui/UILabel.cpp"
+
 	"src/bitmap_templates.cpp"
     "src/bitmaps.cpp"
     "src/CharacterTestState.cpp"
@@ -43,9 +47,6 @@ add_executable(DwarfHovel
 	"src/SoundFXGameState.cpp"
     "src/System.cpp"
     "src/Texture.cpp"
-    "src/UIButton.cpp"
-    "src/UIElement.cpp"
-	"src/UILabel.cpp"
     "src/Window.cpp"
 )
 

@@ -1,7 +1,6 @@
 #pragma once
 
-#include <cmath>
-#include "Tuple.h"
+#include "math/Tuple.h"
 
 class Vector2UI : public Tuple<unsigned int> {
 public:

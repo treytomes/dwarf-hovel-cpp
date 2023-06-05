@@ -2,7 +2,7 @@
 
 #include "Color.h"
 #include "IRenderContext.h"
-#include "Point2UI.h"
+#include "math/math.h"
 
 #define BITMAP_BIT_WIDTH 16
 #define BITMAP_BPP 2

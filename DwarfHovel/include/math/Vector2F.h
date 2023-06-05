@@ -1,7 +1,6 @@
 #pragma once
 
-#include <cmath>
-#include "Tuple.h"
+#include "math/math.h"
 
 class Vector2F : public Tuple<float> {
 public:

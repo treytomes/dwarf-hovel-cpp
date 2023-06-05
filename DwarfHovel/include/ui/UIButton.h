@@ -2,8 +2,8 @@
 
 #include <SDL.h>
 #include "IRenderContext.h"
-#include "Rectangle.h"
-#include "UIElement.h"
+#include "math/math.h"
+#include "ui/ui.h"
 
 class UIButton : public UIElement {
 public:

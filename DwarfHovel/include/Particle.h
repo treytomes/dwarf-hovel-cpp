@@ -2,8 +2,7 @@
 
 #include "Color.h"
 #include "IRenderContext.h"
-#include "Point2F.h"
-#include "Vector2F.h"
+#include "math/math.h"
 
 class Particle {
 public:

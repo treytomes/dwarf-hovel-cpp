@@ -5,11 +5,9 @@
 #include "SoundFXGameState.h"
 #include "Logger.h"
 #include "Settings.h"
-#include "UIButton.h"
-#include "UILabel.h"
+#include "ui/ui.h"
 
-#define DB_PERLIN_IMPL
-#include "perlin.h"
+#include "math/math.h"
 
 #define IDB_DEMO 0
 #define IDB_CHARACTERTEST 1

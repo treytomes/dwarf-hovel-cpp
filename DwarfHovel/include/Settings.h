@@ -3,7 +3,7 @@
 #include <string>
 
 #include "Logger.h"
-#include "Vector2UI.h"
+#include "math/math.h"
 
 class Settings {
 public:

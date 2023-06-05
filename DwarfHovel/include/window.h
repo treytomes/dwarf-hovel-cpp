@@ -8,7 +8,7 @@
 #include "gl_program.h"
 #include "Sprite.h"
 #include "Texture.h"
-#include "Vector2UI.h"
+#include "math/math.h"
 
 class Window : public GameStateManager {
 public:

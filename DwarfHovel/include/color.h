@@ -1,6 +1,6 @@
 #pragma once
 
-#include "moremath.h"
+#include "math/math.h"
 
 class Color {
 public:

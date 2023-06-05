@@ -14,7 +14,5 @@
 #include "sdl_error.h"
 #include "Settings.h"
 #include "System.h"
-#include "UIButton.h"
-#include "UIElement.h"
-#include "UILabel.h"
+#include "ui/ui.h"
 #include "Window.h"

@@ -1,6 +1,6 @@
 #include "Texture.h"
 #include "gl_error.h"
-#include "moremath.h"
+#include "math/math.h"
 #include <queue>
 
 Texture::Texture(GLuint _width, GLuint _height)

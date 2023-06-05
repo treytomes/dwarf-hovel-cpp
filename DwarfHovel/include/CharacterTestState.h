@@ -7,8 +7,8 @@
 #include "IRenderContext.h"
 #include "ParticleFountain.h"
 #include "Sprite.h"
-#include "UIButton.h"
-#include "Vector2I.h"
+#include "ui/ui.h"
+#include "math/math.h"
 
 class CharacterTestState : public GameState {
 public:

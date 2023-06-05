@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ColoredBitmap.h"
-#include "Point2I.h"
+#include "math/math.h"
 
 class Sprite {
 public:

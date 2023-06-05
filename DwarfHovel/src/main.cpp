@@ -8,8 +8,7 @@
 #include <string>
 #include <vector>
 #include "bitmaps.h"
-#include "moremath.h"
-#include "Rectangle.h"
+#include "math/math.h"
 #include "OEM437.h"
 
 void try_register_event(unsigned int& event_id) {

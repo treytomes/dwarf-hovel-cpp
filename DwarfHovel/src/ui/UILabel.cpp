@@ -1,4 +1,4 @@
-#include "UILabel.h"
+#include "ui/ui.h"
 
 void UILabel::inner_render(Rectangle bounds, IRenderContext* context, unsigned int delta_time_ms) {
 	context->draw_string(bounds.get_position(), fg_color, bg_color, text.c_str());
