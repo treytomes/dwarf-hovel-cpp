@@ -1,82 +1,9 @@
 #include "bitmap_templates.h"
 
-Bitmap2bpp bitmap_templates::mouse_cursor(
-	"10000000"
-	"11000000"
-	"12100000"
-	"12210000"
-	"12221000"
-	"12222100"
-	"12222210"
-	"12222221"
-	"11122111"
-	"00012210"
-	"00012210"
-	"00001100", 12
-);
-
-Bitmap2bpp bitmap_templates::person_north(
-	"01111110"
-	"11111111"
-	"11111111"
-	"11111111"
-	"11111111"
-	"11111111"
-	"11111111"
-	"01111110"
-);
-
-Bitmap2bpp bitmap_templates::person_south(
-	"01111110"
-	"11111111"
-	"11311311"
-	"11311311"
-	"11111111"
-	"11222211"
-	"11122111"
-	"01111110"
-);
-
-Bitmap2bpp bitmap_templates::person_east(
-	"01111110"
-	"11111111"
-	"11111311"
-	"11111311"
-	"11111111"
-	"11111222"
-	"11111122"
-	"01111110"
-);
-
-Bitmap2bpp bitmap_templates::person_west(
-	"01111110"
-	"11111111"
-	"11311111"
-	"11311111"
-	"11111111"
-	"22211111"
-	"22111111"
-	"01111110"
-);
-
-Bitmap2bpp bitmap_templates::sword(
-	"00000011"
-	"00000111"
-	"00001113"
-	"02011130"
-	"03211300"
-	"00223000"
-	"02332000"
-	"03003000"
-);
-
-Bitmap2bpp bitmap_templates::asterisk(
-	"00000000"
-	"01100110"
-	"02111120"
-	"11111111"
-	"22111122"
-	"31122113"
-	"32233223"
-	"33333333"
-);
+Bitmap2bpp bitmap_templates::mouse_cursor = Bitmap2bpp::from_file("assets/bitmap_templates/mouse_cursor.txt");
+Bitmap2bpp bitmap_templates::person_north = Bitmap2bpp::from_file("assets/bitmap_templates/person_north.txt");
+Bitmap2bpp bitmap_templates::person_south = Bitmap2bpp::from_file("assets/bitmap_templates/person_south.txt");
+Bitmap2bpp bitmap_templates::person_east = Bitmap2bpp::from_file("assets/bitmap_templates/person_east.txt");
+Bitmap2bpp bitmap_templates::person_west = Bitmap2bpp::from_file("assets/bitmap_templates/person_west.txt");
+Bitmap2bpp bitmap_templates::sword = Bitmap2bpp::from_file("assets/bitmap_templates/sword.txt");
+Bitmap2bpp bitmap_templates::asterisk = Bitmap2bpp::from_file("assets/bitmap_templates/asterisk.txt");

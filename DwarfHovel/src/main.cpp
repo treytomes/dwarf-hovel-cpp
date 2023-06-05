@@ -5,6 +5,8 @@
 #include <gl\glu.h>
 
 #include <cstdarg>
+#include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
 #include "bitmaps.h"
