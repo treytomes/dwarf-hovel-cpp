@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "Logger.h"
+#include "io/Logger.h"
 #include "math/math.h"
 
 class Settings {

@@ -1,12 +1,11 @@
 #include "states/CharacterTestState.h"
 
 #include <string>
-#include "bitmaps.h"
-#include "Logger.h"
-#include "OEM437.h"
+#include "io/io.h"
 #include "math/math.h"
-#include "Settings.h"
 #include "ui/ui.h"
+#include "bitmaps.h"
+#include "OEM437.h"
 
 #define IDB_BUTTON0 0
 #define IDB_BUTTON1 1

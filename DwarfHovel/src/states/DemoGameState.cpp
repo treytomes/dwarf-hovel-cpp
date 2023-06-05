@@ -1,11 +1,10 @@
 #include "states/DemoGameState.h"
 
 #include <string>
-#include "Logger.h"
-#include "OEM437.h"
+#include "io/io.h"
 #include "math/math.h"
-#include "Settings.h"
 #include "ui/ui.h"
+#include "OEM437.h"
 
 DemoGameState::DemoGameState()
 	: GameState(), angle(0.0f), mouse_x(0u), mouse_y(0u) {

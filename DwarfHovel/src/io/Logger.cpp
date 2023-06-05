@@ -1,4 +1,4 @@
-#include "logger.h"
+#include "io/Logger.h"
 
 #include <algorithm>
 #include <chrono>
@@ -8,7 +8,7 @@
 #include <sstream>
 #include <SDL.h>
 
-#include "Settings.h"
+#include "io/Settings.h"
 
 LogLevel from_string(std::string value) {
 	std::transform(value.begin(), value.end(), value.begin(), ::toupper);

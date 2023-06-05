@@ -1,9 +1,9 @@
 #pragma once
 
 #include <SDL.h>
-#include "IRenderContext.h"
-#include "Settings.h"
+#include "io/io.h"
 #include "ui/ui.h"
+#include "IRenderContext.h"
 
 class GameStateManager;
 

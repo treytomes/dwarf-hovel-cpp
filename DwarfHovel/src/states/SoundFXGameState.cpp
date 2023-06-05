@@ -1,11 +1,10 @@
 #include "states/SoundFXGameState.h"
 
 #include <string>
-#include "Logger.h"
-#include "OEM437.h"
 #include "math/math.h"
-#include "Settings.h"
+#include "io/io.h"
 #include "ui/ui.h"
+#include "OEM437.h"
 
 #define IDB_BUTTON0 0
 #define IDB_BUTTON1 1

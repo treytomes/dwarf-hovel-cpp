@@ -3,8 +3,7 @@
 #include "states/CharacterTestState.h"
 #include "states/DemoGameState.h"
 #include "states/SoundFXGameState.h"
-#include "Logger.h"
-#include "Settings.h"
+#include "io/io.h"
 #include "ui/ui.h"
 
 #include "math/math.h"

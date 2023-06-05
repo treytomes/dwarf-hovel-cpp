@@ -4,8 +4,7 @@
 #include <stdexcept>
 #include <cstdlib>
 
-#include "Logger.h"
-#include "Settings.h"
+#include "io/io.h"
 #include "sdl_error.h"
 
 System::System() {

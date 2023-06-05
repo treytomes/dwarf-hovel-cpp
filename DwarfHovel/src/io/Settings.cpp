@@ -1,7 +1,7 @@
-#include "Settings.h"
+#include "io/Settings.h"
 
 #include <fstream>
-#include "json.h"
+#include "io/json.h"
 using json = nlohmann::json;
 
 Settings::Settings() {

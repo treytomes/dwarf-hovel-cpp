@@ -1,5 +1,5 @@
 #include "gl_program.h"
-#include "Logger.h"
+#include "io/io.h"
 
 GLProgram::GLProgram(GLShader* vertex, GLShader* fragment) {
 	id = compile(vertex->get_id(), fragment->get_id());

@@ -1,6 +1,6 @@
 #include "glew_error.h"
 #include <SDL.h>
-#include "Logger.h"
+#include "io/io.h"
 
 GLEWError::GLEWError(GLenum _code) {
 	code = _code;

@@ -25,28 +25,29 @@ link_libraries(${SDL2_LIBRARIES} ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES})
 add_executable(DwarfHovel
     "src/main.cpp"
 
+	"src/io/Logger.cpp"
+	"src/io/Settings.cpp"
+
 	"src/ui/UIButton.cpp"
     "src/ui/UIElement.cpp"
 	"src/ui/UILabel.cpp"
-
-	"src/gl_error.cpp"
-    "src/gl_program.cpp"
-    "src/gl_shader.cpp"
-    "src/glew_error.cpp"
-    "src/sdl_error.cpp"
-
+	
     "src/states/CharacterTestState.cpp"
     "src/states/DemoGameState.cpp"
     "src/states/GameState.cpp"
     "src/states/GameStateManager.cpp"
 	"src/states/MainMenuGameState.cpp"
 	"src/states/SoundFXGameState.cpp"
+	
+	"src/gl_error.cpp"
+	"src/gl_program.cpp"
+	"src/gl_shader.cpp"
+	"src/glew_error.cpp"
+	"src/sdl_error.cpp"
 
 	"src/bitmap_templates.cpp"
     "src/bitmaps.cpp"
-    "src/Logger.cpp"
     "src/OEM437.cpp"
-    "src/Settings.cpp"
     "src/System.cpp"
     "src/Texture.cpp"
     "src/Window.cpp"

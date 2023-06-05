@@ -2,11 +2,11 @@
 
 #include <cstdlib>
 #include <vector>
+#include "io/io.h"
+#include "math/math.h"
 #include "ColoredBitmap.h"
 #include "IRenderContext.h"
-#include "Logger.h"
 #include "Particle.h"
-#include "math/math.h"
 
 class ParticleFountain {
 public:

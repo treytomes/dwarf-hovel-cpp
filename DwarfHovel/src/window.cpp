@@ -1,12 +1,11 @@
 #include "window.h"
 
-#include <gl\glew.h>
+#include <gl/glew.h>
+#include "io/io.h"
 #include "bitmaps.h"
 #include "gl_shader.h"
 #include "glew_error.h"
-#include "Logger.h"
 #include "sdl_error.h"
-#include "Settings.h"
 
 Window::Window(std::string _title, int width, int height) {
 	gl_program = nullptr;
