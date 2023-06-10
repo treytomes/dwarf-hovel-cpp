@@ -313,16 +313,16 @@ void MapTestState::use_item(int angle_degrees) {
 	} else {
 		use_item(VectorI::east());
 	}
-
-	if (fountain == nullptr) {
-		fountain = ParticleFountain::from_bitmap(PointF(50, 150), &bitmaps::bush);
-	}
 }
 
 void MapTestState::use_item(VectorI direction) {
 	is_using_item = true;
 	if (direction != VectorI::zero()) {
 		set_player_facing(direction);
+	}
+
+	if (fountain == nullptr) {
+		fountain = ParticleFountain::from_bitmap(PointF(50, 150), &bitmaps::bush);
 	}
 }
 
