@@ -15,3 +15,7 @@ ColoredBitmap bitmaps::player_west(&bitmap_templates::person_west, Color::transp
 ColoredBitmap bitmaps::iron_sword(&bitmap_templates::sword, Color::transparent(), Color::white(), Color::gray().darker(), Color::gray().darkest());
 
 ColoredBitmap bitmaps::bush(&bitmap_templates::asterisk, Color::transparent(), Color::green(), Color::green().darkest(), Color::transparent());
+//ColoredBitmap bitmaps::bush(&bitmap_templates::dot, Color::green().darkest().darkest(), Color::green().darkest(), Color::green().darkest().dark(), Color::green().darkest().darker());
+
+ColoredBitmap bitmaps::grass_floor(&bitmap_templates::dot, Color::green().desaturated().darkest(), Color::green().desaturated().darker(), Color::green().desaturated().darker(), Color::green().desaturated().darker().darkest());
+ColoredBitmap bitmaps::stone_wall(&bitmap_templates::hashtag, Color::gray().desaturated().darker(), Color::gray().desaturated().darkest(), Color::gray().desaturated().darkest().dark(), Color::transparent());

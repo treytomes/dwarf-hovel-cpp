@@ -37,6 +37,7 @@ add_executable(DwarfHovel
     "src/states/GameState.cpp"
     "src/states/GameStateManager.cpp"
 	"src/states/MainMenuGameState.cpp"
+	"src/states/MapTestState.cpp"
 	"src/states/SoundFXGameState.cpp"
 	
 	"src/gl_error.cpp"
@@ -47,6 +48,9 @@ add_executable(DwarfHovel
 
 	"src/bitmap_templates.cpp"
     "src/bitmaps.cpp"
+	"src/map_tiles.cpp"
+	"src/Map.cpp"
+	"src/MapTile.cpp"
     "src/OEM437.cpp"
     "src/System.cpp"
     "src/Texture.cpp"

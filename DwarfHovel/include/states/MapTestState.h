@@ -11,10 +11,10 @@
 #include "math/math.h"
 #include "Map.h"
 
-class CharacterTestState : public GameState {
+class MapTestState : public GameState {
 public:
-	CharacterTestState();
-	~CharacterTestState();
+	MapTestState();
+	~MapTestState();
 
 	void update(unsigned int delta_time_ms);
 	void render(IRenderContext* context, unsigned int delta_time_ms);
@@ -37,6 +37,8 @@ private:
 	VectorI player_facing;
 	bool is_using_item;
 	float item_angle;
+
+	Map* map;
 
 	void use_item(int angle_degrees);
 	void use_item(VectorI direction);

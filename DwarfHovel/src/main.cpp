@@ -16,7 +16,7 @@
 void try_register_event(unsigned int& event_id) {
 	event_id = SDL_RegisterEvents(1);
 	if (event_id == ((unsigned int)-1)) {
-		LOG_ERROR("Failed to register the button event.");
+		LOG_ERROR("Failed to register the custom event.");
 	}
 }
 

@@ -10,4 +10,6 @@ namespace bitmaps {
 	extern ColoredBitmap player_west;
 	extern ColoredBitmap iron_sword;
 	extern ColoredBitmap bush;
+	extern ColoredBitmap grass_floor;
+	extern ColoredBitmap stone_wall;
 }

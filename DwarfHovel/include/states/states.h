@@ -5,4 +5,5 @@
 #include "states/GameState.h"
 #include "states/GameStateManager.h"
 #include "states/MainMenuGameState.h"
+#include "states/MapTestState.h"
 #include "states/SoundFXGameState.h"

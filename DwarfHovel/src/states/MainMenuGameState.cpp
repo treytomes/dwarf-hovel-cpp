@@ -2,6 +2,7 @@
 
 #include "states/CharacterTestState.h"
 #include "states/DemoGameState.h"
+#include "states/MapTestState.h"
 #include "states/SoundFXGameState.h"
 #include "io/io.h"
 #include "ui/ui.h"
@@ -9,17 +10,18 @@
 #include "math/math.h"
 
 #define IDB_DEMO 0
-#define IDB_CHARACTERTEST 1
-#define IDB_SFX 2
+#define IDB_MAPTEST 1
+#define IDB_CHARACTERTEST 2
+#define IDB_SFX 3
 #define IDB_EXIT 4
 
 MainMenuGameState::MainMenuGameState()
 	: GameState(), angle(0.0f), mouse_x(0u), mouse_y(0u), horizontal_move_timer(0u), x_offset(0u), noise_offset(0.0f) {
 	std::vector<std::string> options = {
 		"Demo",
+		"Map Test",
 		"Character Test",
 		"SFX",
-		"Button 3",
 		"Exit",
 	};
 
@@ -103,6 +105,10 @@ void MainMenuGameState::handle_event(SDL_UserEvent* evt) {
 	case IDB_DEMO:
 		LOG_INFO("Entering the graphics demo state.");
 		enter(new DemoGameState());
+		break;
+	case IDB_MAPTEST:
+		LOG_INFO("Entering the map test state.");
+		enter(new MapTestState());
 		break;
 	case IDB_CHARACTERTEST:
 		LOG_INFO("Entering the character test state.");

@@ -1,4 +1,4 @@
-#include "states/CharacterTestState.h"
+#include "states/MapTestState.h"
 
 #include <string>
 #include "io/io.h"
@@ -25,7 +25,7 @@
 #define EYE_COLOR Color::blue().dark()
 #define MOUTH_COLOR Color::red().darkest()
 
-CharacterTestState::CharacterTestState()
+MapTestState::MapTestState()
 	: GameState(), total_elapsed_time(0u), last_horizontal_pulse_time(0u), last_vertical_pulse_time(0u),
 	  grid_offset_x(GRID_OFFSET), grid_offset_y(GRID_OFFSET), player_facing(VectorI::south()), is_using_item(false), item_angle(0.0f),
 	  fountain(nullptr) {
@@ -34,15 +34,18 @@ CharacterTestState::CharacterTestState()
 	player_base = new Sprite(&bitmaps::player_south);
 	player_base->position = PointUI(size.x / 2, size.y / 2);
 
+	map = new Map();
+
 	ui->add_child(new UILabel(PointUI(8, 8), "*Character Test*", Color::white(), Color::gray().darkest()));
 }
 
-CharacterTestState::~CharacterTestState() {
+MapTestState::~MapTestState() {
 	if (player_base != nullptr) delete player_base;
 	if (fountain != nullptr) delete fountain;
+	if (map != nullptr) delete map;
 }
 
-void CharacterTestState::update(unsigned int delta_time_ms) {
+void MapTestState::update(unsigned int delta_time_ms) {
 	total_elapsed_time += delta_time_ms;
 
 	if (total_elapsed_time - last_horizontal_pulse_time > TIME_PULSE_X + PULSE_X_DELAY) {
@@ -86,7 +89,7 @@ void CharacterTestState::update(unsigned int delta_time_ms) {
 	GameState::update(delta_time_ms);
 }
 
-void CharacterTestState::render(IRenderContext* context, unsigned int delta_time_ms) {
+void MapTestState::render(IRenderContext* context, unsigned int delta_time_ms) {
 	context->clear(Color(0.02f, 0.02f, 0.02f));
 
 	VectorUI size = Settings::get_instance()->virtual_window_size;
@@ -135,6 +138,8 @@ void CharacterTestState::render(IRenderContext* context, unsigned int delta_time
 			}
 		}
 	}
+
+	map->draw(context, PointUI(0, 0));
 
 	// Draw the player on top of everything.
 
@@ -196,7 +201,7 @@ void CharacterTestState::render(IRenderContext* context, unsigned int delta_time
 	GameState::render(context, delta_time_ms);
 }
 
-void CharacterTestState::handle_event(SDL_MouseButtonEvent* evt) {
+void MapTestState::handle_event(SDL_MouseButtonEvent* evt) {
 	GameState::handle_event(evt);
 	
 	if (evt->button == SDL_BUTTON_LEFT) {
@@ -210,7 +215,7 @@ void CharacterTestState::handle_event(SDL_MouseButtonEvent* evt) {
 	}
 }
 
-void CharacterTestState::handle_event(SDL_MouseMotionEvent* evt) {
+void MapTestState::handle_event(SDL_MouseMotionEvent* evt) {
 	GameState::handle_event(evt);
 
 	unsigned int buttons = SDL_GetMouseState(nullptr, nullptr);
@@ -221,7 +226,7 @@ void CharacterTestState::handle_event(SDL_MouseMotionEvent* evt) {
 	}
 }
 
-void CharacterTestState::handle_event(SDL_KeyboardEvent* evt) {
+void MapTestState::handle_event(SDL_KeyboardEvent* evt) {
 	GameState::handle_event(evt);
 
 	if (evt->repeat) {
@@ -281,7 +286,7 @@ void CharacterTestState::handle_event(SDL_KeyboardEvent* evt) {
 	}
 }
 
-void CharacterTestState::handle_event(SDL_UserEvent* evt) {
+void MapTestState::handle_event(SDL_UserEvent* evt) {
 	float volume = 0.5f;
 
 	switch (evt->code) {
@@ -298,7 +303,7 @@ void CharacterTestState::handle_event(SDL_UserEvent* evt) {
 	}
 }
 
-void CharacterTestState::use_item(int angle_degrees) {
+void MapTestState::use_item(int angle_degrees) {
 	if (math::is_in_range(angle_degrees, 45, 135)) {
 		use_item(VectorI::south());
 	} else if (math::is_in_range(angle_degrees, 135, 225)) {
@@ -314,14 +319,14 @@ void CharacterTestState::use_item(int angle_degrees) {
 	}
 }
 
-void CharacterTestState::use_item(VectorI direction) {
+void MapTestState::use_item(VectorI direction) {
 	is_using_item = true;
 	if (direction != VectorI::zero()) {
 		set_player_facing(direction);
 	}
 }
 
-void CharacterTestState::set_player_facing(VectorI direction) {
+void MapTestState::set_player_facing(VectorI direction) {
 	if (player_facing == direction) {
 		return;
 	}
