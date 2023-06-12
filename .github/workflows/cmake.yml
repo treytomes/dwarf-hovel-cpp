@@ -24,6 +24,8 @@ jobs:
       run: |
         Invoke-WebRequest -URI https://github.com/libsdl-org/SDL/releases/download/release-2.26.5/SDL2-devel-2.26.5-VC.zip -OutFile C:\Temp\SDL2-devel-2.26.5-VC.zip
         dir C:\Temp
+        Expand-Archive C:\Temp\SDL2-devel-2.26.5-VC.zip -DestinationPath C:\SDL2
+        dir C:\SDL2
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
