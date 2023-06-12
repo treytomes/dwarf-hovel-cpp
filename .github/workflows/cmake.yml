@@ -44,8 +44,7 @@ jobs:
         cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
         dir ${{github.workspace}}/build/DwarfHovel/Release
         dir ${{github.workspace}}/build/
-        dir ${{github.workspace}}/build/x64/
-        dir ${{github.workspace}}/build/x64/DwarfHovel/
+        dir ${{github.workspace}}/build/x64/Release/
       shell: powershell
 
     - name: Test
