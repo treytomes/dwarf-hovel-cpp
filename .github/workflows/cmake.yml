@@ -42,8 +42,7 @@ jobs:
       # Build your program with the given configuration
       run: |
         cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
-        dir ${{github.workspace}}/build/DwarfHovel
-        dir ${{github.workspace}}/build/x64
+        dir ${{github.workspace}}/build/x64/Release
       shell: powershell
 
     - name: Test
