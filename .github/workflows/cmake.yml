@@ -43,6 +43,7 @@ jobs:
       run: |
         cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
         dir ${{github.workspace}}/build/DwarfHovel/Release
+        dir ${{github.workspace}}/build/
       shell: powershell
 
     - name: Test
