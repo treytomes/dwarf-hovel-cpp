@@ -13,7 +13,7 @@ find_package(OpenGL REQUIRED)
 
 # Find GLEW.
 
-list(APPEND CMAKE_PREFIX_PATH "C:/glew-2.1.0")
+list(APPEND CMAKE_PREFIX_PATH "C:/glew-2.2.0")
 find_package(GLEW REQUIRED)
 
 # Set the include directories and link libraries
@@ -74,7 +74,7 @@ if (WIN32)
     add_custom_command(
         TARGET DwarfHovel POST_BUILD
         COMMAND "${CMAKE_COMMAND}" -E copy_if_different "$<TARGET_FILE:SDL2::SDL2>" "$<TARGET_FILE_DIR:DwarfHovel>"
-        COMMAND "${CMAKE_COMMAND}" -E copy_if_different "C:/glew-2.1.0/bin/Release/x64/glew32.dll" "$<TARGET_FILE_DIR:DwarfHovel>/glew32.dll"
+        COMMAND "${CMAKE_COMMAND}" -E copy_if_different "C:/glew-2.2.0/bin/Release/x64/glew32.dll" "$<TARGET_FILE_DIR:DwarfHovel>/glew32.dll"
         VERBATIM
     )
 
