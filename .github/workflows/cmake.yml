@@ -36,9 +36,6 @@ jobs:
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       run: |
         cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G Ninja
-        
-      # -DCMAKE_C_COMPILER=cl.exe -DCMAKE_CXX_COMPILER=cl.exe -DCMAKE_INSTALL_PREFIX=C:/Users/TreyTomes/projects/dwarf-hovel-cpp/out/install/x64-debug -SC:/Users/TreyTomes/projects/dwarf-hovel-cpp -BC:/Users/TreyTomes/projects/dwarf-hovel-cpp/out/build/x64-debug -G Ninja
-        
       shell: powershell
 
     - name: Build
