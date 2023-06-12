@@ -27,7 +27,7 @@ jobs:
         Expand-Archive C:\Temp\SDL2-devel-2.26.5-VC.zip -DestinationPath C:\
         Rename-Item -Path "C:\SDL2-2.26.5" -NewName "C:\SDL2"
         
-        Write-Output "Setting up glew-2.1.0..."
+        Write-Output "Setting up glew-2.2.0..."
         Invoke-WebRequest -URI https://github.com/nigels-com/glew/releases/download/glew-2.2.0/glew-2.2.0-win32.zip -OutFile C:\Temp\glew-2.2.0.zip
         Expand-Archive C:\Temp\glew-2.2.0.zip -DestinationPath C:\
 

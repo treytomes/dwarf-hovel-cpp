@@ -16,7 +16,7 @@ public:
 	//inline Color(unsigned char r, unsigned char g, unsigned char b, unsigned char a = 255)
 	//	: Color((float)r / 255.0f, (float)g / 255.0f, (float)b / 255.0f, (float)a / 255.0f) {}
 
-	inline Color lerp(Color clr, float t) {
+	inline Color lerp(const Color& clr, float t) {
 		return Color(
 			math::lerp(r, clr.r, t),
 			math::lerp(g, clr.g, t),
@@ -25,11 +25,11 @@ public:
 		);
 	}
 
-	inline Color add(Color clr) {
+	inline Color add(const Color& clr) {
 		return Color(r + clr.r, g + clr.g, b + clr.b, a + clr.a);
 	}
 
-	inline Color subtract(Color clr) {
+	inline Color subtract(const Color& clr) {
 		return Color(r - clr.r, g - clr.g, b - clr.b, a - clr.a);
 	}
 
