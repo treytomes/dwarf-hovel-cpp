@@ -29,9 +29,9 @@ jobs:
         dir C:\SDL2
         
         Write-Output "Setting up glew-2.1.0..."
-        Invoke-WebRequest -URI https://downloads.sourceforge.net/project/glew/glew/2.1.0/glew-2.1.0.zip?ts=gAAAAABkh04iThB2H8d0vsfae-JHIu8gvRLedOLBa9WJJIufONbOgr89WOkF2ccc6pQmfZ0NF0WORMuUWrri6cG6IxVMBJKqaA%3D%3D&r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fglew%2Ffiles%2Fglew%2F2.1.0%2Fglew-2.1.0.zip%2Fdownload -OutFile C:\Temp\glew-2.1.0.zip
-        Expand-Archive C:\Temp\glew-2.1.0.zip -DestinationPath C:\
-        dir C:\glew-2.1.0
+        Invoke-WebRequest -URI https://github.com/nigels-com/glew/releases/download/glew-2.2.0/glew-2.2.0-win32.zip -OutFile C:\Temp\glew-2.2.0.zip
+        Expand-Archive C:\Temp\glew-2.2.0.zip -DestinationPath C:\
+        dir C:\glew-2.2.0
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
