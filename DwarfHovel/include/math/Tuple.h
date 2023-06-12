@@ -72,6 +72,10 @@ public:
 		return Tuple(-x, -y, -z, -w);
 	}
 
+	inline float magnitude() {
+		return sqrtf((float)(x * x + y * y + z * z + w * w));
+	}
+
 	static inline Tuple lerp(Tuple start, Tuple finish, float amount) {
 		return Tuple(
 			math::lerp(start.x, finish.x, amount),

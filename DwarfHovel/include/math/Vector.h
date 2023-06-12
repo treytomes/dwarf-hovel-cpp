@@ -21,10 +21,6 @@ public:
 	static inline Vector south() { return unit_y(); }
 	static inline Vector west() { return -unit_x(); }
 	static inline Vector east() { return unit_x(); }
-
-	inline float magnitude() {
-		return sqrtf((float)(x * x + y * y));
-	}
 };
 
 typedef Vector<float> VectorF;
