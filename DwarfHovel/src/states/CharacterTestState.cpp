@@ -138,9 +138,9 @@ void CharacterTestState::render(IRenderContext* context, unsigned int delta_time
 
 	// Draw the player on top of everything.
 
-	player_base->draw(context);
+	player_base->draw(context, PointF::zero());
 	if (is_using_item) {
-		auto item_position = player_base->position + player_facing * 8;
+		PointI item_position = player_base->position + player_facing * 8;
 		
 		float actual_angle = 0.0f;
 		bool is_moving = player_speed != VectorI::zero();

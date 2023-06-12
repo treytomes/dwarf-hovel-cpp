@@ -22,13 +22,24 @@ class Map {
 public:
 	Map();
 	
-	inline unsigned int get_tile_id(unsigned int map_tile_x, unsigned int map_tile_y) { return tile_ids[map_tile_y][map_tile_x]; }
-	inline void set_tile_id(unsigned int map_tile_x, unsigned int map_tile_y, unsigned int tile_id) { tile_ids[map_tile_y][map_tile_x] = tile_id; }
+	inline unsigned int get_tile_id(unsigned int map_tile_x, unsigned int map_tile_y) {
+		if (!math::is_in_range<unsigned int>(map_tile_x, MAP_MIN_X, MAP_MAX_X) || !math::is_in_range<unsigned int>(map_tile_y, MAP_MIN_Y, MAP_MAX_Y)) {
+			return 0;
+		}
+		return tile_ids[map_tile_y][map_tile_x];
+	}
+	
+	inline void set_tile_id(unsigned int map_tile_x, unsigned int map_tile_y, unsigned int tile_id) {
+		if (!math::is_in_range<unsigned int>(map_tile_x, MAP_MIN_X, MAP_MAX_X) || !math::is_in_range<unsigned int>(map_tile_y, MAP_MIN_Y, MAP_MAX_Y)) {
+			return;
+		}
+		tile_ids[map_tile_y][map_tile_x] = tile_id;
+	}
 
 	inline unsigned int get_metadata(unsigned int map_tile_x, unsigned int map_tile_y) { return metadata[map_tile_y][map_tile_x]; }
 	inline void get_metadata(unsigned int map_tile_x, unsigned int map_tile_y, unsigned int value) { metadata[map_tile_y][map_tile_x] = value; }
 
-	void draw(IRenderContext* context, PointUI camera_position);
+	void draw(IRenderContext* context, PointI offset);
 
 private:
 	unsigned int tile_ids[MAP_HEIGHT][MAP_WIDTH];

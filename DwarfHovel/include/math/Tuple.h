@@ -71,6 +71,15 @@ public:
 	inline Tuple operator-() const {
 		return Tuple(-x, -y, -z, -w);
 	}
+
+	static inline Tuple lerp(Tuple start, Tuple finish, float amount) {
+		return Tuple(
+			math::lerp(start.x, finish.x, amount),
+			math::lerp(start.y, finish.y, amount),
+			math::lerp(start.z, finish.z, amount),
+			math::lerp(start.w, finish.w, amount)
+		);
+	}
 };
 
 template <typename TComponent>

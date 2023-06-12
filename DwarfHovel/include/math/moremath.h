@@ -29,6 +29,7 @@ namespace math {
 
 	template <typename T>
 	inline T lerp(T a, T b, float t) {
-		return (T)(a + (b - a) * t);
+		return (T)(a * (1.0 - t) + (b * t));
+		//return (T)(a + (b - a) * t);
 	}
 }

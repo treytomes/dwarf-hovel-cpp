@@ -32,6 +32,7 @@ private:
 	
 	Sprite* player_base;
 	ParticleFountain* fountain;
+	PointF camera_position;
 
 	VectorI player_speed;
 	VectorI player_facing;

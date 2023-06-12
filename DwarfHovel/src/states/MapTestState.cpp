@@ -32,11 +32,12 @@ MapTestState::MapTestState()
 	VectorUI size = Settings::get_instance()->virtual_window_size;
 
 	player_base = new Sprite(&bitmaps::player_south);
-	player_base->position = PointUI(size.x / 2, size.y / 2);
+	player_base->position = PointI(size.x / 2, size.y / 2);
+	camera_position = player_base->position;
 
 	map = new Map();
 
-	ui->add_child(new UILabel(PointUI(8, 8), "*Character Test*", Color::white(), Color::gray().darkest()));
+	ui->add_child(new UILabel(PointUI(8, 8), "*Map Test*", Color::white(), Color::gray().darkest()));
 }
 
 MapTestState::~MapTestState() {
@@ -139,13 +140,26 @@ void MapTestState::render(IRenderContext* context, unsigned int delta_time_ms) {
 		}
 	}
 
-	map->draw(context, PointUI(0, 0));
+	// Calculate the camera's pixel offset.
+	PointI half_window_size = Settings::get_instance()->virtual_window_size / 2;
+	PointI camera_offset = half_window_size - PointI(camera_position);
+	float camera_lerp_speed = 0.03f;
+	camera_position = PointF::lerp(camera_position, (PointF)player_base->position, camera_lerp_speed);
+	float max_world_x = (float)(MAP_WIDTH * MAP_TILE_WIDTH - half_window_size.x);
+	float max_world_y = (float)(MAP_HEIGHT * MAP_TILE_HEIGHT - half_window_size.y);
+	if (camera_position.x < (float)half_window_size.x) { camera_position.x = (float)half_window_size.x; }
+	if (camera_position.y < (float)half_window_size.y) { camera_position.y = (float)half_window_size.y; }
+	if (camera_position.x > max_world_x) { camera_position.x = max_world_x; }
+	if (camera_position.y > max_world_y) { camera_position.y = max_world_y; }
+
+	// The map gets draw just below the sprites.
+	map->draw(context, camera_offset);
 
 	// Draw the player on top of everything.
 
-	player_base->draw(context);
+	player_base->draw(context, camera_offset);
 	if (is_using_item) {
-		auto item_position = player_base->position + player_facing * 8;
+		auto item_position = player_base->position + player_facing * 8 + camera_offset;
 		
 		float actual_angle = 0.0f;
 		bool is_moving = player_speed != VectorI::zero();
