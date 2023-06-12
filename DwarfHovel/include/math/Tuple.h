@@ -44,7 +44,7 @@ public:
 		return Tuple(x * value, y * value, z * value, w * value);
 	}
 
-	inline Tuple& operator*=(const Tuple& rhs) {
+	inline Tuple& operator*=(const TComponent value) {
 		x *= value;
 		y *= value;
 		z *= value;
@@ -56,7 +56,7 @@ public:
 		return Tuple(x / value, y / value, z / value, w / value);
 	}
 
-	inline Tuple& operator/=(const Tuple& rhs) {
+	inline Tuple& operator/=(const TComponent value) {
 		x /= value;
 		y /= value;
 		z /= value;

@@ -6,7 +6,7 @@ template <typename TComponent>
 class Point : public Tuple<TComponent> {
 public:
 	inline Point(TComponent _x = 0, TComponent _y = 0, TComponent _z = 0)
-		: Tuple(_x, _y, _z, 1) {
+		: Tuple<TComponent>(_x, _y, _z, 1) {
 	}
 	
 	template <typename TOther>

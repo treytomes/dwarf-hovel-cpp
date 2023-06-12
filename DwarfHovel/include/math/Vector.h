@@ -6,7 +6,7 @@ template <typename TComponent>
 class Vector : public Tuple<TComponent> {
 public:
 	inline Vector(TComponent _x = 0, TComponent _y = 0, TComponent _z = 0)
-		: Tuple(_x, _y, _z, 0) {
+		: Tuple<TComponent>(_x, _y, _z, 0) {
 	}
 	
 	template <typename TOther>
