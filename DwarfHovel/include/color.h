@@ -78,7 +78,11 @@ public:
 	}
 
 	inline Color& operator+=(Color rhs) {
-		return add(rhs);
+		r += rhs.r;
+		g += rhs.g;
+		b += rhs.b;
+		a += rhs.a;
+		return *this;
 	}
 
 	inline Color operator+(Color rhs) {
@@ -86,7 +90,11 @@ public:
 	}
 
 	inline Color& operator-=(Color rhs) {
-		return subtract(rhs);
+		r -= rhs.r;
+		g -= rhs.g;
+		b -= rhs.b;
+		a -= rhs.a;
+		return *this;
 	}
 
 	inline Color operator-(Color rhs) {
@@ -94,7 +102,11 @@ public:
 	}
 
 	inline Color& operator*=(const float v) {
-		return scale(v);
+		r *= v;
+		g *= v;
+		b *= v;
+		a *= v;
+		return *this;
 	}
 
 	inline Color operator*(const float v) {
