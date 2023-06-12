@@ -81,6 +81,6 @@ void DemoGameState::handle_event(SDL_KeyboardEvent* evt) {
 
 void DemoGameState::handle_event(SDL_UserEvent* evt) {
 	if (evt->code == test_button_id) {
-		LOG_INFO("The test button was clicked!");
+		//LOG_INFO("The test button was clicked!");
 	}
 }

@@ -35,14 +35,14 @@ public:
 	inline void update(unsigned int delta_time_ms) {
 		std::vector<Particle*> dead_children;
 
-		LOG_INFO("Size: %d", children.size());
-		LOG_INFO("Delta time: %d", delta_time_ms);
+		//LOG_INFO("Size: %d", children.size());
+		//LOG_INFO("Delta time: %d", delta_time_ms);
 
 		for (auto n = 0; n < children.size(); n++) {
 			Particle* child = children[n];
 			child->update(delta_time_ms);
 			if (child->is_dead()) {
-				LOG_INFO("dead!");
+				//LOG_INFO("dead!");
 				dead_children.push_back(child);
 				remove(child);
 				n--;
