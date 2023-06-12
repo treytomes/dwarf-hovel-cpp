@@ -25,7 +25,7 @@ jobs:
         Invoke-WebRequest -URI https://github.com/libsdl-org/SDL/releases/download/release-2.26.5/SDL2-devel-2.26.5-VC.zip -OutFile C:\Temp\SDL2-devel-2.26.5-VC.zip
         dir C:\Temp
         Expand-Archive C:\Temp\SDL2-devel-2.26.5-VC.zip -DestinationPath C:\
-        Rename-Item -Path "C:\SDL-2.26.5" -NewName "C:\SDL2"
+        Rename-Item -Path "C:\SDL2-2.26.5" -NewName "C:\SDL2"
         dir C:\SDL2
 
     - name: Configure CMake
