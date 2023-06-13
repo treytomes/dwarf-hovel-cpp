@@ -62,7 +62,7 @@ target_include_directories(DwarfHovel PRIVATE
     ${CMAKE_SOURCE_DIR}/include
 )
 
-add_custom_target(copy_assets
+add_custom_target(copy_assets ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_LIST_DIR}/assets ${CMAKE_CURRENT_BINARY_DIR}/assets
     COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/${CMAKE_PROJECT_NAME}/settings.json" "${CMAKE_CURRENT_BINARY_DIR}/settings.json"
     COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/${CMAKE_PROJECT_NAME}/render.frag" "${CMAKE_CURRENT_BINARY_DIR}/render.frag"
