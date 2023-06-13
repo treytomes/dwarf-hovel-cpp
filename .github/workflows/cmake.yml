@@ -42,10 +42,10 @@ jobs:
       # Build your program with the given configuration
       run: |
         cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
-        dir ${{github.workspace}}/build/DwarfHovel/Release
+        dir ${{github.workspace}}/build/DwarfHovel/${{env.BUILD_TYPE}}
         dir ${{github.workspace}}/build/
-        dir ${{github.workspace}}/build/x64/Release/ALL_BUILD/
-        dir ${{github.workspace}}/build/x64/Release/ZERO_CHECK/
+        dir ${{github.workspace}}/build/x64/${{env.BUILD_TYPE}}/ALL_BUILD/
+        dir ${{github.workspace}}/build/x64/${{env.BUILD_TYPE}}/ZERO_CHECK/
       shell: powershell
 
     - name: Test
