@@ -2,6 +2,14 @@
 
 project(DwarfHovel)
 
+if(UNIX AND NOT APPLE)
+    set(LINUX TRUE)
+endif()
+
+if(NOT UNIX AND NOT APPLE)
+	set(WIN32 TRUE)
+endif()
+
 set(CMAKE_CXX_STANDARD 17) # Set the C++ standard to C++17
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
