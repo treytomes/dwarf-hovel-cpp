@@ -83,7 +83,9 @@ if (WIN32)
         TARGET DwarfHovel POST_BUILD
         COMMAND "${CMAKE_COMMAND}" -E copy_if_different "$<TARGET_FILE:SDL2::SDL2>" "$<TARGET_FILE_DIR:DwarfHovel>"
         COMMAND "${CMAKE_COMMAND}" -E copy_if_different "C:/glew-2.2.0/bin/Release/x64/glew32.dll" "$<TARGET_FILE_DIR:DwarfHovel>/glew32.dll"
-        VERBATIM
+
+
+		VERBATIM
     )
 
 endif()
